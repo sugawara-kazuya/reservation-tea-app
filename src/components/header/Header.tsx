@@ -19,9 +19,6 @@ export const Header: React.FC = () => {
           茶道とは
         </a>
         <a href="#" className="font-semibold">
-          初めてのお茶席
-        </a>
-        <a href="#" className="font-semibold">
           お問い合わせ
         </a>
       </nav>
