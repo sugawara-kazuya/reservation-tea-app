@@ -33,7 +33,17 @@ export const EventSection: React.FC<EventProps> = ({
   return (
     <section className="mb-8">
       <div className="flex flex-col md:flex-row items-center mb-8">
-        <div className="flex-1">
+        <div className="w-full md:w-1/3 h-auto order-1 md:order-2 mb-4 md:mb-0 md:ml-8">
+          <Image
+            src={imageUrl}
+            alt="Event Image"
+            width={500}
+            height={300}
+            layout="responsive"
+            objectFit="cover"
+          />
+        </div>
+        <div className="flex-1 order-2 md:order-1">
           <h3 className="text-xl font-bold mb-2">{title}</h3>
           <p className="mb-2">会場: {venue}</p>
           <p className="mb-2">日時: {date}</p>
@@ -45,16 +55,6 @@ export const EventSection: React.FC<EventProps> = ({
           >
             予約する
           </button>
-        </div>
-        <div className="w-full md:w-1/3 h-auto mt-4 md:mt-0 md:ml-8">
-          <Image
-            src={imageUrl}
-            alt="Event Image"
-            width={500}
-            height={300}
-            layout="responsive"
-            objectFit="cover"
-          />
         </div>
       </div>
     </section>
