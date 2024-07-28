@@ -23,7 +23,7 @@ const Component: React.FC = () => {
           />
         ))}
         <section className="text-center">
-          <h3 className="text-xl font-bold mb-2">代表 堀政春</h3>
+          <h3 className="text-xl font-bold mb-2">代表 あいさつ</h3>
           <p>ぜひ茶道の楽しさに触れていただけると嬉しいです！！</p>
         </section>
       </main>
