@@ -1,8 +1,6 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/tm0FB90oIbi
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+"use client";
+
+import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,6 +14,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Component() {
+  const router = useRouter();
+
+  const handleReservation = () => {
+    // Here you can also add any form validation or data submission logic
+    // For now, we just navigate to the confirmation page
+    router.push("/reservation/1");
+  };
   return (
     <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
       <div className="space-y-6 md:space-y-8">
@@ -87,8 +92,12 @@ export default function Component() {
                 placeholder="追加のメモやリクエストを入力してください"
               />
             </div>
-            <Button type="submit" className="w-full">
-              今すぐ予約
+            <Button
+              type="button"
+              className="w-full"
+              onClick={handleReservation}
+            >
+              予約する
             </Button>
           </div>
           <div className="space-y-6">
