@@ -12,11 +12,11 @@ export const Header: React.FC = () => {
     >
       <div className="absolute inset-0 bg-black/50" />
       <nav className="absolute top-0 left-0 right-0 flex justify-end p-6 space-x-8 text-white">
-        <a href="#" className="font-semibold">
+        <a href="/home" className="font-semibold">
           ホーム
         </a>
-        <a href="#" className="font-semibold">
-          茶道とは
+        <a href="/info" className="font-semibold">
+          予約確認
         </a>
         <a href="#" className="font-semibold">
           お問い合わせ
