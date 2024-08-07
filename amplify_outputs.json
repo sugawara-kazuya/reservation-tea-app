@@ -44,13 +44,6 @@
               "isRequired": true,
               "attributes": []
             },
-            "user_id": {
-              "name": "user_id",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
             "name": {
               "name": "name",
               "isArray": false,
@@ -61,16 +54,38 @@
             "email": {
               "name": "email",
               "isArray": false,
-              "type": "String",
+              "type": "AWSEmail",
               "isRequired": false,
               "attributes": []
             },
             "phone": {
               "name": "phone",
               "isArray": false,
-              "type": "String",
+              "type": "AWSPhone",
               "isRequired": false,
               "attributes": []
+            },
+            "userId": {
+              "name": "userId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": false,
+              "attributes": []
+            },
+            "reservation": {
+              "name": "reservation",
+              "isArray": false,
+              "type": {
+                "model": "Reservation"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "userId"
+                ]
+              }
             },
             "createdAt": {
               "name": "createdAt",
@@ -130,13 +145,6 @@
               "isRequired": true,
               "attributes": []
             },
-            "event_id": {
-              "name": "event_id",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
             "title": {
               "name": "title",
               "isArray": false,
@@ -172,19 +180,63 @@
               "isRequired": false,
               "attributes": []
             },
-            "image_url": {
-              "name": "image_url",
+            "imageUrl": {
+              "name": "imageUrl",
               "isArray": false,
               "type": "String",
               "isRequired": false,
               "attributes": []
             },
-            "max_participants": {
-              "name": "max_participants",
+            "maxParticipants": {
+              "name": "maxParticipants",
               "isArray": false,
               "type": "Int",
               "isRequired": false,
               "attributes": []
+            },
+            "isActive": {
+              "name": "isActive",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "eventId": {
+              "name": "eventId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": false,
+              "attributes": []
+            },
+            "reservation": {
+              "name": "reservation",
+              "isArray": false,
+              "type": {
+                "model": "Reservation"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "eventId"
+                ]
+              }
+            },
+            "eventTimeSlot": {
+              "name": "eventTimeSlot",
+              "isArray": false,
+              "type": {
+                "model": "EventTimeSlot"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "eventId"
+                ]
+              }
             },
             "createdAt": {
               "name": "createdAt",
@@ -244,29 +296,40 @@
               "isRequired": true,
               "attributes": []
             },
-            "reservation_id": {
-              "name": "reservation_id",
-              "isArray": false,
-              "type": "String",
+            "userId": {
+              "name": "userId",
+              "isArray": true,
+              "type": {
+                "model": "User"
+              },
               "isRequired": false,
-              "attributes": []
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "userId"
+                ]
+              }
             },
-            "user_id": {
-              "name": "user_id",
-              "isArray": false,
-              "type": "String",
+            "eventId": {
+              "name": "eventId",
+              "isArray": true,
+              "type": {
+                "model": "Event"
+              },
               "isRequired": false,
-              "attributes": []
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "eventId"
+                ]
+              }
             },
-            "event_id": {
-              "name": "event_id",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "reservation_time": {
-              "name": "reservation_time",
+            "reservationTime": {
+              "name": "reservationTime",
               "isArray": false,
               "type": "String",
               "isRequired": false,
@@ -279,8 +342,8 @@
               "isRequired": false,
               "attributes": []
             },
-            "total_cost": {
-              "name": "total_cost",
+            "totalCost": {
+              "name": "totalCost",
               "isArray": false,
               "type": "Int",
               "isRequired": false,
@@ -351,29 +414,38 @@
               "isRequired": true,
               "attributes": []
             },
-            "event_id": {
-              "name": "event_id",
+            "event": {
+              "name": "event",
+              "isArray": true,
+              "type": {
+                "model": "Event"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "eventId"
+                ]
+              }
+            },
+            "timeSlot": {
+              "name": "timeSlot",
               "isArray": false,
               "type": "String",
               "isRequired": false,
               "attributes": []
             },
-            "time_slot": {
-              "name": "time_slot",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "max_participants": {
-              "name": "max_participants",
+            "maxParticipants": {
+              "name": "maxParticipants",
               "isArray": false,
               "type": "Int",
               "isRequired": false,
               "attributes": []
             },
-            "current_participants": {
-              "name": "current_participants",
+            "currentParticipants": {
+              "name": "currentParticipants",
               "isArray": false,
               "type": "Int",
               "isRequired": false,
