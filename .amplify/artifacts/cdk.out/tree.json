@@ -744,7 +744,7 @@
                               ]
                             },
                             "definitionS3Location": {
-                              "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/049b62d585a86dea1903fcb062a83a913649859eabfce6efbd647409444bd978.graphql"
+                              "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ef331ca583bf54b389d4878825c4b0555b3134960dff1c3cb61476ea0e0128eb.graphql"
                             }
                           }
                         },
@@ -4513,6 +4513,22 @@
                           "fqn": "aws-cdk-lib.CfnParameter",
                           "version": "2.150.0"
                         }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -4604,7 +4620,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/e5a80c74518de8b6bc6ba8537b13a5ab8d5937d9aee6248311a0fdd77ac1ba10.json"
+                                  "/55faefdfcea9a359cfeea2dde8d7c8dbaaab1f4eae36f1c7caf1c3b276701222.json"
                                 ]
                               ]
                             }
@@ -7657,6 +7673,22 @@
                           "fqn": "aws-cdk-lib.CfnParameter",
                           "version": "2.150.0"
                         }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -7748,7 +7780,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/b24995cb634f0e90679e61695e2563bef6a44dce43cf003b445aa08b3ccff1f5.json"
+                                  "/2fbf2528a40a3cab071970219b4aedb5e71823c69f6cb59413f3223aa84ad5c3.json"
                                 ]
                               ]
                             }
@@ -10801,6 +10833,22 @@
                           "fqn": "aws-cdk-lib.CfnParameter",
                           "version": "2.150.0"
                         }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -10892,7 +10940,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/8597115dd0346ca71e35f7ce81020b9c7b0f3d0af2feeecd385beeb7f5459a98.json"
+                                  "/a2d3c800c03a9a7c5a65ce6be7c602632739720b3f68b2f5516342e6626eee04.json"
                                 ]
                               ]
                             }
@@ -13945,6 +13993,22 @@
                           "fqn": "aws-cdk-lib.CfnParameter",
                           "version": "2.150.0"
                         }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn": {
+                        "id": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.150.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -14036,7 +14100,1727 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/366f8ae1aed233c4312078281a78f49904974edc7d59988458ad1d71d3f4d277.json"
+                                  "/48556ec3b98b9ef389b6ba70f44711a9f27b4673abe00298e07d9ba774052c5f.json"
+                                ]
+                              ]
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnStack",
+                          "version": "2.150.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.3.0"
+                    }
+                  },
+                  "ConnectionStack": {
+                    "id": "ConnectionStack",
+                    "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack",
+                    "children": {
+                      "ReservationuserIdauth0Function": {
+                        "id": "ReservationuserIdauth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationuserIdauth0Function",
+                        "children": {
+                          "Templateresolvers--Reservation.userId.auth.1.req.vtl": {
+                            "id": "Templateresolvers--Reservation.userId.auth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationuserIdauth0Function/Templateresolvers--Reservation.userId.auth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationuserIdauth0Function/Templateresolvers--Reservation.userId.auth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationuserIdauth0Function/Templateresolvers--Reservation.userId.auth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "ReservationuserIdauth0Function.AppSyncFunction": {
+                            "id": "ReservationuserIdauth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationuserIdauth0Function/ReservationuserIdauth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "ReservationuserIdauth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2013589b75906eb25c0892d6b3263211a76d9872cc41b04f40ff51c97ae7b60.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "ReservationUserIdDataResolverFn": {
+                        "id": "ReservationUserIdDataResolverFn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn",
+                        "children": {
+                          "Templateresolvers--Reservation.userId.req.vtl": {
+                            "id": "Templateresolvers--Reservation.userId.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn/Templateresolvers--Reservation.userId.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn/Templateresolvers--Reservation.userId.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn/Templateresolvers--Reservation.userId.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Templateresolvers--Reservation.userId.res.vtl": {
+                            "id": "Templateresolvers--Reservation.userId.res.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn/Templateresolvers--Reservation.userId.res.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn/Templateresolvers--Reservation.userId.res.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn/Templateresolvers--Reservation.userId.res.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "ReservationUserIdDataResolverFn.AppSyncFunction": {
+                            "id": "ReservationUserIdDataResolverFn.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserIdDataResolverFn/ReservationUserIdDataResolverFn.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "ReservationUserIdDataResolverFn",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6d1b8025d4bba375908a89fbd0206a6617fe23f39e1bc067345949a26e821ee8.vtl"
+                                },
+                                "responseMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "reservationUserIdResolver": {
+                        "id": "reservationUserIdResolver",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reservationUserIdResolver",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::AppSync::Resolver",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                            },
+                            "fieldName": "userId",
+                            "kind": "PIPELINE",
+                            "pipelineConfig": {
+                              "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "ReservationuserIdauth0FunctionReservationuserIdauth0FunctionAppSyncFunctionFC009820",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "ReservationUserIdDataResolverFnReservationUserIdDataResolverFnAppSyncFunction9DB26157",
+                                    "FunctionId"
+                                  ]
+                                }
+                              ]
+                            },
+                            "requestMappingTemplate": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "$util.qr($ctx.stash.put(\"typeName\", \"Reservation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"userId\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+                                  {
+                                    "Fn::Select": [
+                                      1,
+                                      {
+                                        "Fn::Split": [
+                                          "/",
+                                          {
+                                            "Fn::Select": [
+                                              5,
+                                              {
+                                                "Fn::Split": [
+                                                  ":",
+                                                  {
+                                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+                                ]
+                              ]
+                            },
+                            "responseMappingTemplate": "$util.toJson($ctx.prev.result)",
+                            "typeName": "Reservation"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "ReservationeventIdauth0Function": {
+                        "id": "ReservationeventIdauth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationeventIdauth0Function",
+                        "children": {
+                          "Templateresolvers--Reservation.eventId.auth.1.req.vtl": {
+                            "id": "Templateresolvers--Reservation.eventId.auth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationeventIdauth0Function/Templateresolvers--Reservation.eventId.auth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationeventIdauth0Function/Templateresolvers--Reservation.eventId.auth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationeventIdauth0Function/Templateresolvers--Reservation.eventId.auth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "ReservationeventIdauth0Function.AppSyncFunction": {
+                            "id": "ReservationeventIdauth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationeventIdauth0Function/ReservationeventIdauth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "ReservationeventIdauth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2013589b75906eb25c0892d6b3263211a76d9872cc41b04f40ff51c97ae7b60.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "ReservationEventIdDataResolverFn": {
+                        "id": "ReservationEventIdDataResolverFn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn",
+                        "children": {
+                          "Templateresolvers--Reservation.eventId.req.vtl": {
+                            "id": "Templateresolvers--Reservation.eventId.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn/Templateresolvers--Reservation.eventId.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn/Templateresolvers--Reservation.eventId.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn/Templateresolvers--Reservation.eventId.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Templateresolvers--Reservation.eventId.res.vtl": {
+                            "id": "Templateresolvers--Reservation.eventId.res.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn/Templateresolvers--Reservation.eventId.res.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn/Templateresolvers--Reservation.eventId.res.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn/Templateresolvers--Reservation.eventId.res.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "ReservationEventIdDataResolverFn.AppSyncFunction": {
+                            "id": "ReservationEventIdDataResolverFn.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationEventIdDataResolverFn/ReservationEventIdDataResolverFn.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "ReservationEventIdDataResolverFn",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c9d1c161ea5cc3e10e78e71b5f94f8d5f35ee95683b4eacab8d8d46291ddda5c.vtl"
+                                },
+                                "responseMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "reservationEventIdResolver": {
+                        "id": "reservationEventIdResolver",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reservationEventIdResolver",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::AppSync::Resolver",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                            },
+                            "fieldName": "eventId",
+                            "kind": "PIPELINE",
+                            "pipelineConfig": {
+                              "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "ReservationeventIdauth0FunctionReservationeventIdauth0FunctionAppSyncFunction497E8622",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "ReservationEventIdDataResolverFnReservationEventIdDataResolverFnAppSyncFunction88D1151F",
+                                    "FunctionId"
+                                  ]
+                                }
+                              ]
+                            },
+                            "requestMappingTemplate": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "$util.qr($ctx.stash.put(\"typeName\", \"Reservation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"eventId\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+                                  {
+                                    "Fn::Select": [
+                                      1,
+                                      {
+                                        "Fn::Split": [
+                                          "/",
+                                          {
+                                            "Fn::Select": [
+                                              5,
+                                              {
+                                                "Fn::Split": [
+                                                  ":",
+                                                  {
+                                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+                                ]
+                              ]
+                            },
+                            "responseMappingTemplate": "$util.toJson($ctx.prev.result)",
+                            "typeName": "Reservation"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "EventTimeSloteventauth0Function": {
+                        "id": "EventTimeSloteventauth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSloteventauth0Function",
+                        "children": {
+                          "Templateresolvers--EventTimeSlot.event.auth.1.req.vtl": {
+                            "id": "Templateresolvers--EventTimeSlot.event.auth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSloteventauth0Function/Templateresolvers--EventTimeSlot.event.auth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSloteventauth0Function/Templateresolvers--EventTimeSlot.event.auth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSloteventauth0Function/Templateresolvers--EventTimeSlot.event.auth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "EventTimeSloteventauth0Function.AppSyncFunction": {
+                            "id": "EventTimeSloteventauth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSloteventauth0Function/EventTimeSloteventauth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "EventTimeSloteventauth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2013589b75906eb25c0892d6b3263211a76d9872cc41b04f40ff51c97ae7b60.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "EventTimeSlotEventDataResolverFn": {
+                        "id": "EventTimeSlotEventDataResolverFn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn",
+                        "children": {
+                          "Templateresolvers--EventTimeSlot.event.req.vtl": {
+                            "id": "Templateresolvers--EventTimeSlot.event.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn/Templateresolvers--EventTimeSlot.event.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn/Templateresolvers--EventTimeSlot.event.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn/Templateresolvers--EventTimeSlot.event.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Templateresolvers--EventTimeSlot.event.res.vtl": {
+                            "id": "Templateresolvers--EventTimeSlot.event.res.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn/Templateresolvers--EventTimeSlot.event.res.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn/Templateresolvers--EventTimeSlot.event.res.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn/Templateresolvers--EventTimeSlot.event.res.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "EventTimeSlotEventDataResolverFn.AppSyncFunction": {
+                            "id": "EventTimeSlotEventDataResolverFn.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventTimeSlotEventDataResolverFn/EventTimeSlotEventDataResolverFn.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "EventTimeSlotEventDataResolverFn",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a9db3a8ab89884a3f1132170f61c1e23f39d276beb4e48a6553834bc2876818c.vtl"
+                                },
+                                "responseMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "eventTimeSlotEventResolver": {
+                        "id": "eventTimeSlotEventResolver",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/eventTimeSlotEventResolver",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::AppSync::Resolver",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                            },
+                            "fieldName": "event",
+                            "kind": "PIPELINE",
+                            "pipelineConfig": {
+                              "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "EventTimeSloteventauth0FunctionEventTimeSloteventauth0FunctionAppSyncFunctionEA9A4401",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "EventTimeSlotEventDataResolverFnEventTimeSlotEventDataResolverFnAppSyncFunctionDB702321",
+                                    "FunctionId"
+                                  ]
+                                }
+                              ]
+                            },
+                            "requestMappingTemplate": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "$util.qr($ctx.stash.put(\"typeName\", \"EventTimeSlot\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"event\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+                                  {
+                                    "Fn::Select": [
+                                      1,
+                                      {
+                                        "Fn::Split": [
+                                          "/",
+                                          {
+                                            "Fn::Select": [
+                                              5,
+                                              {
+                                                "Fn::Split": [
+                                                  ":",
+                                                  {
+                                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+                                ]
+                              ]
+                            },
+                            "responseMappingTemplate": "$util.toJson($ctx.prev.result)",
+                            "typeName": "EventTimeSlot"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "Userreservationauth0Function": {
+                        "id": "Userreservationauth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Userreservationauth0Function",
+                        "children": {
+                          "Templateresolvers--User.reservation.auth.1.req.vtl": {
+                            "id": "Templateresolvers--User.reservation.auth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Userreservationauth0Function/Templateresolvers--User.reservation.auth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Userreservationauth0Function/Templateresolvers--User.reservation.auth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Userreservationauth0Function/Templateresolvers--User.reservation.auth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Userreservationauth0Function.AppSyncFunction": {
+                            "id": "Userreservationauth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Userreservationauth0Function/Userreservationauth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "Userreservationauth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2013589b75906eb25c0892d6b3263211a76d9872cc41b04f40ff51c97ae7b60.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "UserReservationDataResolverFn": {
+                        "id": "UserReservationDataResolverFn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn",
+                        "children": {
+                          "Templateresolvers--User.reservation.req.vtl": {
+                            "id": "Templateresolvers--User.reservation.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/Templateresolvers--User.reservation.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/Templateresolvers--User.reservation.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/Templateresolvers--User.reservation.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Templateresolvers--User.reservation.res.vtl": {
+                            "id": "Templateresolvers--User.reservation.res.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/Templateresolvers--User.reservation.res.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/Templateresolvers--User.reservation.res.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/Templateresolvers--User.reservation.res.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "UserReservationDataResolverFn.AppSyncFunction": {
+                            "id": "UserReservationDataResolverFn.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/UserReservationDataResolverFn.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "UserReservationDataResolverFn",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d6b1a9eafe9ce678863e81b64c97e3f24843422430a0e083458a27ce45747b.vtl"
+                                },
+                                "responseMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "userReservationResolver": {
+                        "id": "userReservationResolver",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/userReservationResolver",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::AppSync::Resolver",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                            },
+                            "fieldName": "reservation",
+                            "kind": "PIPELINE",
+                            "pipelineConfig": {
+                              "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "Userreservationauth0FunctionUserreservationauth0FunctionAppSyncFunctionC548D122",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "UserReservationDataResolverFnUserReservationDataResolverFnAppSyncFunction3811DB50",
+                                    "FunctionId"
+                                  ]
+                                }
+                              ]
+                            },
+                            "requestMappingTemplate": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "$util.qr($ctx.stash.put(\"typeName\", \"User\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"reservation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+                                  {
+                                    "Fn::Select": [
+                                      1,
+                                      {
+                                        "Fn::Split": [
+                                          "/",
+                                          {
+                                            "Fn::Select": [
+                                              5,
+                                              {
+                                                "Fn::Split": [
+                                                  ":",
+                                                  {
+                                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+                                ]
+                              ]
+                            },
+                            "responseMappingTemplate": "$util.toJson($ctx.prev.result)",
+                            "typeName": "User"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "Eventreservationauth0Function": {
+                        "id": "Eventreservationauth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Eventreservationauth0Function",
+                        "children": {
+                          "Templateresolvers--Event.reservation.auth.1.req.vtl": {
+                            "id": "Templateresolvers--Event.reservation.auth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Eventreservationauth0Function/Templateresolvers--Event.reservation.auth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Eventreservationauth0Function/Templateresolvers--Event.reservation.auth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Eventreservationauth0Function/Templateresolvers--Event.reservation.auth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Eventreservationauth0Function.AppSyncFunction": {
+                            "id": "Eventreservationauth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Eventreservationauth0Function/Eventreservationauth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "Eventreservationauth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2013589b75906eb25c0892d6b3263211a76d9872cc41b04f40ff51c97ae7b60.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "EventReservationDataResolverFn": {
+                        "id": "EventReservationDataResolverFn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn",
+                        "children": {
+                          "Templateresolvers--Event.reservation.req.vtl": {
+                            "id": "Templateresolvers--Event.reservation.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/Templateresolvers--Event.reservation.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/Templateresolvers--Event.reservation.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/Templateresolvers--Event.reservation.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Templateresolvers--Event.reservation.res.vtl": {
+                            "id": "Templateresolvers--Event.reservation.res.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/Templateresolvers--Event.reservation.res.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/Templateresolvers--Event.reservation.res.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/Templateresolvers--Event.reservation.res.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "EventReservationDataResolverFn.AppSyncFunction": {
+                            "id": "EventReservationDataResolverFn.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/EventReservationDataResolverFn.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "EventReservationDataResolverFn",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4a90277fa25c4df3ae9266e7e4615f32c778649dc754346d6a6c45fb4b34eeb6.vtl"
+                                },
+                                "responseMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "eventReservationResolver": {
+                        "id": "eventReservationResolver",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/eventReservationResolver",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::AppSync::Resolver",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                            },
+                            "fieldName": "reservation",
+                            "kind": "PIPELINE",
+                            "pipelineConfig": {
+                              "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "Eventreservationauth0FunctionEventreservationauth0FunctionAppSyncFunction87BBBEAD",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "EventReservationDataResolverFnEventReservationDataResolverFnAppSyncFunction53CFA08A",
+                                    "FunctionId"
+                                  ]
+                                }
+                              ]
+                            },
+                            "requestMappingTemplate": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "$util.qr($ctx.stash.put(\"typeName\", \"Event\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"reservation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+                                  {
+                                    "Fn::Select": [
+                                      1,
+                                      {
+                                        "Fn::Split": [
+                                          "/",
+                                          {
+                                            "Fn::Select": [
+                                              5,
+                                              {
+                                                "Fn::Split": [
+                                                  ":",
+                                                  {
+                                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+                                ]
+                              ]
+                            },
+                            "responseMappingTemplate": "$util.toJson($ctx.prev.result)",
+                            "typeName": "Event"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "EventeventTimeSlotauth0Function": {
+                        "id": "EventeventTimeSlotauth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventeventTimeSlotauth0Function",
+                        "children": {
+                          "Templateresolvers--Event.eventTimeSlot.auth.1.req.vtl": {
+                            "id": "Templateresolvers--Event.eventTimeSlot.auth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventeventTimeSlotauth0Function/Templateresolvers--Event.eventTimeSlot.auth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventeventTimeSlotauth0Function/Templateresolvers--Event.eventTimeSlot.auth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventeventTimeSlotauth0Function/Templateresolvers--Event.eventTimeSlot.auth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "EventeventTimeSlotauth0Function.AppSyncFunction": {
+                            "id": "EventeventTimeSlotauth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventeventTimeSlotauth0Function/EventeventTimeSlotauth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "EventeventTimeSlotauth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2013589b75906eb25c0892d6b3263211a76d9872cc41b04f40ff51c97ae7b60.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "EventEventTimeSlotDataResolverFn": {
+                        "id": "EventEventTimeSlotDataResolverFn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn",
+                        "children": {
+                          "Templateresolvers--Event.eventTimeSlot.req.vtl": {
+                            "id": "Templateresolvers--Event.eventTimeSlot.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/Templateresolvers--Event.eventTimeSlot.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/Templateresolvers--Event.eventTimeSlot.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/Templateresolvers--Event.eventTimeSlot.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Templateresolvers--Event.eventTimeSlot.res.vtl": {
+                            "id": "Templateresolvers--Event.eventTimeSlot.res.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/Templateresolvers--Event.eventTimeSlot.res.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/Templateresolvers--Event.eventTimeSlot.res.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/Templateresolvers--Event.eventTimeSlot.res.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "EventEventTimeSlotDataResolverFn.AppSyncFunction": {
+                            "id": "EventEventTimeSlotDataResolverFn.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/EventEventTimeSlotDataResolverFn.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "EventEventTimeSlotDataResolverFn",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4a90277fa25c4df3ae9266e7e4615f32c778649dc754346d6a6c45fb4b34eeb6.vtl"
+                                },
+                                "responseMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "eventEventTimeSlotResolver": {
+                        "id": "eventEventTimeSlotResolver",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/eventEventTimeSlotResolver",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::AppSync::Resolver",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                            },
+                            "fieldName": "eventTimeSlot",
+                            "kind": "PIPELINE",
+                            "pipelineConfig": {
+                              "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "EventeventTimeSlotauth0FunctionEventeventTimeSlotauth0FunctionAppSyncFunction7EC5451B",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "EventEventTimeSlotDataResolverFnEventEventTimeSlotDataResolverFnAppSyncFunctionB44806A4",
+                                    "FunctionId"
+                                  ]
+                                }
+                              ]
+                            },
+                            "requestMappingTemplate": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "$util.qr($ctx.stash.put(\"typeName\", \"Event\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"eventTimeSlot\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+                                  {
+                                    "Fn::Select": [
+                                      1,
+                                      {
+                                        "Fn::Split": [
+                                          "/",
+                                          {
+                                            "Fn::Select": [
+                                              5,
+                                              {
+                                                "Fn::Split": [
+                                                  ":",
+                                                  {
+                                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":assumed-role/",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+                                  },
+                                  "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+                                  {
+                                    "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+                                  },
+                                  "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+                                ]
+                              ]
+                            },
+                            "responseMappingTemplate": "$util.toJson($ctx.prev.result)",
+                            "typeName": "Event"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "CDKMetadata": {
+                        "id": "CDKMetadata",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/CDKMetadata",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/CDKMetadata/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "Condition": {
+                            "id": "Condition",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/CDKMetadata/Condition",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnCondition",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      },
+                      "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn": {
+                        "id": "reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnParameter",
+                          "version": "2.150.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.NestedStack",
+                      "version": "2.150.0"
+                    }
+                  },
+                  "ConnectionStack.NestedStack": {
+                    "id": "ConnectionStack.NestedStack",
+                    "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack.NestedStack",
+                    "children": {
+                      "ConnectionStack.NestedStackResource": {
+                        "id": "ConnectionStack.NestedStackResource",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack.NestedStack/ConnectionStack.NestedStackResource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::CloudFormation::Stack",
+                          "aws:cdk:cloudformation:props": {
+                            "parameters": {
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataGraphQLAPI42A6FA33",
+                                  "ApiId"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataGraphQLAPINONEDS684BF699",
+                                  "Name"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataUserNestedStackUserNestedStackResource9488907F",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataUserNestedStackUserNestedStackResource9488907F",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref": {
+                                "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": {
+                                "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref": {
+                                "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataEventNestedStackEventNestedStackResourceE9D0FB99",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataEventNestedStackEventNestedStackResourceE9D0FB99",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataReservationNestedStackReservationNestedStackResourceC6FB3FEC",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataReservationNestedStackReservationNestedStackResourceC6FB3FEC",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource85A2A9FB",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name"
+                                ]
+                              },
+                              "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn": {
+                                "Fn::GetAtt": [
+                                  "amplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource85A2A9FB",
+                                  "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn"
+                                ]
+                              }
+                            },
+                            "tags": [
+                              {
+                                "key": "amplify:deployment-type",
+                                "value": "sandbox"
+                              },
+                              {
+                                "key": "amplify:friendly-name",
+                                "value": "amplifyData"
+                              },
+                              {
+                                "key": "created-by",
+                                "value": "amplify"
+                              }
+                            ],
+                            "templateUrl": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "https://s3.",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ".",
+                                  {
+                                    "Ref": "AWS::URLSuffix"
+                                  },
+                                  "/",
+                                  {
+                                    "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                                  },
+                                  "/5ccad6f48353ad1f05748093adb44f84180080c9de461371e9bf7a8eb91aa53b.json"
                                 ]
                               ]
                             }
@@ -14500,6 +16284,34 @@
                                           },
                                           "typeName": "Subscription",
                                           "fieldName": "onDeleteReservation"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+                                        {
+                                          "apiId": {
+                                            "Fn::GetAtt": [
+                                              "amplifyDataGraphQLAPI42A6FA33",
+                                              "ApiId"
+                                            ]
+                                          },
+                                          "typeName": "ModelUserConnection"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+                                        {
+                                          "apiId": {
+                                            "Fn::GetAtt": [
+                                              "amplifyDataGraphQLAPI42A6FA33",
+                                              "ApiId"
+                                            ]
+                                          },
+                                          "typeName": "ModelEventConnection"
                                         }
                                       ]
                                     },
@@ -15093,6 +16905,34 @@
                                           },
                                           "typeName": "Subscription",
                                           "fieldName": "onDeleteReservation"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+                                        {
+                                          "apiId": {
+                                            "Fn::GetAtt": [
+                                              "amplifyDataGraphQLAPI42A6FA33",
+                                              "ApiId"
+                                            ]
+                                          },
+                                          "typeName": "ModelUserConnection"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+                                        {
+                                          "apiId": {
+                                            "Fn::GetAtt": [
+                                              "amplifyDataGraphQLAPI42A6FA33",
+                                              "ApiId"
+                                            ]
+                                          },
+                                          "typeName": "ModelEventConnection"
                                         }
                                       ]
                                     },
@@ -16080,7 +17920,7 @@
                           {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "/df18db11a01f2700bdeed5eee7ac9c00086ad72afcceb5269d11f4e202b496cc.json"
+                          "/610d0f1a8bbe118be8105e72dc1cd15660852b457184bc0cec37b5c4de14d6c9.json"
                         ]
                       ]
                     }

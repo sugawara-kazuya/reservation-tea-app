@@ -9,44 +9,47 @@ and "delete" any "Todo" records.
 const schema = a.schema({
   User: a
     .model({
-      user_id: a.string(), // ユーザーID
       name: a.string(), // 名前
-      email: a.string(), // メールアドレス
-      phone: a.string(), // 電話番号
+      email: a.email(), // メールアドレス
+      phone: a.phone(), // 電話番号
+      userId: a.id(),
+      reservation: a.belongsTo("Reservation", "userId"),
     })
     .authorization((allow) => [allow.guest()]),
 
   Event: a
     .model({
-      event_id: a.string(), // イベントID
       title: a.string(), // タイトル
       venue: a.string(), // 会場
       date: a.string(), // 日付
       cost: a.integer(), // 費用
       description: a.string(), // 説明
-      image_url: a.string(), // 画像URL
-      max_participants: a.integer(), // 最大参加人数
+      imageUrl: a.string(), // 画像URL
+      maxParticipants: a.integer(), // 最大参加人数
+      isActive: a.boolean(), // イベントが開催中かどうか
+      eventId: a.id(),
+      reservation: a.belongsTo("Reservation", "eventId"),
+      eventTimeSlot: a.belongsTo("EventTimeSlot", "eventId"),
     })
     .authorization((allow) => [allow.guest()]),
 
   Reservation: a
     .model({
-      reservation_id: a.string(), // 予約ID
-      user_id: a.string(), // ユーザーID
-      event_id: a.string(), // イベントID
-      reservation_time: a.string(), // 予約時間
+      userId: a.hasMany("User", "userId"), // ユーザーID
+      eventId: a.hasMany("Event", "eventId"), // イベントID
+      reservationTime: a.string(), // 予約時間
       participants: a.integer(), // 参加人数
-      total_cost: a.integer(), // 総費用
+      totalCost: a.integer(), // 総費用
       notes: a.string(), // メモ
     })
     .authorization((allow) => [allow.guest()]),
 
   EventTimeSlot: a
     .model({
-      event_id: a.string(), // イベントID
-      time_slot: a.string(), // 時間スロット
-      max_participants: a.integer(), // 最大参加人数
-      current_participants: a.integer(), // 現在の参加人数
+      event: a.hasMany("Event", "eventId"),
+      timeSlot: a.string(), // 時間スロット
+      maxParticipants: a.integer(), // 最大参加人数
+      currentParticipants: a.integer(), // 現在の参加人数
     })
     .authorization((allow) => [allow.guest()]),
 });
