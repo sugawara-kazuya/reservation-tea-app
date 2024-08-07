@@ -1,28 +1,29 @@
 "use client";
 
-// EventSection.tsx
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface EventProps {
+  id: number;
   title: string;
   venue: string;
   date: string;
   cost: string;
   description: string;
   imageUrl: string;
-  id: number; // ID を追加
+  attendees: string; // 新しいプロパティを追加
 }
 
 export const EventSection: React.FC<EventProps> = ({
+  id,
   title,
   venue,
   date,
   cost,
   description,
   imageUrl,
-  id, // ID を追加
+  attendees, // 新しいプロパティを追加
 }) => {
   const router = useRouter();
 
@@ -48,6 +49,7 @@ export const EventSection: React.FC<EventProps> = ({
           <p className="mb-2">会場: {venue}</p>
           <p className="mb-2">日時: {date}</p>
           <p className="mb-2">参加費用: {cost}</p>
+          <p className="mb-2">参加人数: {attendees}</p> {/* 参加人数を追加 */}
           <p className="mb-4">{description}</p>
           <button
             className="px-4 py-2 bg-yellow-500 text-white rounded-full"

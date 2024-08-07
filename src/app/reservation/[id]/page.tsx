@@ -1,15 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export default function Component() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const participants = searchParams.get("participants") || "3"; // 参加人数を取得し、デフォルト値を1とする
+
   const handleReservation = () => {
     // Here you can also add any form validation or data submission logic
     // For now, we just navigate to the confirmation page
     router.push("/home");
   };
+
   return (
     <div className="min-h-screen bg-white">
       <main className="p-4">
@@ -34,7 +38,11 @@ export default function Component() {
             </div>
             <div className="flex justify-between">
               <span className="font-medium">参加費:</span>
-              <span>1500円</span>
+              <span>4500円</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">参加人数:</span>
+              <span>3人</span>
             </div>
           </div>
         </section>
