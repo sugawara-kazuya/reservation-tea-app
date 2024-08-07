@@ -8,24 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Header } from "@/components/header/Header";
 
 export default function Component() {
   return (
     <div className="min-h-screen bg-white">
-      <header className="flex items-center justify-between p-4 bg-primary text-white">
-        <div className="text-2xl font-bold">sekishu</div>
-        <nav className="flex space-x-4">
-          <a href="/home" className="hover:underline">
-            ホーム
-          </a>
-          <a href="/info" className="hover:underline">
-            予約確認
-          </a>
-          <a href="#" className="hover:underline">
-            お問い合わせ
-          </a>
-        </nav>
-      </header>
+      <Header backgroundImage="https://reservation-tea-app.s3.ap-northeast-1.amazonaws.com/sample/homeback4.jpg" />
       <main className="flex flex-col items-center w-full flex-1 p-6 bg-white">
         <div className="max-w-2xl w-full space-y-8">
           <h1 className="text-3xl font-bold text-center">予約キャンセル</h1>

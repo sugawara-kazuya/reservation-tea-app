@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,16 +12,24 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Component() {
   const router = useRouter();
+  const [participants, setParticipants] = useState(1); // 参加人数の状態を追加
 
   const handleReservation = () => {
     // Here you can also add any form validation or data submission logic
     // For now, we just navigate to the confirmation page
-    router.push("/reservation/1");
+    router.push(`/reservation/1?participants=${participants}`);
   };
+
+  const handleParticipantsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (value <= 4) {
+      setParticipants(value);
+    }
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
       <div className="space-y-6 md:space-y-8">
@@ -83,6 +92,18 @@ export default function Component() {
                   </div>
                 </PopoverContent>
               </Popover>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="participants">参加人数</Label>
+              <Input
+                id="participants"
+                type="number"
+                min="1"
+                max="4"
+                value={participants}
+                onChange={handleParticipantsChange}
+                placeholder="参加人数を入力してください"
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="notes">追加メモ</Label>

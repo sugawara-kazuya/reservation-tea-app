@@ -1,13 +1,25 @@
+"use client";
 // Header.tsx
 import React from "react";
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  backgroundImage: string; // 背景画像を受け取るプロパティを追加
+}
+
+export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const target = document.getElementById("event-section");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <header
       className="relative w-full h-[500px] bg-cover bg-center"
       style={{
-        backgroundImage:
-          "url('https://reservation-tea-app.s3.ap-northeast-1.amazonaws.com/sample/homeback.jpg')",
+        backgroundImage: `url('${backgroundImage}')`,
       }}
     >
       <div className="absolute inset-0 bg-black/50" />
@@ -26,9 +38,13 @@ export const Header: React.FC = () => {
         <h1 className="text-4xl font-bold">WELCOME TO</h1>
         <h2 className="text-6xl font-bold">sekishu</h2>
         <p className="mt-4">石州流野村派のお茶席予約サイト</p>
-        <button className="mt-8 px-6 py-3 bg-yellow-500 text-white rounded-full">
+        <a
+          href="/home#event-section"
+          className="mt-8 px-6 py-3 bg-yellow-500 text-white rounded-full inline-block"
+          onClick={handleScroll} // クリックイベントハンドラを追加
+        >
           直近のお茶会
-        </button>
+        </a>
       </div>
     </header>
   );
