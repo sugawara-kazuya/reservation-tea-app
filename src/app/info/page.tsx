@@ -16,7 +16,7 @@ export default function Component() {
       <Header backgroundImage="https://reservation-tea-app.s3.ap-northeast-1.amazonaws.com/sample/homeback4.jpg" />
       <main className="flex flex-col items-center w-full flex-1 p-6 bg-white">
         <div className="max-w-2xl w-full space-y-8">
-          <h1 className="text-3xl font-bold text-center">予約キャンセル</h1>
+          <h2 className="text-3xl font-bold text-center">予約キャンセル</h2>
           <p className="text-center text-gray-700">
             予約をキャンセルするには、以下の情報を入力してください。
           </p>
