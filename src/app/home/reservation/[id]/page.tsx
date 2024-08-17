@@ -1,18 +1,93 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "@/amplify";
+import { Amplify } from "aws-amplify";
+import outputs from "@/output";
+
+Amplify.configure(outputs);
+
+const client = generateClient<Schema>();
 
 export default function Component() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const participants = searchParams.get("participants") || "3"; // 参加人数を取得し、デフォルト値を1とする
+  const { id: reservationIdParam } = useParams();
+  const reservationId = Array.isArray(reservationIdParam)
+    ? reservationIdParam[0]
+    : reservationIdParam;
+
+  const [reservation, setReservation] = useState<
+    Schema["Reservation"]["type"] | null
+  >(null);
+  const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReservationAndEvent = async () => {
+      if (!reservationId) {
+        setError("Reservation ID が指定されていません。");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data: reservationData, errors: reservationErrors } =
+          await client.models.Reservation.get({
+            id: reservationId,
+          });
+
+        if (reservationErrors || !reservationData) {
+          setError("予約情報の取得に失敗しました。");
+          setLoading(false);
+          return;
+        }
+
+        setReservation(reservationData);
+
+        if (reservationData.eventId) {
+          const { data: eventData, errors: eventErrors } =
+            await client.models.Event.get({
+              id: reservationData.eventId,
+            });
+
+          if (eventErrors || !eventData) {
+            setError("イベント情報の取得に失敗しました。");
+            setLoading(false);
+            return;
+          }
+
+          setEvent(eventData);
+        }
+
+        setLoading(false);
+      } catch (fetchError) {
+        setError("予約情報またはイベント情報の取得中にエラーが発生しました。");
+        setLoading(false);
+      }
+    };
+
+    fetchReservationAndEvent();
+  }, [reservationId]);
 
   const handleReservation = () => {
-    // Here you can also add any form validation or data submission logic
-    // For now, we just navigate to the confirmation page
     router.push("/home");
   };
+
+  if (loading) {
+    return <div>読み込み中...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!reservation) {
+    return <div>予約情報が見つかりません。</div>;
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -25,24 +100,28 @@ export default function Component() {
           <h2 className="text-2xl font-semibold mb-4">予約内容</h2>
           <div className="space-y-4">
             <div className="flex justify-between">
+              <span className="font-medium">予約番号:</span>
+              <span>{reservation.id}</span>
+            </div>
+            <div className="flex justify-between">
               <span className="font-medium">イベント名:</span>
-              <span>全国民文化祭</span>
+              <span>{event?.title ?? "不明なイベント"}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">会場:</span>
-              <span>勘定館</span>
+              <span>{event?.venue ?? "不明な会場"}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">日時:</span>
-              <span>2024年7月27日(土)</span>
+              <span>{reservation.reservationTime}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">参加費:</span>
-              <span>4500円</span>
+              <span>{reservation.totalCost}円</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">参加人数:</span>
-              <span>3人</span>
+              <span>{reservation.participants}人</span>
             </div>
           </div>
         </section>
@@ -51,15 +130,15 @@ export default function Component() {
           <div className="space-y-4">
             <div className="flex justify-between">
               <span className="font-medium">名前:</span>
-              <span>山田 太郎</span>
+              <span>{reservation.name}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">メールアドレス:</span>
-              <span>taro.yamada@example.com</span>
+              <span>{reservation.email}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">電話番号:</span>
-              <span>090-1234-5678</span>
+              <span>{reservation.phone}</span>
             </div>
           </div>
         </section>

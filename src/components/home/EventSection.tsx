@@ -5,14 +5,15 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface EventProps {
-  id: number;
-  title: string;
-  venue: string;
-  date: string;
-  cost: string;
-  description: string;
+  id: string | undefined;
+  title: string | undefined;
+  venue: string | undefined;
+  date: string | undefined;
+  cost: string | number | undefined;
+  description: string | undefined;
   imageUrl: string;
-  attendees: string; // 新しいプロパティを追加
+  maxParticipants: number | undefined; // 新しく追加
+  currentParticipants: number | undefined; // 新しく追加
 }
 
 export const EventSection: React.FC<EventProps> = ({
@@ -23,12 +24,15 @@ export const EventSection: React.FC<EventProps> = ({
   cost,
   description,
   imageUrl,
-  attendees, // 新しいプロパティを追加
+  maxParticipants,
+  currentParticipants,
 }) => {
   const router = useRouter();
 
   const handleReservation = () => {
-    router.push(`/home/${id}`);
+    if (id) {
+      router.push(`/home/${id}`);
+    }
   };
 
   return (
@@ -48,8 +52,10 @@ export const EventSection: React.FC<EventProps> = ({
           <h3 className="text-xl font-bold mb-2">{title}</h3>
           <p className="mb-2">会場: {venue}</p>
           <p className="mb-2">日時: {date}</p>
-          <p className="mb-2">参加費用: {cost}</p>
-          <p className="mb-2">参加人数: {attendees}</p> {/* 参加人数を追加 */}
+          <p className="mb-2">参加費用: {cost}円</p>
+          <p className="mb-2">
+            参加人数: {currentParticipants}/{maxParticipants} 人
+          </p>
           <p className="mb-4">{description}</p>
           <button
             className="px-4 py-2 bg-yellow-500 text-white rounded-full"
