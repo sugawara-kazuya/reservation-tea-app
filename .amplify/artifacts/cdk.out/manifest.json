@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/95b6058f612e81341eb764b2d2b5a8fb685eb14101817b59009516f9134e0bc2.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fc147659d229d3f14b6259a84c422f37854b8958f61cfd04eccb5c7e21154592.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -367,582 +367,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/DynamoDBModelTableReadIOPS": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DynamoDBModelTableReadIOPS"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/DynamoDBModelTableWriteIOPS": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DynamoDBModelTableWriteIOPS"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/DynamoDBBillingMode": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DynamoDBBillingMode"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/DynamoDBEnablePointInTimeRecovery": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DynamoDBEnablePointInTimeRecovery"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/DynamoDBEnableServerSideEncryption": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DynamoDBEnableServerSideEncryption"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/HasEnvironmentParameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "HasEnvironmentParameter"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/ShouldUseServerSideEncryption": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ShouldUseServerSideEncryption"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/ShouldUsePayPerRequestBilling": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ShouldUsePayPerRequestBilling"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/ShouldUsePointInTimeRecovery": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ShouldUsePointInTimeRecovery"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/UserTable": [
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "User"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/UserTable/Default/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "UserTable"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "User"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/CustomTableUserTable": [
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "User"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/GetAttUserTableStreamArn": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "GetAttUserTableStreamArn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/GetAttUserTableName": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "GetAttUserTableName"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/UserIAMRole": [
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "UserIAMRole"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/UserIAMRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "UserIAMRole93CEE926"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "UserIAMRole"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/UserDataSource": [
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "UserTable"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/UserDataSource/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "UserDataSource"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "UserTable"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserpreAuth0Function/QuerygetUserpreAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QuerygetUserpreAuth0FunctionQuerygetUserpreAuth0FunctionAppSyncFunction20420340"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QuerygetUserpreAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserauth0Function/QuerygetUserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QuerygetUserauth0FunctionQuerygetUserauth0FunctionAppSyncFunction9E6250B0"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QuerygetUserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserpostAuth0Function/QuerygetUserpostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QuerygetUserpostAuth0FunctionQuerygetUserpostAuth0FunctionAppSyncFunction2792AC60"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QuerygetUserpostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QueryGetUserDataResolverFn/QueryGetUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QueryGetUserDataResolverFnQueryGetUserDataResolverFnAppSyncFunction36A3E4CF"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QueryGetUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/queryGetUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "GetUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Query.getUser"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUserspreAuth0Function/QuerylistUserspreAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QuerylistUserspreAuth0FunctionQuerylistUserspreAuth0FunctionAppSyncFunctionAB63F07E"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QuerylistUserspreAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUsersauth0Function/QuerylistUsersauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QuerylistUsersauth0FunctionQuerylistUsersauth0FunctionAppSyncFunctionA1FF61AB"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QuerylistUsersauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUserspostAuth0Function/QuerylistUserspostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QuerylistUserspostAuth0FunctionQuerylistUserspostAuth0FunctionAppSyncFunction37C5583D"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QuerylistUserspostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QueryListUsersDataResolverFn/QueryListUsersDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "QueryListUsersDataResolverFnQueryListUsersDataResolverFnAppSyncFunction83574EBA"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "QueryListUsersDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/queryListUsersResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ListUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Query.listUsers"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserinit0Function/MutationcreateUserinit0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationcreateUserinit0FunctionMutationcreateUserinit0FunctionAppSyncFunctionEDF87EC6"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationcreateUserinit0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserpreAuth0Function/MutationcreateUserpreAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationcreateUserpreAuth0FunctionMutationcreateUserpreAuth0FunctionAppSyncFunction7F885F8E"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationcreateUserpreAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserauth0Function/MutationcreateUserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationcreateUserauth0FunctionMutationcreateUserauth0FunctionAppSyncFunction30556A6C"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationcreateUserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserpostAuth0Function/MutationcreateUserpostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationcreateUserpostAuth0FunctionMutationcreateUserpostAuth0FunctionAppSyncFunction176E20CB"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationcreateUserpostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationCreateUserDataResolverFn/MutationCreateUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationCreateUserDataResolverFnMutationCreateUserDataResolverFnAppSyncFunction22E7974E"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationCreateUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/mutationCreateUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CreateUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Mutation.createUser"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserinit0Function/MutationupdateUserinit0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationupdateUserinit0FunctionMutationupdateUserinit0FunctionAppSyncFunctionC2E8A924"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationupdateUserinit0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserpreAuth0Function/MutationupdateUserpreAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationupdateUserpreAuth0FunctionMutationupdateUserpreAuth0FunctionAppSyncFunction8073FE5C"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationupdateUserpreAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserauth0Function/MutationupdateUserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationupdateUserauth0FunctionMutationupdateUserauth0FunctionAppSyncFunctionDF95DA65"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationupdateUserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserpostAuth0Function/MutationupdateUserpostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationupdateUserpostAuth0FunctionMutationupdateUserpostAuth0FunctionAppSyncFunctionD4B80000"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationupdateUserpostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationUpdateUserDataResolverFn/MutationUpdateUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationUpdateUserDataResolverFnMutationUpdateUserDataResolverFnAppSyncFunction6ADF3910"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationUpdateUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/mutationUpdateUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "UpdateUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Mutation.updateUser"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserpreAuth0Function/MutationdeleteUserpreAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationdeleteUserpreAuth0FunctionMutationdeleteUserpreAuth0FunctionAppSyncFunction0A75CEC7"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationdeleteUserpreAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserauth0Function/MutationdeleteUserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationdeleteUserauth0FunctionMutationdeleteUserauth0FunctionAppSyncFunction9B900ACD"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationdeleteUserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserpostAuth0Function/MutationdeleteUserpostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationdeleteUserpostAuth0FunctionMutationdeleteUserpostAuth0FunctionAppSyncFunction9B804910"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationdeleteUserpostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationDeleteUserDataResolverFn/MutationDeleteUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MutationDeleteUserDataResolverFnMutationDeleteUserDataResolverFnAppSyncFunction0B4F366A"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "MutationDeleteUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/mutationDeleteUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DeleteUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Mutation.deleteUser"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptiononCreateUserauth0Function/SubscriptiononCreateUserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononCreateUserauth0FunctionSubscriptiononCreateUserauth0FunctionAppSyncFunctionE9B4721A"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononCreateUserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptiononCreateUserpostAuth0Function/SubscriptiononCreateUserpostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononCreateUserpostAuth0FunctionSubscriptiononCreateUserpostAuth0FunctionAppSyncFunction62AE12DA"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononCreateUserpostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptionOnCreateUserDataResolverFn/SubscriptionOnCreateUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptionOnCreateUserDataResolverFnSubscriptionOnCreateUserDataResolverFnAppSyncFunction23B2F1B9"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptionOnCreateUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/subscriptionOnCreateUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononCreateUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Subscription.onCreateUser"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptiononUpdateUserauth0Function/SubscriptiononUpdateUserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononUpdateUserauth0FunctionSubscriptiononUpdateUserauth0FunctionAppSyncFunction78530C9F"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononUpdateUserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptiononUpdateUserpostAuth0Function/SubscriptiononUpdateUserpostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononUpdateUserpostAuth0FunctionSubscriptiononUpdateUserpostAuth0FunctionAppSyncFunctionF3EF85D1"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononUpdateUserpostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptionOnUpdateUserDataResolverFn/SubscriptionOnUpdateUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptionOnUpdateUserDataResolverFnSubscriptionOnUpdateUserDataResolverFnAppSyncFunction93FA5DF6"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptionOnUpdateUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/subscriptionOnUpdateUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononUpdateUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Subscription.onUpdateUser"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptiononDeleteUserauth0Function/SubscriptiononDeleteUserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononDeleteUserauth0FunctionSubscriptiononDeleteUserauth0FunctionAppSyncFunction0C5B7186"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononDeleteUserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptiononDeleteUserpostAuth0Function/SubscriptiononDeleteUserpostAuth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononDeleteUserpostAuth0FunctionSubscriptiononDeleteUserpostAuth0FunctionAppSyncFunction24A5E815"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononDeleteUserpostAuth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/SubscriptionOnDeleteUserDataResolverFn/SubscriptionOnDeleteUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptionOnDeleteUserDataResolverFnSubscriptionOnDeleteUserDataResolverFnAppSyncFunction2BEB0972"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "SubscriptionOnDeleteUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/subscriptionOnDeleteUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononDeleteUserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Subscription.onDeleteUser"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/CDKMetadata/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CDKMetadata"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/CDKMetadata/Condition": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CDKMetadataAvailable"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource09FFCE1EOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEventDCB8438DArn": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource09FFCE1EOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataAmplifyTableManagerTableManagerCustomProvi69B3EEF8"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User.NestedStack/User.NestedStackResource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifyDataUserNestedStackUserNestedStackResource9488907F"
           }
         ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/DynamoDBModelTableReadIOPS": [
@@ -2673,124 +2097,64 @@
             "data": "amplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource85A2A9FB"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Userreservationauth0Function/Userreservationauth0Function.AppSyncFunction": [
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Eventreservationsauth0Function/Eventreservationsauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "Userreservationauth0FunctionUserreservationauth0FunctionAppSyncFunctionC548D122"
+            "data": "Eventreservationsauth0FunctionEventreservationsauth0FunctionAppSyncFunction15C1E773"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Userreservationauth0Function"
+            "data": "Eventreservationsauth0Function"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/UserReservationDataResolverFn/UserReservationDataResolverFn.AppSyncFunction": [
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationsDataResolverFn/EventReservationsDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "UserReservationDataResolverFnUserReservationDataResolverFnAppSyncFunction3811DB50"
+            "data": "EventReservationsDataResolverFnEventReservationsDataResolverFnAppSyncFunction38537030"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "UserReservationDataResolverFn"
+            "data": "EventReservationsDataResolverFn"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/userReservationResolver": [
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/eventReservationsResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "UserreservationResolver"
+            "data": "EventreservationsResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "User.reservation"
+            "data": "Event.reservations"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Eventreservationauth0Function/Eventreservationauth0Function.AppSyncFunction": [
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventeventTimeSlotsauth0Function/EventeventTimeSlotsauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "Eventreservationauth0FunctionEventreservationauth0FunctionAppSyncFunction87BBBEAD"
+            "data": "EventeventTimeSlotsauth0FunctionEventeventTimeSlotsauth0FunctionAppSyncFunction21A6454F"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Eventreservationauth0Function"
+            "data": "EventeventTimeSlotsauth0Function"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventReservationDataResolverFn/EventReservationDataResolverFn.AppSyncFunction": [
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotsDataResolverFn/EventEventTimeSlotsDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "EventReservationDataResolverFnEventReservationDataResolverFnAppSyncFunction53CFA08A"
+            "data": "EventEventTimeSlotsDataResolverFnEventEventTimeSlotsDataResolverFnAppSyncFunction4EA033A8"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "EventReservationDataResolverFn"
+            "data": "EventEventTimeSlotsDataResolverFn"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/eventReservationResolver": [
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/eventEventTimeSlotsResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "EventreservationResolver"
+            "data": "EventeventTimeSlotsResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Event.reservation"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventeventTimeSlotauth0Function/EventeventTimeSlotauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EventeventTimeSlotauth0FunctionEventeventTimeSlotauth0FunctionAppSyncFunction7EC5451B"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "EventeventTimeSlotauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/EventEventTimeSlotDataResolverFn/EventEventTimeSlotDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EventEventTimeSlotDataResolverFnEventEventTimeSlotDataResolverFnAppSyncFunctionB44806A4"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "EventEventTimeSlotDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/eventEventTimeSlotResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EventeventTimeSlotResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Event.eventTimeSlot"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Reservationuserauth0Function/Reservationuserauth0Function.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Reservationuserauth0FunctionReservationuserauth0FunctionAppSyncFunction264ADF75"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Reservationuserauth0Function"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/ReservationUserDataResolverFn/ReservationUserDataResolverFn.AppSyncFunction": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ReservationUserDataResolverFnReservationUserDataResolverFnAppSyncFunction820F2B21"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "ReservationUserDataResolverFn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reservationUserResolver": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ReservationuserResolver"
-          },
-          {
-            "type": "graphqltransformer:resourceName",
-            "data": "Reservation.user"
+            "data": "Event.eventTimeSlots"
           }
         ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/Reservationeventauth0Function/Reservationeventauth0Function.AppSyncFunction": [
@@ -2917,18 +2281,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn"
           }
         ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/ConnectionStack/reference-to-amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name": [

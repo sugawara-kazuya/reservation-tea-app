@@ -7,18 +7,6 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  User: a
-    .model({
-      id: a.id(), // ID
-      name: a.string(), // 名前
-      email: a.email(), // メールアドレス
-      phone: a.phone(), // 電話番号
-      reservation: a.hasMany("Reservation", "id"), // リレーションの修正
-      createdAt: a.datetime(), // 作成日時
-      updatedAt: a.datetime(), // 更新日時
-    })
-    .authorization((allow) => [allow.guest()]),
-
   Event: a
     .model({
       id: a.id(), // ID
@@ -29,9 +17,10 @@ const schema = a.schema({
       description: a.string(), // 説明
       imageUrl: a.string(), // 画像URL
       maxParticipants: a.integer(), // 最大参加人数
+      currentParticipants: a.integer(), // 現在の参加人数
       isActive: a.boolean(), // イベントが開催中かどうか
-      reservation: a.hasMany("Reservation", "id"), // リレーションの修正
-      eventTimeSlot: a.hasMany("EventTimeSlot", "id"), // リレーションの修正
+      reservations: a.hasMany("Reservation", "eventId"), // 修正: eventIdを使ったリレーション
+      eventTimeSlots: a.hasMany("EventTimeSlot", "eventId"), // 修正: eventIdを使ったリレーション
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
     })
@@ -40,8 +29,11 @@ const schema = a.schema({
   Reservation: a
     .model({
       id: a.id(), // ID
-      user: a.belongsTo("User", "id"), // リレーションの修正
-      event: a.belongsTo("Event", "id"), // リレーションの修正
+      name: a.string(), // 名前
+      email: a.email(), // メールアドレス
+      phone: a.string(), // 電話番号
+      eventId: a.id(), // 修正: eventIdフィールドを追加
+      event: a.belongsTo("Event", "eventId"), // 修正: eventIdを使ったリレーション
       reservationTime: a.string(), // 予約時間
       participants: a.integer(), // 参加人数
       totalCost: a.integer(), // 総費用
@@ -54,7 +46,8 @@ const schema = a.schema({
   EventTimeSlot: a
     .model({
       id: a.id(), // ID
-      event: a.belongsTo("Event", "id"), // リレーションの修正
+      eventId: a.id(), // 修正: eventIdフィールドを追加
+      event: a.belongsTo("Event", "eventId"), // 修正: eventIdを使ったリレーション
       timeSlot: a.string(), // 時間スロット
       maxParticipants: a.integer(), // 最大参加人数
       currentParticipants: a.integer(), // 現在の参加人数

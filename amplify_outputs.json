@@ -34,107 +34,6 @@
     "model_introspection": {
       "version": 1,
       "models": {
-        "User": {
-          "name": "User",
-          "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
-            "name": {
-              "name": "name",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "email": {
-              "name": "email",
-              "isArray": false,
-              "type": "AWSEmail",
-              "isRequired": false,
-              "attributes": []
-            },
-            "phone": {
-              "name": "phone",
-              "isArray": false,
-              "type": "AWSPhone",
-              "isRequired": false,
-              "attributes": []
-            },
-            "reservation": {
-              "name": "reservation",
-              "isArray": true,
-              "type": {
-                "model": "Reservation"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "isArrayNullable": true,
-              "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "id"
-                ]
-              }
-            },
-            "createdAt": {
-              "name": "createdAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": []
-            },
-            "updatedAt": {
-              "name": "updatedAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": []
-            }
-          },
-          "syncable": true,
-          "pluralName": "Users",
-          "attributes": [
-            {
-              "type": "model",
-              "properties": {}
-            },
-            {
-              "type": "key",
-              "properties": {
-                "fields": [
-                  "id"
-                ]
-              }
-            },
-            {
-              "type": "auth",
-              "properties": {
-                "rules": [
-                  {
-                    "allow": "public",
-                    "provider": "iam",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
-                  }
-                ]
-              }
-            }
-          ],
-          "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
-            "sortKeyFieldNames": []
-          }
-        },
         "Event": {
           "name": "Event",
           "fields": {
@@ -194,6 +93,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "currentParticipants": {
+              "name": "currentParticipants",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": false,
+              "attributes": []
+            },
             "isActive": {
               "name": "isActive",
               "isArray": false,
@@ -201,8 +107,8 @@
               "isRequired": false,
               "attributes": []
             },
-            "reservation": {
-              "name": "reservation",
+            "reservations": {
+              "name": "reservations",
               "isArray": true,
               "type": {
                 "model": "Reservation"
@@ -213,12 +119,12 @@
               "association": {
                 "connectionType": "HAS_MANY",
                 "associatedWith": [
-                  "id"
+                  "eventId"
                 ]
               }
             },
-            "eventTimeSlot": {
-              "name": "eventTimeSlot",
+            "eventTimeSlots": {
+              "name": "eventTimeSlots",
               "isArray": true,
               "type": {
                 "model": "EventTimeSlot"
@@ -229,7 +135,7 @@
               "association": {
                 "connectionType": "HAS_MANY",
                 "associatedWith": [
-                  "id"
+                  "eventId"
                 ]
               }
             },
@@ -297,20 +203,33 @@
               "isRequired": true,
               "attributes": []
             },
-            "user": {
-              "name": "user",
+            "name": {
+              "name": "name",
               "isArray": false,
-              "type": {
-                "model": "User"
-              },
+              "type": "String",
               "isRequired": false,
-              "attributes": [],
-              "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "id"
-                ]
-              }
+              "attributes": []
+            },
+            "email": {
+              "name": "email",
+              "isArray": false,
+              "type": "AWSEmail",
+              "isRequired": false,
+              "attributes": []
+            },
+            "phone": {
+              "name": "phone",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "eventId": {
+              "name": "eventId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": false,
+              "attributes": []
             },
             "event": {
               "name": "event",
@@ -323,7 +242,7 @@
               "association": {
                 "connectionType": "BELONGS_TO",
                 "targetNames": [
-                  "id"
+                  "eventId"
                 ]
               }
             },
@@ -419,6 +338,13 @@
               "isRequired": true,
               "attributes": []
             },
+            "eventId": {
+              "name": "eventId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": false,
+              "attributes": []
+            },
             "event": {
               "name": "event",
               "isArray": false,
@@ -430,7 +356,7 @@
               "association": {
                 "connectionType": "BELONGS_TO",
                 "targetNames": [
-                  "id"
+                  "eventId"
                 ]
               }
             },
