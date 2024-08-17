@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -7,9 +7,59 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  User: a
     .model({
-      content: a.string(),
+      id: a.id(), // ID
+      name: a.string(), // 名前
+      email: a.email(), // メールアドレス
+      phone: a.phone(), // 電話番号
+      reservation: a.belongsTo("Reservation", "id"),
+      createdAt: a.datetime(), // 作成日時
+      updatedAt: a.datetime(), // 更新日時
+    })
+    .authorization((allow) => [allow.guest()]),
+
+  Event: a
+    .model({
+      id: a.id(), // ID
+      title: a.string(), // タイトル
+      venue: a.string(), // 会場
+      date: a.string(), // 日付
+      cost: a.integer(), // 費用
+      description: a.string(), // 説明
+      imageUrl: a.string(), // 画像URL
+      maxParticipants: a.integer(), // 最大参加人数
+      isActive: a.boolean(), // イベントが開催中かどうか
+      reservation: a.belongsTo("Reservation", "id"),
+      eventTimeSlot: a.belongsTo("EventTimeSlot", "id"),
+      createdAt: a.datetime(), // 作成日時
+      updatedAt: a.datetime(), // 更新日時
+    })
+    .authorization((allow) => [allow.guest()]),
+
+  Reservation: a
+    .model({
+      id: a.id(), // ID
+      userId: a.hasMany("User", "id"), // ユーザーID
+      eventId: a.hasMany("Event", "id"), // イベントID
+      reservationTime: a.string(), // 予約時間
+      participants: a.integer(), // 参加人数
+      totalCost: a.integer(), // 総費用
+      notes: a.string(), // メモ
+      createdAt: a.datetime(), // 作成日時
+      updatedAt: a.datetime(), // 更新日時
+    })
+    .authorization((allow) => [allow.guest()]),
+
+  EventTimeSlot: a
+    .model({
+      id: a.id(), // ID
+      event: a.hasMany("Event", "id"),
+      timeSlot: a.string(), // 時間スロット
+      maxParticipants: a.integer(), // 最大参加人数
+      currentParticipants: a.integer(), // 現在の参加人数
+      createdAt: a.datetime(), // 作成日時
+      updatedAt: a.datetime(), // 更新日時
     })
     .authorization((allow) => [allow.guest()]),
 });
@@ -19,7 +69,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
+    defaultAuthorizationMode: "iam",
   },
 });
 
