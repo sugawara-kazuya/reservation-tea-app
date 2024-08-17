@@ -48,7 +48,7 @@
      ]
     },
     "DefinitionS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cdccbe325febdb678cd5504c52d91e73134d40a7de3e8d091ce4b2abfb81f195.graphql"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3136526753d4e8b7c6c1b02a6a6ca6871daa3942079ce954a469eb374c10a766.graphql"
     }
    },
    "Metadata": {
@@ -203,7 +203,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/ae64027a0434456362eb8bf790b798a8423f1c01d1388431c9bd4517cb80ef1e.json"
+       "/01a7f235f4eeddb80f50aefa74d80b056b221db6a4b17f8934702e691d422507.json"
       ]
      ]
     }
@@ -296,7 +296,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/355ee7cc19545c4b8e86baf4e07fa3b524a5182b53989a669947d004d0ed0c31.json"
+       "/500efe4697c8d1017912f4dff2960d9459d6bc1d28110d09e8d780e197b86472.json"
       ]
      ]
     }
@@ -389,7 +389,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/dd08ce6f9354476e4e7684b9fb2417276645536bb5b37bf783ab6d86a5a4eb75.json"
+       "/8e66693bf0996877d9be15c089ad887c194eeb6c53bc4b5177eee82c49d62b71.json"
       ]
      ]
     }
@@ -482,7 +482,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/b02d5ab0ba2726cc5549112009b14f4c7a41f8522ffd418c182e9c8369e43839.json"
+       "/f00dfc0de1469e271580cb39ac17bd254bfc422cfd882895326c306cc9fa0764.json"
       ]
      ]
     }
@@ -514,39 +514,6 @@
        "Name"
       ]
      },
-     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name": {
-      "Fn::GetAtt": [
-       "amplifyDataUserNestedStackUserNestedStackResource9488907F",
-       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name"
-      ]
-     },
-     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn": {
-      "Fn::GetAtt": [
-       "amplifyDataUserNestedStackUserNestedStackResource9488907F",
-       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn"
-      ]
-     },
-     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref": {
-      "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
-     },
-     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": {
-      "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
-     },
-     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref": {
-      "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
-     },
-     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name": {
-      "Fn::GetAtt": [
-       "amplifyDataEventNestedStackEventNestedStackResourceE9D0FB99",
-       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name"
-      ]
-     },
-     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn": {
-      "Fn::GetAtt": [
-       "amplifyDataEventNestedStackEventNestedStackResourceE9D0FB99",
-       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn"
-      ]
-     },
      "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationNestedStackReservationNestedStackResource97F54CC1Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationDataSource9359BEA7Name": {
       "Fn::GetAtt": [
        "amplifyDataReservationNestedStackReservationNestedStackResourceC6FB3FEC",
@@ -559,6 +526,15 @@
        "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataReservationReservationTableA3D2EE8CTableArn"
       ]
      },
+     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref": {
+      "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
+     },
+     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": {
+      "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+     },
+     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref": {
+      "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+     },
      "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource0C293FA3Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotDataSource2B0E4205Name": {
       "Fn::GetAtt": [
        "amplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource85A2A9FB",
@@ -569,6 +545,30 @@
       "Fn::GetAtt": [
        "amplifyDataEventTimeSlotNestedStackEventTimeSlotNestedStackResource85A2A9FB",
        "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventTimeSlotEventTimeSlotTable7166CCA5TableArn"
+      ]
+     },
+     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name": {
+      "Fn::GetAtt": [
+       "amplifyDataUserNestedStackUserNestedStackResource9488907F",
+       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserDataSource45953236Name"
+      ]
+     },
+     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserNestedStackUserNestedStackResource0CA73205Outputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn": {
+      "Fn::GetAtt": [
+       "amplifyDataUserNestedStackUserNestedStackResource9488907F",
+       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataUserUserTable7F4C328ATableArn"
+      ]
+     },
+     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name": {
+      "Fn::GetAtt": [
+       "amplifyDataEventNestedStackEventNestedStackResourceE9D0FB99",
+       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventDataSourceBA746C70Name"
+      ]
+     },
+     "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventNestedStackEventNestedStackResource2F86A3FCOutputsamplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn": {
+      "Fn::GetAtt": [
+       "amplifyDataEventNestedStackEventNestedStackResourceE9D0FB99",
+       "Outputs.amplifymoshimojirootsandbox1c0e761023dataamplifyDataEventEventTableADBD35AATableArn"
       ]
      }
     },
@@ -602,7 +602,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/deac7d5484bdda4bd9e47237a3798d4ef3f8a906d93460f54e540cb56baa2dd5.json"
+       "/6c8eb2f0a4a9463360f8d4a34f70dfed6bbdb3e753e5053fd67a7c4c2a1a8349.json"
       ]
      ]
     }
@@ -811,6 +811,20 @@
         },
         {
          "Fn::Sub": [
+          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+          {
+           "apiId": {
+            "Fn::GetAtt": [
+             "amplifyDataGraphQLAPI42A6FA33",
+             "ApiId"
+            ]
+           },
+           "typeName": "ModelReservationConnection"
+          }
+         ]
+        },
+        {
+         "Fn::Sub": [
           "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
           {
            "apiId": {
@@ -931,6 +945,20 @@
         },
         {
          "Fn::Sub": [
+          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+          {
+           "apiId": {
+            "Fn::GetAtt": [
+             "amplifyDataGraphQLAPI42A6FA33",
+             "ApiId"
+            ]
+           },
+           "typeName": "ModelEventTimeSlotConnection"
+          }
+         ]
+        },
+        {
+         "Fn::Sub": [
           "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
           {
            "apiId": {
@@ -1046,34 +1074,6 @@
            },
            "typeName": "Subscription",
            "fieldName": "onDeleteReservation"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "ModelUserConnection"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "ModelEventConnection"
           }
          ]
         },
@@ -1401,6 +1401,20 @@
         },
         {
          "Fn::Sub": [
+          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+          {
+           "apiId": {
+            "Fn::GetAtt": [
+             "amplifyDataGraphQLAPI42A6FA33",
+             "ApiId"
+            ]
+           },
+           "typeName": "ModelReservationConnection"
+          }
+         ]
+        },
+        {
+         "Fn::Sub": [
           "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
           {
            "apiId": {
@@ -1521,6 +1535,20 @@
         },
         {
          "Fn::Sub": [
+          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+          {
+           "apiId": {
+            "Fn::GetAtt": [
+             "amplifyDataGraphQLAPI42A6FA33",
+             "ApiId"
+            ]
+           },
+           "typeName": "ModelEventTimeSlotConnection"
+          }
+         ]
+        },
+        {
+         "Fn::Sub": [
           "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
           {
            "apiId": {
@@ -1636,34 +1664,6 @@
            },
            "typeName": "Subscription",
            "fieldName": "onDeleteReservation"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "ModelUserConnection"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "ModelEventConnection"
           }
          ]
         },
@@ -1971,7 +1971,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "87a8b3d92ca373ebca666490f747e65d82a2e6614bc43c1400c62edcadb6adc1.zip"
+     "9b0c9e0009ebf68274f90595f797c041c11054cef36b8adb9206ca84cb3dc2d0.zip"
     ],
     "SourceMarkers": [
      {}

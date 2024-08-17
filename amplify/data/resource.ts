@@ -13,7 +13,7 @@ const schema = a.schema({
       name: a.string(), // 名前
       email: a.email(), // メールアドレス
       phone: a.phone(), // 電話番号
-      reservation: a.belongsTo("Reservation", "id"),
+      reservation: a.hasMany("Reservation", "id"), // リレーションの修正
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
     })
@@ -30,8 +30,8 @@ const schema = a.schema({
       imageUrl: a.string(), // 画像URL
       maxParticipants: a.integer(), // 最大参加人数
       isActive: a.boolean(), // イベントが開催中かどうか
-      reservation: a.belongsTo("Reservation", "id"),
-      eventTimeSlot: a.belongsTo("EventTimeSlot", "id"),
+      reservation: a.hasMany("Reservation", "id"), // リレーションの修正
+      eventTimeSlot: a.hasMany("EventTimeSlot", "id"), // リレーションの修正
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
     })
@@ -40,8 +40,8 @@ const schema = a.schema({
   Reservation: a
     .model({
       id: a.id(), // ID
-      userId: a.hasMany("User", "id"), // ユーザーID
-      eventId: a.hasMany("Event", "id"), // イベントID
+      user: a.belongsTo("User", "id"), // リレーションの修正
+      event: a.belongsTo("Event", "id"), // リレーションの修正
       reservationTime: a.string(), // 予約時間
       participants: a.integer(), // 参加人数
       totalCost: a.integer(), // 総費用
@@ -54,7 +54,7 @@ const schema = a.schema({
   EventTimeSlot: a
     .model({
       id: a.id(), // ID
-      event: a.hasMany("Event", "id"),
+      event: a.belongsTo("Event", "id"), // リレーションの修正
       timeSlot: a.string(), // 時間スロット
       maxParticipants: a.integer(), // 最大参加人数
       currentParticipants: a.integer(), // 現在の参加人数
