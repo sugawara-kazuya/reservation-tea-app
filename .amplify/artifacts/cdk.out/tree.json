@@ -744,7 +744,7 @@
                               ]
                             },
                             "definitionS3Location": {
-                              "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ef331ca583bf54b389d4878825c4b0555b3134960dff1c3cb61476ea0e0128eb.graphql"
+                              "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cdccbe325febdb678cd5504c52d91e73134d40a7de3e8d091ce4b2abfb81f195.graphql"
                             }
                           }
                         },
@@ -1814,6 +1814,67 @@
                           "version": "2.150.0"
                         }
                       },
+                      "QuerygetUserpreAuth0Function": {
+                        "id": "QuerygetUserpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.getUser.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.getUser.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserpreAuth0Function/Templateresolvers--Query.getUser.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserpreAuth0Function/Templateresolvers--Query.getUser.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserpreAuth0Function/Templateresolvers--Query.getUser.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerygetUserpreAuth0Function.AppSyncFunction": {
+                            "id": "QuerygetUserpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserpreAuth0Function/QuerygetUserpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerygetUserpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ffc597e18023b530e6afcbe02cee647d49550fa9e77bd06f1dee09d8b1be8de3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
                       "QuerygetUserauth0Function": {
                         "id": "QuerygetUserauth0Function",
                         "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerygetUserauth0Function",
@@ -2043,6 +2104,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerygetUserpreAuth0FunctionQuerygetUserpreAuth0FunctionAppSyncFunction20420340",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerygetUserauth0FunctionQuerygetUserauth0FunctionAppSyncFunction9E6250B0",
                                     "FunctionId"
                                   ]
@@ -2127,6 +2194,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "QuerylistUserspreAuth0Function": {
+                        "id": "QuerylistUserspreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUserspreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.listUsers.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.listUsers.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUserspreAuth0Function/Templateresolvers--Query.listUsers.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUserspreAuth0Function/Templateresolvers--Query.listUsers.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUserspreAuth0Function/Templateresolvers--Query.listUsers.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerylistUserspreAuth0Function.AppSyncFunction": {
+                            "id": "QuerylistUserspreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/QuerylistUserspreAuth0Function/QuerylistUserspreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerylistUserspreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3e81312d4c75951808eda9fcd5f854c1925c0b819de0939f09c4fe2eebb190b8.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "QuerylistUsersauth0Function": {
@@ -2358,6 +2486,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerylistUserspreAuth0FunctionQuerylistUserspreAuth0FunctionAppSyncFunctionAB63F07E",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerylistUsersauth0FunctionQuerylistUsersauth0FunctionAppSyncFunctionA1FF61AB",
                                     "FunctionId"
                                   ]
@@ -2490,6 +2624,67 @@
                                 "name": "MutationcreateUserinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a183ddccbd956316c38ef97177b8f088ef0826f62023323f5ae6053d348ccffc.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationcreateUserpreAuth0Function": {
+                        "id": "MutationcreateUserpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.createUser.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.createUser.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserpreAuth0Function/Templateresolvers--Mutation.createUser.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserpreAuth0Function/Templateresolvers--Mutation.createUser.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserpreAuth0Function/Templateresolvers--Mutation.createUser.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationcreateUserpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationcreateUserpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationcreateUserpreAuth0Function/MutationcreateUserpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationcreateUserpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -2740,6 +2935,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationcreateUserpreAuth0FunctionMutationcreateUserpreAuth0FunctionAppSyncFunction7F885F8E",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationcreateUserauth0FunctionMutationcreateUserauth0FunctionAppSyncFunction30556A6C",
                                     "FunctionId"
                                   ]
@@ -2872,6 +3073,67 @@
                                 "name": "MutationupdateUserinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/06db846fd14e6fc371f22b12b5545ba8e2dbfeda85d8c8d586c71c282166657b.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationupdateUserpreAuth0Function": {
+                        "id": "MutationupdateUserpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.updateUser.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.updateUser.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserpreAuth0Function/Templateresolvers--Mutation.updateUser.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserpreAuth0Function/Templateresolvers--Mutation.updateUser.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserpreAuth0Function/Templateresolvers--Mutation.updateUser.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationupdateUserpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationupdateUserpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationupdateUserpreAuth0Function/MutationupdateUserpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationupdateUserpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -3153,6 +3415,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationupdateUserpreAuth0FunctionMutationupdateUserpreAuth0FunctionAppSyncFunction8073FE5C",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationupdateUserauth0FunctionMutationupdateUserauth0FunctionAppSyncFunctionDF95DA65",
                                     "FunctionId"
                                   ]
@@ -3237,6 +3505,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "MutationdeleteUserpreAuth0Function": {
+                        "id": "MutationdeleteUserpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.deleteUser.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.deleteUser.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserpreAuth0Function/Templateresolvers--Mutation.deleteUser.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserpreAuth0Function/Templateresolvers--Mutation.deleteUser.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserpreAuth0Function/Templateresolvers--Mutation.deleteUser.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationdeleteUserpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationdeleteUserpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/User/MutationdeleteUserpreAuth0Function/MutationdeleteUserpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationdeleteUserpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2c0f8a4d76f659d130c8a445801845ae9d33e5cc2c5ecd610edc272d4bd46e3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "MutationdeleteUserauth0Function": {
@@ -3497,6 +3826,12 @@
                             "kind": "PIPELINE",
                             "pipelineConfig": {
                               "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "MutationdeleteUserpreAuth0FunctionMutationdeleteUserpreAuth0FunctionAppSyncFunction0A75CEC7",
+                                    "FunctionId"
+                                  ]
+                                },
                                 {
                                   "Fn::GetAtt": [
                                     "MutationdeleteUserauth0FunctionMutationdeleteUserauth0FunctionAppSyncFunction9B900ACD",
@@ -4620,7 +4955,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/55faefdfcea9a359cfeea2dde8d7c8dbaaab1f4eae36f1c7caf1c3b276701222.json"
+                                  "/ae64027a0434456362eb8bf790b798a8423f1c01d1388431c9bd4517cb80ef1e.json"
                                 ]
                               ]
                             }
@@ -4974,6 +5309,67 @@
                           "version": "2.150.0"
                         }
                       },
+                      "QuerygetEventpreAuth0Function": {
+                        "id": "QuerygetEventpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerygetEventpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.getEvent.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.getEvent.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerygetEventpreAuth0Function/Templateresolvers--Query.getEvent.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerygetEventpreAuth0Function/Templateresolvers--Query.getEvent.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerygetEventpreAuth0Function/Templateresolvers--Query.getEvent.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerygetEventpreAuth0Function.AppSyncFunction": {
+                            "id": "QuerygetEventpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerygetEventpreAuth0Function/QuerygetEventpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerygetEventpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ffc597e18023b530e6afcbe02cee647d49550fa9e77bd06f1dee09d8b1be8de3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
                       "QuerygetEventauth0Function": {
                         "id": "QuerygetEventauth0Function",
                         "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerygetEventauth0Function",
@@ -5203,6 +5599,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerygetEventpreAuth0FunctionQuerygetEventpreAuth0FunctionAppSyncFunctionB2D20B1C",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerygetEventauth0FunctionQuerygetEventauth0FunctionAppSyncFunctionC3204A94",
                                     "FunctionId"
                                   ]
@@ -5287,6 +5689,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "QuerylistEventspreAuth0Function": {
+                        "id": "QuerylistEventspreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerylistEventspreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.listEvents.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.listEvents.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerylistEventspreAuth0Function/Templateresolvers--Query.listEvents.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerylistEventspreAuth0Function/Templateresolvers--Query.listEvents.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerylistEventspreAuth0Function/Templateresolvers--Query.listEvents.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerylistEventspreAuth0Function.AppSyncFunction": {
+                            "id": "QuerylistEventspreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/QuerylistEventspreAuth0Function/QuerylistEventspreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerylistEventspreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3e81312d4c75951808eda9fcd5f854c1925c0b819de0939f09c4fe2eebb190b8.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "QuerylistEventsauth0Function": {
@@ -5518,6 +5981,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerylistEventspreAuth0FunctionQuerylistEventspreAuth0FunctionAppSyncFunctionCB79CC10",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerylistEventsauth0FunctionQuerylistEventsauth0FunctionAppSyncFunctionD4D927FE",
                                     "FunctionId"
                                   ]
@@ -5650,6 +6119,67 @@
                                 "name": "MutationcreateEventinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a183ddccbd956316c38ef97177b8f088ef0826f62023323f5ae6053d348ccffc.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationcreateEventpreAuth0Function": {
+                        "id": "MutationcreateEventpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationcreateEventpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.createEvent.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.createEvent.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationcreateEventpreAuth0Function/Templateresolvers--Mutation.createEvent.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationcreateEventpreAuth0Function/Templateresolvers--Mutation.createEvent.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationcreateEventpreAuth0Function/Templateresolvers--Mutation.createEvent.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationcreateEventpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationcreateEventpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationcreateEventpreAuth0Function/MutationcreateEventpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationcreateEventpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -5900,6 +6430,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationcreateEventpreAuth0FunctionMutationcreateEventpreAuth0FunctionAppSyncFunction24325CB3",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationcreateEventauth0FunctionMutationcreateEventauth0FunctionAppSyncFunction8F6C6CF0",
                                     "FunctionId"
                                   ]
@@ -6032,6 +6568,67 @@
                                 "name": "MutationupdateEventinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/06db846fd14e6fc371f22b12b5545ba8e2dbfeda85d8c8d586c71c282166657b.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationupdateEventpreAuth0Function": {
+                        "id": "MutationupdateEventpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationupdateEventpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.updateEvent.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.updateEvent.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationupdateEventpreAuth0Function/Templateresolvers--Mutation.updateEvent.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationupdateEventpreAuth0Function/Templateresolvers--Mutation.updateEvent.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationupdateEventpreAuth0Function/Templateresolvers--Mutation.updateEvent.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationupdateEventpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationupdateEventpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationupdateEventpreAuth0Function/MutationupdateEventpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationupdateEventpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -6313,6 +6910,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationupdateEventpreAuth0FunctionMutationupdateEventpreAuth0FunctionAppSyncFunctionC680976C",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationupdateEventauth0FunctionMutationupdateEventauth0FunctionAppSyncFunctionE49A08BF",
                                     "FunctionId"
                                   ]
@@ -6397,6 +7000,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "MutationdeleteEventpreAuth0Function": {
+                        "id": "MutationdeleteEventpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationdeleteEventpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.deleteEvent.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.deleteEvent.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationdeleteEventpreAuth0Function/Templateresolvers--Mutation.deleteEvent.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationdeleteEventpreAuth0Function/Templateresolvers--Mutation.deleteEvent.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationdeleteEventpreAuth0Function/Templateresolvers--Mutation.deleteEvent.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationdeleteEventpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationdeleteEventpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Event/MutationdeleteEventpreAuth0Function/MutationdeleteEventpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationdeleteEventpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2c0f8a4d76f659d130c8a445801845ae9d33e5cc2c5ecd610edc272d4bd46e3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "MutationdeleteEventauth0Function": {
@@ -6657,6 +7321,12 @@
                             "kind": "PIPELINE",
                             "pipelineConfig": {
                               "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "MutationdeleteEventpreAuth0FunctionMutationdeleteEventpreAuth0FunctionAppSyncFunctionC0EDC562",
+                                    "FunctionId"
+                                  ]
+                                },
                                 {
                                   "Fn::GetAtt": [
                                     "MutationdeleteEventauth0FunctionMutationdeleteEventauth0FunctionAppSyncFunction48579C66",
@@ -7780,7 +8450,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/2fbf2528a40a3cab071970219b4aedb5e71823c69f6cb59413f3223aa84ad5c3.json"
+                                  "/355ee7cc19545c4b8e86baf4e07fa3b524a5182b53989a669947d004d0ed0c31.json"
                                 ]
                               ]
                             }
@@ -8134,6 +8804,67 @@
                           "version": "2.150.0"
                         }
                       },
+                      "QuerygetReservationpreAuth0Function": {
+                        "id": "QuerygetReservationpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerygetReservationpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.getReservation.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.getReservation.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerygetReservationpreAuth0Function/Templateresolvers--Query.getReservation.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerygetReservationpreAuth0Function/Templateresolvers--Query.getReservation.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerygetReservationpreAuth0Function/Templateresolvers--Query.getReservation.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerygetReservationpreAuth0Function.AppSyncFunction": {
+                            "id": "QuerygetReservationpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerygetReservationpreAuth0Function/QuerygetReservationpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerygetReservationpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ffc597e18023b530e6afcbe02cee647d49550fa9e77bd06f1dee09d8b1be8de3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
                       "QuerygetReservationauth0Function": {
                         "id": "QuerygetReservationauth0Function",
                         "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerygetReservationauth0Function",
@@ -8363,6 +9094,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerygetReservationpreAuth0FunctionQuerygetReservationpreAuth0FunctionAppSyncFunction4CE7C0E3",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerygetReservationauth0FunctionQuerygetReservationauth0FunctionAppSyncFunction6670AEDF",
                                     "FunctionId"
                                   ]
@@ -8447,6 +9184,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "QuerylistReservationspreAuth0Function": {
+                        "id": "QuerylistReservationspreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerylistReservationspreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.listReservations.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.listReservations.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerylistReservationspreAuth0Function/Templateresolvers--Query.listReservations.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerylistReservationspreAuth0Function/Templateresolvers--Query.listReservations.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerylistReservationspreAuth0Function/Templateresolvers--Query.listReservations.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerylistReservationspreAuth0Function.AppSyncFunction": {
+                            "id": "QuerylistReservationspreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/QuerylistReservationspreAuth0Function/QuerylistReservationspreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerylistReservationspreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3e81312d4c75951808eda9fcd5f854c1925c0b819de0939f09c4fe2eebb190b8.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "QuerylistReservationsauth0Function": {
@@ -8678,6 +9476,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerylistReservationspreAuth0FunctionQuerylistReservationspreAuth0FunctionAppSyncFunction9894C9DC",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerylistReservationsauth0FunctionQuerylistReservationsauth0FunctionAppSyncFunction4A23CB4B",
                                     "FunctionId"
                                   ]
@@ -8810,6 +9614,67 @@
                                 "name": "MutationcreateReservationinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a183ddccbd956316c38ef97177b8f088ef0826f62023323f5ae6053d348ccffc.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationcreateReservationpreAuth0Function": {
+                        "id": "MutationcreateReservationpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationcreateReservationpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.createReservation.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.createReservation.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationcreateReservationpreAuth0Function/Templateresolvers--Mutation.createReservation.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationcreateReservationpreAuth0Function/Templateresolvers--Mutation.createReservation.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationcreateReservationpreAuth0Function/Templateresolvers--Mutation.createReservation.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationcreateReservationpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationcreateReservationpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationcreateReservationpreAuth0Function/MutationcreateReservationpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationcreateReservationpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -9060,6 +9925,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationcreateReservationpreAuth0FunctionMutationcreateReservationpreAuth0FunctionAppSyncFunction8FBAF452",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationcreateReservationauth0FunctionMutationcreateReservationauth0FunctionAppSyncFunction325EE6A0",
                                     "FunctionId"
                                   ]
@@ -9192,6 +10063,67 @@
                                 "name": "MutationupdateReservationinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/06db846fd14e6fc371f22b12b5545ba8e2dbfeda85d8c8d586c71c282166657b.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationupdateReservationpreAuth0Function": {
+                        "id": "MutationupdateReservationpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationupdateReservationpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.updateReservation.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.updateReservation.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationupdateReservationpreAuth0Function/Templateresolvers--Mutation.updateReservation.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationupdateReservationpreAuth0Function/Templateresolvers--Mutation.updateReservation.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationupdateReservationpreAuth0Function/Templateresolvers--Mutation.updateReservation.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationupdateReservationpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationupdateReservationpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationupdateReservationpreAuth0Function/MutationupdateReservationpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationupdateReservationpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -9473,6 +10405,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationupdateReservationpreAuth0FunctionMutationupdateReservationpreAuth0FunctionAppSyncFunction41C3DCB9",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationupdateReservationauth0FunctionMutationupdateReservationauth0FunctionAppSyncFunction85B6CB38",
                                     "FunctionId"
                                   ]
@@ -9557,6 +10495,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "MutationdeleteReservationpreAuth0Function": {
+                        "id": "MutationdeleteReservationpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationdeleteReservationpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.deleteReservation.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.deleteReservation.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationdeleteReservationpreAuth0Function/Templateresolvers--Mutation.deleteReservation.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationdeleteReservationpreAuth0Function/Templateresolvers--Mutation.deleteReservation.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationdeleteReservationpreAuth0Function/Templateresolvers--Mutation.deleteReservation.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationdeleteReservationpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationdeleteReservationpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/Reservation/MutationdeleteReservationpreAuth0Function/MutationdeleteReservationpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationdeleteReservationpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2c0f8a4d76f659d130c8a445801845ae9d33e5cc2c5ecd610edc272d4bd46e3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "MutationdeleteReservationauth0Function": {
@@ -9817,6 +10816,12 @@
                             "kind": "PIPELINE",
                             "pipelineConfig": {
                               "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "MutationdeleteReservationpreAuth0FunctionMutationdeleteReservationpreAuth0FunctionAppSyncFunctionFBF91E14",
+                                    "FunctionId"
+                                  ]
+                                },
                                 {
                                   "Fn::GetAtt": [
                                     "MutationdeleteReservationauth0FunctionMutationdeleteReservationauth0FunctionAppSyncFunction31145750",
@@ -10940,7 +11945,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/a2d3c800c03a9a7c5a65ce6be7c602632739720b3f68b2f5516342e6626eee04.json"
+                                  "/dd08ce6f9354476e4e7684b9fb2417276645536bb5b37bf783ab6d86a5a4eb75.json"
                                 ]
                               ]
                             }
@@ -11294,6 +12299,67 @@
                           "version": "2.150.0"
                         }
                       },
+                      "QuerygetEventTimeSlotpreAuth0Function": {
+                        "id": "QuerygetEventTimeSlotpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerygetEventTimeSlotpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.getEventTimeSlot.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.getEventTimeSlot.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerygetEventTimeSlotpreAuth0Function/Templateresolvers--Query.getEventTimeSlot.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerygetEventTimeSlotpreAuth0Function/Templateresolvers--Query.getEventTimeSlot.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerygetEventTimeSlotpreAuth0Function/Templateresolvers--Query.getEventTimeSlot.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerygetEventTimeSlotpreAuth0Function.AppSyncFunction": {
+                            "id": "QuerygetEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerygetEventTimeSlotpreAuth0Function/QuerygetEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerygetEventTimeSlotpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ffc597e18023b530e6afcbe02cee647d49550fa9e77bd06f1dee09d8b1be8de3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
                       "QuerygetEventTimeSlotauth0Function": {
                         "id": "QuerygetEventTimeSlotauth0Function",
                         "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerygetEventTimeSlotauth0Function",
@@ -11523,6 +12589,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerygetEventTimeSlotpreAuth0FunctionQuerygetEventTimeSlotpreAuth0FunctionAppSyncFunction21306DAB",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerygetEventTimeSlotauth0FunctionQuerygetEventTimeSlotauth0FunctionAppSyncFunction7B6A0AE9",
                                     "FunctionId"
                                   ]
@@ -11607,6 +12679,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "QuerylistEventTimeSlotspreAuth0Function": {
+                        "id": "QuerylistEventTimeSlotspreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerylistEventTimeSlotspreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Query.listEventTimeSlots.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Query.listEventTimeSlots.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerylistEventTimeSlotspreAuth0Function/Templateresolvers--Query.listEventTimeSlots.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerylistEventTimeSlotspreAuth0Function/Templateresolvers--Query.listEventTimeSlots.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerylistEventTimeSlotspreAuth0Function/Templateresolvers--Query.listEventTimeSlots.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "QuerylistEventTimeSlotspreAuth0Function.AppSyncFunction": {
+                            "id": "QuerylistEventTimeSlotspreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/QuerylistEventTimeSlotspreAuth0Function/QuerylistEventTimeSlotspreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "QuerylistEventTimeSlotspreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3e81312d4c75951808eda9fcd5f854c1925c0b819de0939f09c4fe2eebb190b8.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "QuerylistEventTimeSlotsauth0Function": {
@@ -11838,6 +12971,12 @@
                               "functions": [
                                 {
                                   "Fn::GetAtt": [
+                                    "QuerylistEventTimeSlotspreAuth0FunctionQuerylistEventTimeSlotspreAuth0FunctionAppSyncFunction91D0C1F6",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "QuerylistEventTimeSlotsauth0FunctionQuerylistEventTimeSlotsauth0FunctionAppSyncFunction730E856F",
                                     "FunctionId"
                                   ]
@@ -11970,6 +13109,67 @@
                                 "name": "MutationcreateEventTimeSlotinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a183ddccbd956316c38ef97177b8f088ef0826f62023323f5ae6053d348ccffc.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationcreateEventTimeSlotpreAuth0Function": {
+                        "id": "MutationcreateEventTimeSlotpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationcreateEventTimeSlotpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.createEventTimeSlot.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.createEventTimeSlot.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationcreateEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.createEventTimeSlot.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationcreateEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.createEventTimeSlot.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationcreateEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.createEventTimeSlot.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationcreateEventTimeSlotpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationcreateEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationcreateEventTimeSlotpreAuth0Function/MutationcreateEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationcreateEventTimeSlotpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -12220,6 +13420,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationcreateEventTimeSlotpreAuth0FunctionMutationcreateEventTimeSlotpreAuth0FunctionAppSyncFunctionA5B91AD6",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationcreateEventTimeSlotauth0FunctionMutationcreateEventTimeSlotauth0FunctionAppSyncFunctionD4CA7453",
                                     "FunctionId"
                                   ]
@@ -12352,6 +13558,67 @@
                                 "name": "MutationupdateEventTimeSlotinit0Function",
                                 "requestMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/06db846fd14e6fc371f22b12b5545ba8e2dbfeda85d8c8d586c71c282166657b.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
+                        }
+                      },
+                      "MutationupdateEventTimeSlotpreAuth0Function": {
+                        "id": "MutationupdateEventTimeSlotpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationupdateEventTimeSlotpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.updateEventTimeSlot.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.updateEventTimeSlot.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationupdateEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.updateEventTimeSlot.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationupdateEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.updateEventTimeSlot.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationupdateEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.updateEventTimeSlot.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationupdateEventTimeSlotpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationupdateEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationupdateEventTimeSlotpreAuth0Function/MutationupdateEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationupdateEventTimeSlotpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
                                 },
                                 "responseMappingTemplate": "$util.toJson({})"
                               }
@@ -12633,6 +13900,12 @@
                                 },
                                 {
                                   "Fn::GetAtt": [
+                                    "MutationupdateEventTimeSlotpreAuth0FunctionMutationupdateEventTimeSlotpreAuth0FunctionAppSyncFunctionAB35011C",
+                                    "FunctionId"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
                                     "MutationupdateEventTimeSlotauth0FunctionMutationupdateEventTimeSlotauth0FunctionAppSyncFunctionA0429FCD",
                                     "FunctionId"
                                   ]
@@ -12717,6 +13990,67 @@
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_appsync.CfnResolver",
                           "version": "2.150.0"
+                        }
+                      },
+                      "MutationdeleteEventTimeSlotpreAuth0Function": {
+                        "id": "MutationdeleteEventTimeSlotpreAuth0Function",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationdeleteEventTimeSlotpreAuth0Function",
+                        "children": {
+                          "Templateresolvers--Mutation.deleteEventTimeSlot.preAuth.1.req.vtl": {
+                            "id": "Templateresolvers--Mutation.deleteEventTimeSlot.preAuth.1.req.vtl",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationdeleteEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.deleteEventTimeSlot.preAuth.1.req.vtl",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationdeleteEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.deleteEventTimeSlot.preAuth.1.req.vtl/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.150.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationdeleteEventTimeSlotpreAuth0Function/Templateresolvers--Mutation.deleteEventTimeSlot.preAuth.1.req.vtl/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.150.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.150.0"
+                            }
+                          },
+                          "MutationdeleteEventTimeSlotpreAuth0Function.AppSyncFunction": {
+                            "id": "MutationdeleteEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/EventTimeSlot/MutationdeleteEventTimeSlotpreAuth0Function/MutationdeleteEventTimeSlotpreAuth0Function.AppSyncFunction",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::AppSync::FunctionConfiguration",
+                              "aws:cdk:cloudformation:props": {
+                                "apiId": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId"
+                                },
+                                "dataSourceName": {
+                                  "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPINONEDS4340EAC2Name"
+                                },
+                                "functionVersion": "2018-05-29",
+                                "name": "MutationdeleteEventTimeSlotpreAuth0Function",
+                                "requestMappingTemplateS3Location": {
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2c0f8a4d76f659d130c8a445801845ae9d33e5cc2c5ecd610edc272d4bd46e3.vtl"
+                                },
+                                "responseMappingTemplate": "$util.toJson({})"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_appsync.CfnFunctionConfiguration",
+                              "version": "2.150.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.3.0"
                         }
                       },
                       "MutationdeleteEventTimeSlotauth0Function": {
@@ -12977,6 +14311,12 @@
                             "kind": "PIPELINE",
                             "pipelineConfig": {
                               "functions": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "MutationdeleteEventTimeSlotpreAuth0FunctionMutationdeleteEventTimeSlotpreAuth0FunctionAppSyncFunction5D432D8F",
+                                    "FunctionId"
+                                  ]
+                                },
                                 {
                                   "Fn::GetAtt": [
                                     "MutationdeleteEventTimeSlotauth0FunctionMutationdeleteEventTimeSlotauth0FunctionAppSyncFunction6981B6BF",
@@ -14100,7 +15440,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/48556ec3b98b9ef389b6ba70f44711a9f27b4673abe00298e07d9ba774052c5f.json"
+                                  "/b02d5ab0ba2726cc5549112009b14f4c7a41f8522ffd418c182e9c8369e43839.json"
                                 ]
                               ]
                             }
@@ -14253,7 +15593,7 @@
                                 "functionVersion": "2018-05-29",
                                 "name": "ReservationUserIdDataResolverFn",
                                 "requestMappingTemplateS3Location": {
-                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6d1b8025d4bba375908a89fbd0206a6617fe23f39e1bc067345949a26e821ee8.vtl"
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6a969d49b7721b68cdc179f4d442194d4b9ace81363574a91da84fe2ad038d7f.vtl"
                                 },
                                 "responseMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
@@ -14495,7 +15835,7 @@
                                 "functionVersion": "2018-05-29",
                                 "name": "ReservationEventIdDataResolverFn",
                                 "requestMappingTemplateS3Location": {
-                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c9d1c161ea5cc3e10e78e71b5f94f8d5f35ee95683b4eacab8d8d46291ddda5c.vtl"
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8c40429df800a18c75ea6422e9109fc4c1d7f297b2d0c8b73b88f39e30f08487.vtl"
                                 },
                                 "responseMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
@@ -14737,7 +16077,7 @@
                                 "functionVersion": "2018-05-29",
                                 "name": "EventTimeSlotEventDataResolverFn",
                                 "requestMappingTemplateS3Location": {
-                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a9db3a8ab89884a3f1132170f61c1e23f39d276beb4e48a6553834bc2876818c.vtl"
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/61892bb1bbc64c31f70416bbd420e506249a289d8fbfa2ed1964ac2cfeac332d.vtl"
                                 },
                                 "responseMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
@@ -14979,7 +16319,7 @@
                                 "functionVersion": "2018-05-29",
                                 "name": "UserReservationDataResolverFn",
                                 "requestMappingTemplateS3Location": {
-                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d6b1a9eafe9ce678863e81b64c97e3f24843422430a0e083458a27ce45747b.vtl"
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c4ec294f39b509ba4ba1f5b6b15d33aa4b72c21effd7bd5c65b59c6958fc88b7.vtl"
                                 },
                                 "responseMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
@@ -15221,7 +16561,7 @@
                                 "functionVersion": "2018-05-29",
                                 "name": "EventReservationDataResolverFn",
                                 "requestMappingTemplateS3Location": {
-                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4a90277fa25c4df3ae9266e7e4615f32c778649dc754346d6a6c45fb4b34eeb6.vtl"
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c4ec294f39b509ba4ba1f5b6b15d33aa4b72c21effd7bd5c65b59c6958fc88b7.vtl"
                                 },
                                 "responseMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
@@ -15463,7 +16803,7 @@
                                 "functionVersion": "2018-05-29",
                                 "name": "EventEventTimeSlotDataResolverFn",
                                 "requestMappingTemplateS3Location": {
-                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4a90277fa25c4df3ae9266e7e4615f32c778649dc754346d6a6c45fb4b34eeb6.vtl"
+                                  "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c4ec294f39b509ba4ba1f5b6b15d33aa4b72c21effd7bd5c65b59c6958fc88b7.vtl"
                                 },
                                 "responseMappingTemplateS3Location": {
                                   "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
@@ -15820,7 +17160,7 @@
                                   {
                                     "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                                   },
-                                  "/5ccad6f48353ad1f05748093adb44f84180080c9de461371e9bf7a8eb91aa53b.json"
+                                  "/deac7d5484bdda4bd9e47237a3798d4ef3f8a906d93460f54e540cb56baa2dd5.json"
                                 ]
                               ]
                             }
@@ -17920,7 +19260,7 @@
                           {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "/610d0f1a8bbe118be8105e72dc1cd15660852b457184bc0cec37b5c4de14d6c9.json"
+                          "/d3ffc7c796ca4c40beca408a0f1ab42af6cb0655c1b0d9f29365e92491fc09a2.json"
                         ]
                       ]
                     }
