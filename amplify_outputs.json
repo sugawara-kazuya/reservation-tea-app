@@ -65,13 +65,6 @@
               "isRequired": false,
               "attributes": []
             },
-            "userId": {
-              "name": "userId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": false,
-              "attributes": []
-            },
             "reservation": {
               "name": "reservation",
               "isArray": false,
@@ -83,7 +76,7 @@
               "association": {
                 "connectionType": "BELONGS_TO",
                 "targetNames": [
-                  "userId"
+                  "id"
                 ]
               }
             },
@@ -92,16 +85,14 @@
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             },
             "updatedAt": {
               "name": "updatedAt",
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             }
           },
           "syncable": true,
@@ -110,6 +101,14 @@
             {
               "type": "model",
               "properties": {}
+            },
+            {
+              "type": "key",
+              "properties": {
+                "fields": [
+                  "id"
+                ]
+              }
             },
             {
               "type": "auth",
@@ -201,13 +200,6 @@
               "isRequired": false,
               "attributes": []
             },
-            "eventId": {
-              "name": "eventId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": false,
-              "attributes": []
-            },
             "reservation": {
               "name": "reservation",
               "isArray": false,
@@ -219,7 +211,7 @@
               "association": {
                 "connectionType": "BELONGS_TO",
                 "targetNames": [
-                  "eventId"
+                  "id"
                 ]
               }
             },
@@ -234,7 +226,7 @@
               "association": {
                 "connectionType": "BELONGS_TO",
                 "targetNames": [
-                  "eventId"
+                  "id"
                 ]
               }
             },
@@ -243,16 +235,14 @@
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             },
             "updatedAt": {
               "name": "updatedAt",
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             }
           },
           "syncable": true,
@@ -261,6 +251,14 @@
             {
               "type": "model",
               "properties": {}
+            },
+            {
+              "type": "key",
+              "properties": {
+                "fields": [
+                  "id"
+                ]
+              }
             },
             {
               "type": "auth",
@@ -308,7 +306,7 @@
               "association": {
                 "connectionType": "HAS_MANY",
                 "associatedWith": [
-                  "userId"
+                  "id"
                 ]
               }
             },
@@ -324,7 +322,7 @@
               "association": {
                 "connectionType": "HAS_MANY",
                 "associatedWith": [
-                  "eventId"
+                  "id"
                 ]
               }
             },
@@ -361,16 +359,14 @@
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             },
             "updatedAt": {
               "name": "updatedAt",
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             }
           },
           "syncable": true,
@@ -379,6 +375,14 @@
             {
               "type": "model",
               "properties": {}
+            },
+            {
+              "type": "key",
+              "properties": {
+                "fields": [
+                  "id"
+                ]
+              }
             },
             {
               "type": "auth",
@@ -426,7 +430,7 @@
               "association": {
                 "connectionType": "HAS_MANY",
                 "associatedWith": [
-                  "eventId"
+                  "id"
                 ]
               }
             },
@@ -456,16 +460,14 @@
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             },
             "updatedAt": {
               "name": "updatedAt",
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
+              "attributes": []
             }
           },
           "syncable": true,
@@ -474,6 +476,14 @@
             {
               "type": "model",
               "properties": {}
+            },
+            {
+              "type": "key",
+              "properties": {
+                "fields": [
+                  "id"
+                ]
+              }
             },
             {
               "type": "auth",
