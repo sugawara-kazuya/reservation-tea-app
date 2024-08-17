@@ -67,15 +67,16 @@
             },
             "reservation": {
               "name": "reservation",
-              "isArray": false,
+              "isArray": true,
               "type": {
                 "model": "Reservation"
               },
               "isRequired": false,
               "attributes": [],
+              "isArrayNullable": true,
               "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
                   "id"
                 ]
               }
@@ -202,30 +203,32 @@
             },
             "reservation": {
               "name": "reservation",
-              "isArray": false,
+              "isArray": true,
               "type": {
                 "model": "Reservation"
               },
               "isRequired": false,
               "attributes": [],
+              "isArrayNullable": true,
               "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
                   "id"
                 ]
               }
             },
             "eventTimeSlot": {
               "name": "eventTimeSlot",
-              "isArray": false,
+              "isArray": true,
               "type": {
                 "model": "EventTimeSlot"
               },
               "isRequired": false,
               "attributes": [],
+              "isArrayNullable": true,
               "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
                   "id"
                 ]
               }
@@ -294,34 +297,32 @@
               "isRequired": true,
               "attributes": []
             },
-            "userId": {
-              "name": "userId",
-              "isArray": true,
+            "user": {
+              "name": "user",
+              "isArray": false,
               "type": {
                 "model": "User"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
               "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
                   "id"
                 ]
               }
             },
-            "eventId": {
-              "name": "eventId",
-              "isArray": true,
+            "event": {
+              "name": "event",
+              "isArray": false,
               "type": {
                 "model": "Event"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
               "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
                   "id"
                 ]
               }
@@ -420,16 +421,15 @@
             },
             "event": {
               "name": "event",
-              "isArray": true,
+              "isArray": false,
               "type": {
                 "model": "Event"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
               "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
                   "id"
                 ]
               }
