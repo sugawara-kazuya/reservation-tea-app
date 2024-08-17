@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fc147659d229d3f14b6259a84c422f37854b8958f61cfd04eccb5c7e21154592.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5667ed2ea274da14221119eea23de078d49484fe95742287cc3a97128a4f8046.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -2509,6 +2509,96 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "awsAppsyncAdditionalAuthenticationTypes"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/tea/Bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "teaBucket26470CB4"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/tea/Bucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "teaBucketPolicyFCDAB534"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/tea/Bucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "teaBucketAutoDeleteObjectsCustomResourceB5610C4B"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/LatestNodeRuntimeMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LatestNodeRuntimeMap"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/TEA_BUCKET_NAMEParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TEABUCKETNAMEParameter4B80962C"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/storageAccess1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "storageAccess1509137B9"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/amplifymoshimojirootsandbox1c0e761023storageteaBucket3B5EF348Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifymoshimojirootsandbox1c0e761023storageteaBucket3B5EF348Ref"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage.NestedStack/storage.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "storage0EC3F24A"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storageRegion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "storageRegion"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/bucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bucketName"
           }
         ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/CDKMetadata/Default": [
