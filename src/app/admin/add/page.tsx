@@ -1,31 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { generateClient } from "aws-amplify/data";
 import { uploadData } from "aws-amplify/storage";
 import type { Schema } from "@/amplify";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Amplify } from "aws-amplify";
-import outputs from "@/output";
+import { useRouter } from "next/navigation"; // useRouterをインポート
 
-Amplify.configure(outputs);
-
+// Amplifyのクライアントを生成
 const client = generateClient<Schema>();
 
 type TimeSlot = {
-  id: string;
   startTime: string;
-  maxParticipants: number;
+  duration: string;
 };
 
-export default function EventDetail() {
-  const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
-  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
+export default function CreateComponent() {
   const [teaPartyName, setTeaPartyName] = useState("");
   const [visibility, setVisibility] = useState(true);
   const [venue, setVenue] = useState("");
@@ -34,69 +28,15 @@ export default function EventDetail() {
   const [currentParticipants, setCurrentParticipants] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([
+    { startTime: "10:00", duration: "10" },
+  ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState("");
-  const router = useRouter();
-  const params = useParams();
-  const eventId = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  useEffect(() => {
-    if (eventId) {
-      console.log("Fetching event with ID:", eventId);
-      fetchEvent(eventId);
-    } else {
-      console.error("No eventId found in URL");
-    }
-  }, [eventId]);
-
-  const fetchEvent = async (eventId: string) => {
-    try {
-      const { data, errors } = await client.models.Event.get({ id: eventId });
-      if (errors) {
-        console.error("Error fetching event:", errors);
-        return;
-      }
-      setEvent(data);
-      setTeaPartyName(data?.title || "");
-      setVisibility(data?.isActive || false);
-      setVenue(data?.venue || "");
-      setCost(data?.cost?.toString() || "");
-      setMaxParticipants(data?.maxParticipants?.toString() || "");
-      setCurrentParticipants(data?.currentParticipants?.toString() || "");
-      setDate(data?.date || "");
-      setDescription(data?.description || "");
-      setImageUrl(data?.imageUrl || "");
-
-      if (data && typeof data.eventTimeSlots === "function") {
-        const timeSlotResult = await data.eventTimeSlots();
-        const slots: TimeSlot[] =
-          timeSlotResult?.data?.map((slot) => ({
-            id: slot.id ?? "",
-            startTime: slot.timeSlot ?? "",
-            maxParticipants: slot.maxParticipants || 0,
-          })) || [];
-
-        // startTimeで時間順にソート
-        slots.sort((a, b) => {
-          const timeA = parseInt(a.startTime.replace(":", ""), 10);
-          const timeB = parseInt(b.startTime.replace(":", ""), 10);
-          return timeA - timeB;
-        });
-
-        setTimeSlots(slots);
-      }
-    } catch (error) {
-      console.error("Unexpected error fetching event:", error);
-    }
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    setSelectedFile(file);
-  };
+  const router = useRouter(); // useRouterのインスタンスを作成
 
   const handleAddTimeSlot = () => {
-    setTimeSlots([...timeSlots, { id: "", startTime: "", maxParticipants: 0 }]);
+    setTimeSlots([...timeSlots, { startTime: "", duration: "" }]);
   };
 
   const handleRemoveTimeSlot = (index: number) => {
@@ -109,114 +49,93 @@ export default function EventDetail() {
     value: string
   ) => {
     const updatedTimeSlots = timeSlots.map((slot, i) =>
-      i === index
-        ? {
-            ...slot,
-            [field]: field === "maxParticipants" ? parseInt(value, 10) : value,
-          }
-        : slot
+      i === index ? { ...slot, [field]: value } : slot
     );
-
-    // 更新後に時間順にソート
-    updatedTimeSlots.sort((a, b) => {
-      const timeA = parseInt(a.startTime.replace(":", ""), 10);
-      const timeB = parseInt(b.startTime.replace(":", ""), 10);
-      return timeA - timeB;
-    });
-
     setTimeSlots(updatedTimeSlots);
   };
 
-  const handleUpdate = async () => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setSelectedFile(file);
+  };
+
+  const handleCreate = async () => {
     try {
-      let updatedImageUrl = imageUrl;
+      let imageUrl = "";
       const baseUrl =
         "https://amplify-moshimoji-root-sandbox-1-teabucket26470cb4-m9df2bygeb2t.s3.ap-northeast-1.amazonaws.com/";
 
       if (selectedFile) {
+        // ファイルをアップロード
         const path = `event/${selectedFile.name}`;
         await uploadData({
           path,
           data: selectedFile,
         });
-        updatedImageUrl = baseUrl + path;
+        imageUrl = baseUrl + path; // アップロードされたファイルのパスにリンクを追加
       }
 
-      const { errors } = await client.models.Event.update({
-        id: eventId,
-        title: teaPartyName,
-        venue,
-        date: event?.date,
-        cost: parseInt(cost, 10),
-        description,
-        imageUrl: updatedImageUrl,
-        maxParticipants: parseInt(maxParticipants, 10),
-        currentParticipants: parseInt(currentParticipants, 10),
-        isActive: visibility,
-      });
+      // Eventを作成
+      const { data: createdEvent, errors: eventErrors } =
+        await client.models.Event.create({
+          title: teaPartyName,
+          venue,
+          date,
+          cost: parseInt(cost, 10),
+          description,
+          imageUrl: imageUrl, // アップロードされたファイルのURLを設定
+          maxParticipants: parseInt(maxParticipants, 10),
+          currentParticipants: parseInt(currentParticipants, 10),
+          isActive: visibility,
+        });
 
-      if (errors) {
-        console.error("Error updating event:", errors);
+      if (eventErrors) {
+        console.error("Error creating event:", eventErrors);
         return;
       }
 
+      // EventTimeSlotを作成
       for (const slot of timeSlots) {
-        if (slot.id) {
-          const { errors: timeSlotErrors } =
-            await client.models.EventTimeSlot.update({
-              id: slot.id,
-              eventId: eventId,
-              timeSlot: slot.startTime,
-              maxParticipants: slot.maxParticipants,
-              currentParticipants: 0,
-            });
+        const { data: createdTimeSlot, errors: timeSlotErrors } =
+          await client.models.EventTimeSlot.create({
+            eventId: createdEvent?.id,
+            timeSlot: slot.startTime,
+            maxParticipants: parseInt(maxParticipants, 10),
+            currentParticipants: 0,
+          });
 
-          if (timeSlotErrors) {
-            console.error("Error updating time slot:", timeSlotErrors);
-          }
-        } else {
-          const { errors: timeSlotErrors } =
-            await client.models.EventTimeSlot.create({
-              eventId: eventId,
-              timeSlot: slot.startTime,
-              maxParticipants: slot.maxParticipants,
-              currentParticipants: 0,
-            });
-
-          if (timeSlotErrors) {
-            console.error("Error creating time slot:", timeSlotErrors);
-          }
+        if (timeSlotErrors) {
+          console.error("Error creating time slot:", timeSlotErrors);
         }
       }
 
-      console.log("Event and time slots updated successfully");
+      console.log("Event and time slots created successfully");
+
+      // 作成完了後に/adminにリダイレクト
       router.push("/admin");
     } catch (error) {
-      console.error("Failed to update event or time slots:", error);
+      console.error("Failed to create event or time slots:", error);
     }
   };
-
-  if (!event) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="flex items-center mb-6">
         <ArrowLeftIcon
           className="w-6 h-6 cursor-pointer"
-          onClick={() => router.back()}
+          onClick={() => window.history.back()}
         />
-        <h1 className="text-xl font-bold ml-2">お茶会詳細</h1>
+        <h1 className="text-xl font-bold ml-2">お茶会作成</h1>
       </div>
       <p className="text-muted-foreground mb-6">
-        お茶会の情報を編集することができます。
+        新しいお茶会の情報を入力してください。
       </p>
       <div className="space-y-6">
         <div>
           <Label htmlFor="tea-party-name">お茶会名</Label>
           <Input
             id="tea-party-name"
+            placeholder="例: 七夕茶会"
             value={teaPartyName}
             onChange={(e) => setTeaPartyName(e.target.value)}
           />
@@ -233,6 +152,7 @@ export default function EventDetail() {
           <Label htmlFor="venue">会場</Label>
           <Input
             id="venue"
+            placeholder="例: 紅葉園"
             value={venue}
             onChange={(e) => setVenue(e.target.value)}
           />
@@ -241,6 +161,7 @@ export default function EventDetail() {
           <Label htmlFor="cost">一人当たりの参加費用</Label>
           <Input
             id="cost"
+            placeholder="例: 1000"
             value={cost}
             onChange={(e) => setCost(e.target.value)}
           />
@@ -249,6 +170,7 @@ export default function EventDetail() {
           <Label htmlFor="max-participants">最大参加人数</Label>
           <Input
             id="max-participants"
+            placeholder="例: 60"
             value={maxParticipants}
             onChange={(e) => setMaxParticipants(e.target.value)}
           />
@@ -257,12 +179,13 @@ export default function EventDetail() {
           <Label htmlFor="current-participants">現在の参加人数</Label>
           <Input
             id="current-participants"
+            placeholder="例: 0"
             value={currentParticipants}
             onChange={(e) => setCurrentParticipants(e.target.value)}
           />
         </div>
         <div>
-          <Label htmlFor="image-upload">画像の編集</Label>
+          <Label htmlFor="image-upload">画像の選択</Label>
           <input
             type="file"
             id="image-upload"
@@ -276,14 +199,12 @@ export default function EventDetail() {
           >
             {selectedFile ? selectedFile.name : "ファイルを選択"}
           </Button>
-          {imageUrl && (
-            <img src={imageUrl} alt="Event Image" className="mt-4 rounded-lg" />
-          )}
         </div>
         <div>
           <Label htmlFor="date">日にち</Label>
           <Input
             id="date"
+            placeholder="例: 2024年7月30日"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
@@ -303,13 +224,9 @@ export default function EventDetail() {
                 />
                 <Input
                   placeholder="10"
-                  value={slot.maxParticipants.toString()}
+                  value={slot.duration}
                   onChange={(e) =>
-                    handleChangeTimeSlot(
-                      index,
-                      "maxParticipants",
-                      e.target.value
-                    )
+                    handleChangeTimeSlot(index, "duration", e.target.value)
                   }
                   className="w-1/3"
                 />
@@ -335,6 +252,7 @@ export default function EventDetail() {
           <Label htmlFor="description">お茶会の説明</Label>
           <Textarea
             id="description"
+            placeholder="例: 各席8〜12名（45分）どなたでも参加いただけます。（服装自由）"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="min-h-[100px]"
@@ -342,9 +260,9 @@ export default function EventDetail() {
         </div>
         <Button
           className="w-full bg-green-500 text-white"
-          onClick={handleUpdate}
+          onClick={handleCreate}
         >
-          編集完了
+          作成完了
         </Button>
       </div>
     </div>

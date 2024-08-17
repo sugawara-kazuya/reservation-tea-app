@@ -42,6 +42,13 @@
     "amplifyApiModelSchemaS3Uri",
     "awsAppsyncAdditionalAuthenticationTypes"
    ]
+  },
+  "AWS::Amplify::Storage": {
+   "version": "1",
+   "stackOutputs": [
+    "storageRegion",
+    "bucketName"
+   ]
   }
  },
  "Outputs": {
@@ -195,6 +202,19 @@
   },
   "awsAppsyncAdditionalAuthenticationTypes": {
    "Value": "AMAZON_COGNITO_USER_POOLS"
+  },
+  "storageRegion": {
+   "Value": {
+    "Ref": "AWS::Region"
+   }
+  },
+  "bucketName": {
+   "Value": {
+    "Fn::GetAtt": [
+     "storage0EC3F24A",
+     "Outputs.amplifymoshimojirootsandbox1c0e761023storageteaBucket3B5EF348Ref"
+    ]
+   }
   }
  },
  "Resources": {
@@ -305,6 +325,56 @@
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data.NestedStack/data.NestedStackResource",
     "aws:asset:path": "amplifymoshimojirootsandbox1c0e761023data3AAAE83D.nested.template.json",
+    "aws:asset:property": "TemplateURL"
+   }
+  },
+  "storage0EC3F24A": {
+   "Type": "AWS::CloudFormation::Stack",
+   "Properties": {
+    "Parameters": {
+     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": {
+      "Fn::GetAtt": [
+       "auth179371D7",
+       "Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+      ]
+     }
+    },
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ],
+    "TemplateURL": {
+     "Fn::Join": [
+      "",
+      [
+       "https://s3.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".",
+       {
+        "Ref": "AWS::URLSuffix"
+       },
+       "/",
+       {
+        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+       },
+       "/fbc3c9f94bb7398381101f072c451f4d90a39f43f69648af518e60fbad078fd9.json"
+      ]
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/storage.NestedStack/storage.NestedStackResource",
+    "aws:asset:path": "amplifymoshimojirootsandbox1c0e761023storage1BE3A6D7.nested.template.json",
     "aws:asset:property": "TemplateURL"
    }
   },
