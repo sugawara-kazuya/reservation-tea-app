@@ -4,7 +4,15 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { generateClient } from "aws-amplify/data";
 import { uploadData } from "aws-amplify/storage";
-import type { Schema } from "@/amplify";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { ja } from "date-fns/locale";
+import TimePicker from "react-time-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -12,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import type { Schema } from "@/amplify";
 
 Amplify.configure(outputs);
 
@@ -26,13 +35,14 @@ type TimeSlot = {
 export default function EventDetail() {
   const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
+  const [deletedTimeSlots, setDeletedTimeSlots] = useState<string[]>([]);
   const [teaPartyName, setTeaPartyName] = useState("");
   const [visibility, setVisibility] = useState(true);
   const [venue, setVenue] = useState("");
   const [cost, setCost] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
   const [currentParticipants, setCurrentParticipants] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -63,9 +73,12 @@ export default function EventDetail() {
       setCost(data?.cost?.toString() || "");
       setMaxParticipants(data?.maxParticipants?.toString() || "");
       setCurrentParticipants(data?.currentParticipants?.toString() || "");
-      setDate(data?.date || "");
       setDescription(data?.description || "");
       setImageUrl(data?.imageUrl || "");
+
+      if (data?.date) {
+        setDate(new Date(data.date));
+      }
 
       if (data && typeof data.eventTimeSlots === "function") {
         const timeSlotResult = await data.eventTimeSlots();
@@ -76,7 +89,6 @@ export default function EventDetail() {
             maxParticipants: slot.maxParticipants || 0,
           })) || [];
 
-        // startTimeで時間順にソート
         slots.sort((a, b) => {
           const timeA = parseInt(a.startTime.replace(":", ""), 10);
           const timeB = parseInt(b.startTime.replace(":", ""), 10);
@@ -100,6 +112,12 @@ export default function EventDetail() {
   };
 
   const handleRemoveTimeSlot = (index: number) => {
+    const slotToRemove = timeSlots[index];
+
+    if (slotToRemove.id) {
+      setDeletedTimeSlots((prev) => [...prev, slotToRemove.id]);
+    }
+
     setTimeSlots(timeSlots.filter((_, i) => i !== index));
   };
 
@@ -117,7 +135,6 @@ export default function EventDetail() {
         : slot
     );
 
-    // 更新後に時間順にソート
     updatedTimeSlots.sort((a, b) => {
       const timeA = parseInt(a.startTime.replace(":", ""), 10);
       const timeB = parseInt(b.startTime.replace(":", ""), 10);
@@ -130,8 +147,11 @@ export default function EventDetail() {
   const handleUpdate = async () => {
     try {
       let updatedImageUrl = imageUrl;
+      // const baseUrl =
+      //   "https://amplify-moshimoji-root-sandbox-1-teabucket26470cb4-m9df2bygeb2t.s3.ap-northeast-1.amazonaws.com/";
+      // dev
       const baseUrl =
-        "https://amplify-moshimoji-root-sandbox-1-teabucket26470cb4-m9df2bygeb2t.s3.ap-northeast-1.amazonaws.com/";
+        "https://amplify-d2zzbrnh9ajitz-dev-branc-teabucket26470cb4-ttvps8lvvdyb .s3.ap-northeast-1.amazonaws.com/";
 
       if (selectedFile) {
         const path = `event/${selectedFile.name}`;
@@ -142,11 +162,15 @@ export default function EventDetail() {
         updatedImageUrl = baseUrl + path;
       }
 
+      const formattedDate = date
+        ? format(date, "M月d日（EEE）", { locale: ja })
+        : "";
+
       const { errors } = await client.models.Event.update({
         id: eventId,
         title: teaPartyName,
         venue,
-        date: event?.date,
+        date: formattedDate,
         cost: parseInt(cost, 10),
         description,
         imageUrl: updatedImageUrl,
@@ -186,6 +210,19 @@ export default function EventDetail() {
           if (timeSlotErrors) {
             console.error("Error creating time slot:", timeSlotErrors);
           }
+        }
+      }
+
+      for (const slotId of deletedTimeSlots) {
+        const { errors: deleteErrors } =
+          await client.models.EventTimeSlot.delete({
+            id: slotId,
+          });
+
+        if (deleteErrors) {
+          console.error("Error deleting time slot:", deleteErrors);
+        } else {
+          console.log("Time slot deleted successfully:", slotId);
         }
       }
 
@@ -262,47 +299,49 @@ export default function EventDetail() {
           />
         </div>
         <div>
-          <Label htmlFor="image-upload">画像の編集</Label>
-          <input
-            type="file"
-            id="image-upload"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-          <Button
-            variant="outline"
-            className="w-full mt-2"
-            onClick={() => document.getElementById("image-upload")?.click()}
-          >
-            {selectedFile ? selectedFile.name : "ファイルを選択"}
-          </Button>
-          {imageUrl && (
-            <img src={imageUrl} alt="Event Image" className="mt-4 rounded-lg" />
-          )}
-        </div>
-        <div>
           <Label htmlFor="date">日にち</Label>
-          <Input
-            id="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full">
+                {date
+                  ? format(date, "M月d日（EEE）", { locale: ja })
+                  : "日付を選択"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[300px] p-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="rounded-md border"
+              />
+            </PopoverContent>
+          </Popover>
         </div>
         <div>
           <Label>時間の管理</Label>
           <div className="space-y-2">
             {timeSlots.map((slot, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <Input
-                  placeholder="10:00"
-                  value={slot.startTime}
-                  onChange={(e) =>
-                    handleChangeTimeSlot(index, "startTime", e.target.value)
-                  }
-                  className="w-1/3"
-                />
-                <Input
-                  placeholder="10"
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-1/3">
+                      {slot.startTime ? slot.startTime : "時間を選択"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[350px] p-0">
+                    <TimePicker
+                      onChange={(value) =>
+                        handleChangeTimeSlot(index, "startTime", value || "")
+                      }
+                      value={slot.startTime}
+                      disableClock={true}
+                      clearIcon={null}
+                      className="w-full p-2 rounded-md border"
+                    />
+                  </PopoverContent>
+                </Popover>
+                <select
                   value={slot.maxParticipants.toString()}
                   onChange={(e) =>
                     handleChangeTimeSlot(
@@ -311,8 +350,14 @@ export default function EventDetail() {
                       e.target.value
                     )
                   }
-                  className="w-1/3"
-                />
+                  className="w-1/3 p-2 border rounded-md pr-6" // アイコンを左に移動するために右側に余白を追加
+                >
+                  {Array.from({ length: 30 }, (_, i) => i + 1).map((num) => (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  ))}
+                </select>
                 <Button
                   variant="outline"
                   className="w-10 h-10"
@@ -339,6 +384,25 @@ export default function EventDetail() {
             onChange={(e) => setDescription(e.target.value)}
             className="min-h-[100px]"
           />
+        </div>
+        <div>
+          <Label htmlFor="image-upload">画像の編集</Label>
+          <input
+            type="file"
+            id="image-upload"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <Button
+            variant="outline"
+            className="w-full mt-2"
+            onClick={() => document.getElementById("image-upload")?.click()}
+          >
+            {selectedFile ? selectedFile.name : "ファイルを選択"}
+          </Button>
+          {imageUrl && (
+            <img src={imageUrl} alt="Event Image" className="mt-4 rounded-lg" />
+          )}
         </div>
         <Button
           className="w-full bg-green-500 text-white"
@@ -376,16 +440,16 @@ function MinusIcon(props: React.SVGProps<SVGSVGElement>) {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="5"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M5 12h14" />
+      <path d="M2 12h20" />
     </svg>
   );
 }
@@ -395,8 +459,8 @@ function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width="20"
+      height="20"
       viewBox="0 0 24"
       fill="none"
       stroke="currentColor"
