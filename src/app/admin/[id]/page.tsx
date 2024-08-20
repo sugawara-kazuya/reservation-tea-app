@@ -21,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
 import type { Schema } from "@/amplify";
+import { parse } from "date-fns";
 
 Amplify.configure(outputs);
 
@@ -75,7 +76,12 @@ export default function EventDetail() {
         setCurrentParticipants(data.currentParticipants?.toString() || "");
         setDescription(data.description || "");
         setImageUrl(data.imageUrl || "");
-        setDate(data.date ? new Date(data.date) : null);
+
+        // 日付をパースしてDateオブジェクトに変換
+        const eventDate = data.date
+          ? parse(data.date, "yyyy年M月d日(EEE)", new Date(), { locale: ja })
+          : null;
+        setDate(eventDate);
 
         const timeSlotResult = await data.eventTimeSlots();
         const slots: TimeSlot[] =

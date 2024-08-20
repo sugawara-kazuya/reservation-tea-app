@@ -64,16 +64,73 @@ export default function Component() {
     }
 
     try {
-      const { data: reservationData, errors } =
+      // 予約情報の取得
+      const { data: reservationData, errors: reservationErrors } =
         await client.models.Reservation.get({
           id: reservationId,
         });
 
-      if (errors || !reservationData) {
+      if (reservationErrors || !reservationData) {
         setError("予約情報が見つかりません。");
         return;
       }
 
+      // participantsがnullの場合は0をデフォルト値として設定
+      const participants = reservationData.participants ?? 0;
+
+      // Event IDがnullでないことを確認
+      const eventId = reservationData.eventId;
+      if (!eventId) {
+        setError("イベントIDが見つかりません。");
+        return;
+      }
+
+      // Eventの人数を更新
+      const { data: eventData, errors: eventErrors } =
+        await client.models.Event.get({
+          id: eventId,
+        });
+
+      if (eventErrors || !eventData) {
+        setError("イベント情報の取得に失敗しました。");
+        return;
+      }
+
+      const updatedEvent = {
+        ...eventData,
+        currentParticipants:
+          (eventData.currentParticipants ?? 0) - participants,
+      };
+
+      await client.models.Event.update(updatedEvent);
+
+      // EventTimeSlotのデータを取得して人数を減算
+      const { data: timeSlotsData, errors: timeSlotsErrors } =
+        await client.models.EventTimeSlot.list({
+          filter: {
+            eventId: {
+              eq: eventId, // eventIdがstring型として使用される
+            },
+          },
+        });
+
+      if (timeSlotsErrors || !timeSlotsData) {
+        setError("時間スロット情報の取得に失敗しました。");
+        return;
+      }
+
+      // 単に最初のスロットを選んで更新する例
+      if (timeSlotsData.length > 0) {
+        const updatedTimeSlot = {
+          ...timeSlotsData[0],
+          currentParticipants:
+            (timeSlotsData[0].currentParticipants ?? 0) - participants,
+        };
+
+        await client.models.EventTimeSlot.update(updatedTimeSlot);
+      }
+
+      // 予約の削除
       await client.models.Reservation.delete({
         id: reservationId,
       });
