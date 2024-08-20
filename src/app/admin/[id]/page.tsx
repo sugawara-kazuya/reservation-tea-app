@@ -42,7 +42,7 @@ export default function EventDetail() {
   const [cost, setCost] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
   const [currentParticipants, setCurrentParticipants] = useState("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | null>(null);
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -52,7 +52,6 @@ export default function EventDetail() {
 
   useEffect(() => {
     if (eventId) {
-      console.log("Fetching event with ID:", eventId);
       fetchEvent(eventId);
     } else {
       console.error("No eventId found in URL");
@@ -66,21 +65,18 @@ export default function EventDetail() {
         console.error("Error fetching event:", errors);
         return;
       }
-      setEvent(data);
-      setTeaPartyName(data?.title || "");
-      setVisibility(data?.isActive || false);
-      setVenue(data?.venue || "");
-      setCost(data?.cost?.toString() || "");
-      setMaxParticipants(data?.maxParticipants?.toString() || "");
-      setCurrentParticipants(data?.currentParticipants?.toString() || "");
-      setDescription(data?.description || "");
-      setImageUrl(data?.imageUrl || "");
+      if (data) {
+        setEvent(data);
+        setTeaPartyName(data.title || "");
+        setVisibility(data.isActive || false);
+        setVenue(data.venue || "");
+        setCost(data.cost?.toString() || "");
+        setMaxParticipants(data.maxParticipants?.toString() || "");
+        setCurrentParticipants(data.currentParticipants?.toString() || "");
+        setDescription(data.description || "");
+        setImageUrl(data.imageUrl || "");
+        setDate(data.date ? new Date(data.date) : null);
 
-      if (data?.date) {
-        setDate(new Date(data.date));
-      }
-
-      if (data && typeof data.eventTimeSlots === "function") {
         const timeSlotResult = await data.eventTimeSlots();
         const slots: TimeSlot[] =
           timeSlotResult?.data?.map((slot) => ({
@@ -113,11 +109,9 @@ export default function EventDetail() {
 
   const handleRemoveTimeSlot = (index: number) => {
     const slotToRemove = timeSlots[index];
-
     if (slotToRemove.id) {
       setDeletedTimeSlots((prev) => [...prev, slotToRemove.id]);
     }
-
     setTimeSlots(timeSlots.filter((_, i) => i !== index));
   };
 
@@ -147,9 +141,6 @@ export default function EventDetail() {
   const handleUpdate = async () => {
     try {
       let updatedImageUrl = imageUrl;
-      // const baseUrl =
-      //   "https://amplify-moshimoji-root-sandbox-1-teabucket26470cb4-m9df2bygeb2t.s3.ap-northeast-1.amazonaws.com/";
-      // dev
       const baseUrl =
         "https://amplify-d2zzbrnh9ajitz-dev-branc-teabucket26470cb4-ttvps8lvvdyb.s3.ap-northeast-1.amazonaws.com/";
 
@@ -163,7 +154,7 @@ export default function EventDetail() {
       }
 
       const formattedDate = date
-        ? format(date, "M月d日（EEE）", { locale: ja })
+        ? format(date, "yyyy年M月d日(EEE)", { locale: ja })
         : "";
 
       const { errors } = await client.models.Event.update({
@@ -303,16 +294,19 @@ export default function EventDetail() {
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full">
-                {date
-                  ? format(date, "M月d日（EEE）", { locale: ja })
+                {date instanceof Date && !isNaN(date.getTime())
+                  ? format(date, "yyyy年M月d日(EEE)", { locale: ja })
                   : "日付を選択"}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[300px] p-0">
               <Calendar
                 mode="single"
-                selected={date}
-                onSelect={setDate}
+                selected={date || undefined}
+                onSelect={(selectedDate) => {
+                  console.log("Selected Date:", selectedDate); // デバッグログを追加
+                  setDate(selectedDate ?? null);
+                }}
                 className="rounded-md border"
               />
             </PopoverContent>
@@ -350,7 +344,7 @@ export default function EventDetail() {
                       e.target.value
                     )
                   }
-                  className="w-1/3 p-2 border rounded-md pr-6" // アイコンを左に移動するために右側に余白を追加
+                  className="w-1/3 p-2 border rounded-md pr-6"
                 >
                   {Array.from({ length: 30 }, (_, i) => i + 1).map((num) => (
                     <option key={num} value={num}>

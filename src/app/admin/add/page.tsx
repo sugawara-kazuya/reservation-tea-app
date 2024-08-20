@@ -92,12 +92,17 @@ export default function CreateComponent() {
         imageUrl = baseUrl + path; // アップロードされたファイルのパスにリンクを追加
       }
 
+      // 日付を指定の形式でフォーマット
+      const formattedDate = date
+        ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
+        : "";
+
       // Eventを作成
       const { data: createdEvent, errors: eventErrors } =
         await client.models.Event.create({
           title: teaPartyName,
           venue,
-          date: date ? format(date, "M月d日（EEE）", { locale: ja }) : "",
+          date: formattedDate, // フォーマットした日付を使用
           cost: parseInt(cost, 10),
           description,
           imageUrl: imageUrl, // アップロードされたファイルのURLを設定
@@ -223,7 +228,7 @@ export default function CreateComponent() {
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full">
                 {date
-                  ? format(date, "M月d日（EEE）", { locale: ja })
+                  ? format(date, "yyyy年M月d日（土）", { locale: ja })
                   : "日付を選択"}
               </Button>
             </PopoverTrigger>
