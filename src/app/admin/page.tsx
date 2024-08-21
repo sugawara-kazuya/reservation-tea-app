@@ -44,6 +44,15 @@ export default function EventList() {
     }
   };
 
+  // 予約者一覧ボタンが押された時に特定のイベントの予約者一覧ページへ遷移
+  const handleViewParticipants = (eventId: string | null | undefined) => {
+    if (eventId) {
+      router.push(`/admin/holder/${eventId}`);
+    } else {
+      console.error("Invalid eventId:", eventId);
+    }
+  };
+
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
@@ -70,12 +79,18 @@ export default function EventList() {
                 </span>
               </div>
             </div>
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-between mt-4">
               <Button
                 variant="outline"
                 onClick={() => handleEditEvent(event.id)}
               >
                 編集
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => handleViewParticipants(event.id)}
+              >
+                予約者一覧
               </Button>
             </div>
           </div>
