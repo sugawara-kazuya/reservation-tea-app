@@ -187,7 +187,7 @@ export default function Component() {
             </div>
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5 text-green-800" />
-              <span>定員 {eventData.maxParticipants}名様</span>
+              <span>定員 {eventData.maxParticipants}名</span>
             </div>
             <div className="flex items-center space-x-2">
               <JapaneseYen className="w-5 h-5 text-green-800" />
@@ -207,9 +207,9 @@ export default function Component() {
             <div className="flex items-center space-x-2">
               <Users className="w-6 h-6 text-green-800" />
               <span className="text-2xl font-bold">
-                {reservations.reduce((sum, r) => sum + r.participants, 0)}名様
+                {reservations.reduce((sum, r) => sum + r.participants, 0)}名
               </span>
-              <span className="text-muted-foreground">ご来席予定</span>
+              <span className="text-muted-foreground">予約人数</span>
             </div>
             <div className="flex items-center space-x-2">
               <JapaneseYen className="w-6 h-6 text-green-800" />
@@ -218,7 +218,7 @@ export default function Component() {
                   eventData.cost}
                 円
               </span>
-              <span className="text-muted-foreground">総御料金</span>
+              <span className="text-muted-foreground">総額</span>
             </div>
           </div>
           <div className="mb-2">
@@ -236,7 +236,7 @@ export default function Component() {
             あと
             {eventData.maxParticipants -
               reservations.reduce((sum, r) => sum + r.participants, 0)}
-            名様ご予約いただけます
+            名ご予約いただけます
           </p>
         </CardContent>
       </Card>
@@ -248,7 +248,7 @@ export default function Component() {
         <CardContent>
           <div className="mt-8 mb-8 flex items-center space-x-4">
             <Input
-              placeholder="お客様のお名前またはメールアドレスで検索..."
+              placeholder="名前またはメールアドレスで検索..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full border-green-800"
@@ -278,7 +278,7 @@ export default function Component() {
                       (sum, r) => sum + r.participants,
                       0
                     )}
-                    /{4 * slotReservations.length}名様
+                    /{4 * slotReservations.length}名
                   </Badge>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="mt-2">
@@ -286,7 +286,7 @@ export default function Component() {
                     <Table className="min-w-[600px]">
                       <TableHeader>
                         <TableRow>
-                          <TableHead>お客様</TableHead>
+                          <TableHead>名前</TableHead>
                           <TableHead>メールアドレス</TableHead>
                           <TableHead>参加人数</TableHead>
                         </TableRow>
@@ -313,7 +313,7 @@ export default function Component() {
                                 {reservation.email}
                               </TableCell>
                               <TableCell>
-                                {reservation.participants}名様
+                                {reservation.participants}名
                               </TableCell>
                             </TableRow>
                             <DialogContent className="sm:max-w-[600px]">
@@ -411,10 +411,10 @@ export default function Component() {
                                       <SelectValue placeholder="参加人数を選択" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                      <SelectItem value="1">1名様</SelectItem>
-                                      <SelectItem value="2">2名様</SelectItem>
-                                      <SelectItem value="3">3名様</SelectItem>
-                                      <SelectItem value="4">4名様</SelectItem>
+                                      <SelectItem value="1">1名</SelectItem>
+                                      <SelectItem value="2">2名</SelectItem>
+                                      <SelectItem value="3">3名</SelectItem>
+                                      <SelectItem value="4">4名</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </div>
@@ -533,10 +533,10 @@ export default function Component() {
                   <SelectValue placeholder="参加人数を選択" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">1名様</SelectItem>
-                  <SelectItem value="2">2名様</SelectItem>
-                  <SelectItem value="3">3名様</SelectItem>
-                  <SelectItem value="4">4名様</SelectItem>
+                  <SelectItem value="1">1名</SelectItem>
+                  <SelectItem value="2">2名</SelectItem>
+                  <SelectItem value="3">3名</SelectItem>
+                  <SelectItem value="4">4名</SelectItem>
                 </SelectContent>
               </Select>
             </div>
