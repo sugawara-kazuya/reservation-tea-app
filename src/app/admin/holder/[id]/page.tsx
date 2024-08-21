@@ -107,6 +107,9 @@ export default function Component() {
   const [editingReservation, setEditingReservation] =
     useState<Reservation | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] =
+    useState<boolean>(false);
+  const [isSaveConfirmOpen, setIsSaveConfirmOpen] = useState(false);
 
   useEffect(() => {
     setReservations(generateReservations());
@@ -436,10 +439,105 @@ export default function Component() {
                                   />
                                 </div>
                               </div>
-                              <DialogFooter>
-                                <Button type="submit" onClick={handleSave}>
+                              <DialogFooter className="flex flex-col-reverse sm:flex-row sm:space-y-0 sm:space-x-2">
+                                {editingReservation && (
+                                  <>
+                                    <Button
+                                      variant="destructive"
+                                      className="mb-2 sm:mb-0"
+                                      onClick={() =>
+                                        setIsDeleteConfirmOpen(true)
+                                      }
+                                    >
+                                      削除
+                                    </Button>
+                                    <Dialog
+                                      open={isDeleteConfirmOpen}
+                                      onOpenChange={setIsDeleteConfirmOpen}
+                                    >
+                                      <DialogContent className="sm:max-w-[500px]">
+                                        <DialogHeader>
+                                          <DialogTitle>確認</DialogTitle>
+                                        </DialogHeader>
+                                        <p>
+                                          本当にこの予約を削除してもよろしいですか？
+                                        </p>
+                                        <DialogFooter className="flex flex-col-reverse sm:flex-row sm:space-y-0 sm:space-x-2">
+                                          <Button
+                                            variant="outline"
+                                            className="mb-2 sm:mb-0"
+                                            onClick={() =>
+                                              setIsDeleteConfirmOpen(false)
+                                            }
+                                          >
+                                            キャンセル
+                                          </Button>
+                                          <Button
+                                            variant="destructive"
+                                            className="mb-2 sm:mb-0"
+                                            onClick={() => {
+                                              setReservations(
+                                                reservations.filter(
+                                                  (r) =>
+                                                    r.id !==
+                                                    editingReservation!.id
+                                                )
+                                              );
+                                              setEditingReservation(null);
+                                              setIsDeleteConfirmOpen(false);
+                                              setIsAddModalOpen(false);
+                                            }}
+                                          >
+                                            削除
+                                          </Button>
+                                        </DialogFooter>
+                                      </DialogContent>
+                                    </Dialog>
+                                  </>
+                                )}
+
+                                {/* Save Button triggers save confirmation modal */}
+                                <Button
+                                  type="button"
+                                  className="mb-2 sm:mb-0"
+                                  onClick={() => setIsSaveConfirmOpen(true)}
+                                >
                                   保存
                                 </Button>
+
+                                {/* Save Confirmation Modal */}
+                                <Dialog
+                                  open={isSaveConfirmOpen}
+                                  onOpenChange={setIsSaveConfirmOpen}
+                                >
+                                  <DialogContent className="sm:max-w-[500px]">
+                                    <DialogHeader>
+                                      <DialogTitle>確認</DialogTitle>
+                                    </DialogHeader>
+                                    <p>この内容で保存してもよろしいですか？</p>
+                                    <DialogFooter className="flex flex-col-reverse sm:flex-row sm:space-y-0 sm:space-x-2">
+                                      <Button
+                                        variant="outline"
+                                        className="mb-2 sm:mb-0"
+                                        onClick={() =>
+                                          setIsSaveConfirmOpen(false)
+                                        }
+                                      >
+                                        キャンセル
+                                      </Button>
+                                      <Button
+                                        variant="default"
+                                        className="mb-2 sm:mb-0"
+                                        onClick={() => {
+                                          handleSave();
+                                          setIsSaveConfirmOpen(false);
+                                        }}
+                                      >
+                                        保存
+                                      </Button>
+                                    </DialogFooter>
+                                  </DialogContent>
+                                </Dialog>
                               </DialogFooter>
                             </DialogContent>
                           </Dialog>
