@@ -217,8 +217,7 @@ export default function EventDetail() {
   const handleUpdate = async () => {
     try {
       let updatedImageUrl = imageUrl;
-      const baseUrl =
-        "https://amplify-d2zzbrnh9ajitz-dev-branc-teabucket26470cb4-ttvps8lvvdyb.s3.ap-northeast-1.amazonaws.com/";
+      const baseUrl = `https://${outputs.storage.bucket_name}.s3.ap-northeast-1.amazonaws.com/`;
 
       if (selectedFile) {
         const path = `event/${selectedFile.name}`;

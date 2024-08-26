@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import outputs from "@/output";
 
 const client = generateClient<Schema>();
 
@@ -139,8 +140,7 @@ export default function CreateComponent() {
   const handleCreate = async () => {
     try {
       let imageUrl = "";
-      const baseUrl =
-        "https://${output.storage.bucket_name}.s3.ap-northeast-1.amazonaws.com/";
+      const baseUrl = `https://${outputs.storage.bucket_name}.s3.ap-northeast-1.amazonaws.com/`;
 
       if (selectedFile) {
         const path = `event/${selectedFile.name}`;
