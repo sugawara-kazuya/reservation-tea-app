@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import TimePicker from "react-time-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -22,6 +21,13 @@ import { Amplify } from "aws-amplify";
 import outputs from "@/output";
 import type { Schema } from "@/amplify";
 import { parse } from "date-fns";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 Amplify.configure(outputs);
 
@@ -29,7 +35,8 @@ const client = generateClient<Schema>();
 
 type TimeSlot = {
   id: string;
-  startTime: string;
+  hour: string;
+  minute: string;
   maxParticipants: number;
 };
 
@@ -40,10 +47,9 @@ export default function EventDetail() {
   const [teaPartyName, setTeaPartyName] = useState("");
   const [visibility, setVisibility] = useState(true);
   const [venue, setVenue] = useState("");
-  const [cost, setCost] = useState("");
-  const [maxParticipants, setMaxParticipants] = useState("");
-  const [currentParticipants, setCurrentParticipants] = useState("");
-  const [date, setDate] = useState<Date | null>(null);
+  const [cost, setCost] = useState("1500");
+  const [maxParticipants, setMaxParticipants] = useState(0);
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -59,6 +65,14 @@ export default function EventDetail() {
     }
   }, [eventId]);
 
+  useEffect(() => {
+    const total = timeSlots.reduce(
+      (sum, slot) => sum + slot.maxParticipants,
+      0
+    );
+    setMaxParticipants(total);
+  }, [timeSlots]);
+
   const fetchEvent = async (eventId: string) => {
     try {
       const { data, errors } = await client.models.Event.get({ id: eventId });
@@ -71,33 +85,41 @@ export default function EventDetail() {
         setTeaPartyName(data.title || "");
         setVisibility(data.isActive || false);
         setVenue(data.venue || "");
-        setCost(data.cost?.toString() || "");
-        setMaxParticipants(data.maxParticipants?.toString() || "");
-        setCurrentParticipants(data.currentParticipants?.toString() || "");
+        setCost(data.cost?.toString() || "1500");
         setDescription(data.description || "");
         setImageUrl(data.imageUrl || "");
 
-        // 日付をパースしてDateオブジェクトに変換
         const eventDate = data.date
           ? parse(data.date, "yyyy年M月d日(EEE)", new Date(), { locale: ja })
-          : null;
+          : undefined;
         setDate(eventDate);
 
         const timeSlotResult = await data.eventTimeSlots();
         const slots: TimeSlot[] =
           timeSlotResult?.data?.map((slot) => ({
             id: slot.id ?? "",
-            startTime: slot.timeSlot ?? "",
+            hour: slot.timeSlot?.split(":")[0] ?? "07",
+            minute: slot.timeSlot?.split(":")[1] ?? "00",
             maxParticipants: slot.maxParticipants || 0,
           })) || [];
 
         slots.sort((a, b) => {
-          const timeA = parseInt(a.startTime.replace(":", ""), 10);
-          const timeB = parseInt(b.startTime.replace(":", ""), 10);
+          const timeA = parseInt(a.hour + a.minute, 10);
+          const timeB = parseInt(b.hour + b.minute, 10);
           return timeA - timeB;
         });
 
-        setTimeSlots(slots);
+        setTimeSlots(
+          slots.length > 0
+            ? slots
+            : [
+                { id: "", hour: "10", minute: "00", maxParticipants: 10 },
+                { id: "", hour: "11", minute: "00", maxParticipants: 10 },
+                { id: "", hour: "12", minute: "00", maxParticipants: 10 },
+                { id: "", hour: "13", minute: "00", maxParticipants: 10 },
+                { id: "", hour: "14", minute: "00", maxParticipants: 10 },
+              ]
+        );
       }
     } catch (error) {
       console.error("Unexpected error fetching event:", error);
@@ -110,7 +132,35 @@ export default function EventDetail() {
   };
 
   const handleAddTimeSlot = () => {
-    setTimeSlots([...timeSlots, { id: "", startTime: "", maxParticipants: 0 }]);
+    if (timeSlots.length > 0) {
+      const lastSlot = timeSlots[timeSlots.length - 1];
+      let newHour = parseInt(lastSlot.hour, 10) + 1;
+      let newMinute = lastSlot.minute;
+
+      // 新しい時間が24時を超える場合はリセット
+      if (newHour >= 24) {
+        newHour = 0;
+      }
+
+      setTimeSlots([
+        ...timeSlots,
+        {
+          id: "",
+          hour: newHour.toString().padStart(2, "0"),
+          minute: newMinute,
+          maxParticipants: 10,
+        },
+      ]);
+    } else {
+      setTimeSlots([
+        {
+          id: "",
+          hour: "10",
+          minute: "00",
+          maxParticipants: 10,
+        },
+      ]);
+    }
   };
 
   const handleRemoveTimeSlot = (index: number) => {
@@ -136,13 +186,33 @@ export default function EventDetail() {
     );
 
     updatedTimeSlots.sort((a, b) => {
-      const timeA = parseInt(a.startTime.replace(":", ""), 10);
-      const timeB = parseInt(b.startTime.replace(":", ""), 10);
+      const timeA = parseInt(a.hour + a.minute, 10);
+      const timeB = parseInt(b.hour + b.minute, 10);
       return timeA - timeB;
     });
 
     setTimeSlots(updatedTimeSlots);
   };
+
+  const generateHourOptions = () => {
+    return Array.from({ length: 14 }, (_, i) => i + 7).map((hour) =>
+      hour.toString().padStart(2, "0")
+    );
+  };
+
+  const generateMinuteOptions = () => {
+    return Array.from({ length: 6 }, (_, i) =>
+      (i * 10).toString().padStart(2, "0")
+    );
+  };
+
+  const generateCostOptions = () => {
+    return Array.from({ length: 19 }, (_, i) => (500 + i * 500).toString());
+  };
+
+  const hourOptions = generateHourOptions();
+  const minuteOptions = generateMinuteOptions();
+  const costOptions = generateCostOptions();
 
   const handleUpdate = async () => {
     try {
@@ -171,8 +241,8 @@ export default function EventDetail() {
         cost: parseInt(cost, 10),
         description,
         imageUrl: updatedImageUrl,
-        maxParticipants: parseInt(maxParticipants, 10),
-        currentParticipants: parseInt(currentParticipants, 10),
+        maxParticipants,
+        currentParticipants: 0,
         isActive: visibility,
       });
 
@@ -182,12 +252,13 @@ export default function EventDetail() {
       }
 
       for (const slot of timeSlots) {
+        const timeSlot = `${slot.hour}:${slot.minute}`;
         if (slot.id) {
           const { errors: timeSlotErrors } =
             await client.models.EventTimeSlot.update({
               id: slot.id,
               eventId: eventId,
-              timeSlot: slot.startTime,
+              timeSlot,
               maxParticipants: slot.maxParticipants,
               currentParticipants: 0,
             });
@@ -199,7 +270,7 @@ export default function EventDetail() {
           const { errors: timeSlotErrors } =
             await client.models.EventTimeSlot.create({
               eventId: eventId,
-              timeSlot: slot.startTime,
+              timeSlot,
               maxParticipants: slot.maxParticipants,
               currentParticipants: 0,
             });
@@ -273,91 +344,77 @@ export default function EventDetail() {
         </div>
         <div>
           <Label htmlFor="cost">一人当たりの参加費用</Label>
-          <Input
-            id="cost"
-            value={cost}
-            onChange={(e) => setCost(e.target.value)}
-          />
-        </div>
-        <div>
-          <Label htmlFor="max-participants">最大参加人数</Label>
-          <Input
-            id="max-participants"
-            value={maxParticipants}
-            onChange={(e) => setMaxParticipants(e.target.value)}
-          />
-        </div>
-        <div>
-          <Label htmlFor="current-participants">現在の参加人数</Label>
-          <Input
-            id="current-participants"
-            value={currentParticipants}
-            onChange={(e) => setCurrentParticipants(e.target.value)}
-          />
-        </div>
-        <div>
-          <Label htmlFor="date">日にち</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full">
-                {date instanceof Date && !isNaN(date.getTime())
-                  ? format(date, "yyyy年M月d日(EEE)", { locale: ja })
-                  : "日付を選択"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0">
-              <Calendar
-                mode="single"
-                selected={date || undefined}
-                onSelect={(selectedDate) => {
-                  console.log("Selected Date:", selectedDate); // デバッグログを追加
-                  setDate(selectedDate ?? null);
-                }}
-                className="rounded-md border"
-              />
-            </PopoverContent>
-          </Popover>
+          <Select value={cost} onValueChange={setCost}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="参加費用を選択" />
+            </SelectTrigger>
+            <SelectContent>
+              {costOptions.map((value) => (
+                <SelectItem key={value} value={value}>
+                  {value}円
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div>
           <Label>時間の管理</Label>
           <div className="space-y-2">
             {timeSlots.map((slot, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-1/3">
-                      {slot.startTime ? slot.startTime : "時間を選択"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[350px] p-0">
-                    <TimePicker
-                      onChange={(value) =>
-                        handleChangeTimeSlot(index, "startTime", value || "")
-                      }
-                      value={slot.startTime}
-                      disableClock={true}
-                      clearIcon={null}
-                      className="w-full p-2 rounded-md border"
-                    />
-                  </PopoverContent>
-                </Popover>
-                <select
-                  value={slot.maxParticipants.toString()}
-                  onChange={(e) =>
-                    handleChangeTimeSlot(
-                      index,
-                      "maxParticipants",
-                      e.target.value
-                    )
+                <Select
+                  value={slot.hour}
+                  onValueChange={(value) =>
+                    handleChangeTimeSlot(index, "hour", value)
                   }
-                  className="w-1/3 p-2 border rounded-md pr-6"
                 >
-                  {Array.from({ length: 30 }, (_, i) => i + 1).map((num) => (
-                    <option key={num} value={num}>
-                      {num}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger className="w-1/4">
+                    <SelectValue placeholder="時" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {hourOptions.map((hour) => (
+                      <SelectItem key={hour} value={hour}>
+                        {hour}時
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={slot.minute}
+                  onValueChange={(value) =>
+                    handleChangeTimeSlot(index, "minute", value)
+                  }
+                >
+                  <SelectTrigger className="w-1/4">
+                    <SelectValue placeholder="分" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {minuteOptions.map((minute) => (
+                      <SelectItem key={minute} value={minute}>
+                        {minute}分
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={slot.maxParticipants.toString()}
+                  onValueChange={(value) =>
+                    handleChangeTimeSlot(index, "maxParticipants", value)
+                  }
+                >
+                  <SelectTrigger className="w-1/4">
+                    <SelectValue placeholder="人数" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Array.from({ length: 50 }, (_, i) =>
+                      (i + 1).toString()
+                    ).map((num) => (
+                      <SelectItem key={num} value={num}>
+                        {num}人
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Button
                   variant="outline"
                   className="w-10 h-10"
@@ -367,6 +424,7 @@ export default function EventDetail() {
                 </Button>
               </div>
             ))}
+
             <Button
               variant="outline"
               className="w-full mt-2"
@@ -375,6 +433,32 @@ export default function EventDetail() {
               <PlusIcon className="w-6 h-6" />
             </Button>
           </div>
+        </div>
+        <div>
+          <Label htmlFor="max-participants">総参加人数（自動計算）</Label>
+          <Input id="max-participants" value={maxParticipants} readOnly />
+        </div>
+        <div>
+          <Label htmlFor="date">日にち</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full">
+                {date
+                  ? format(date, "yyyy年M月d日(EEE)", { locale: ja })
+                  : "日付を選択"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[300px] p-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                classNames={{
+                  root: "rounded-md border",
+                }}
+              />
+            </PopoverContent>
+          </Popover>
         </div>
         <div>
           <Label htmlFor="description">お茶会の説明</Label>
@@ -422,7 +506,7 @@ function ArrowLeftIcon(props: React.SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
-      viewBox="0 0 24"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -461,7 +545,7 @@ function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      viewBox="0 0 24"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"

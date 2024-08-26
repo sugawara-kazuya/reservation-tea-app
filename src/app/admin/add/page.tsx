@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/data";
 import { uploadData } from "aws-amplify/storage";
 import type { Schema } from "@/amplify";
@@ -17,14 +17,20 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import TimePicker from "react-time-picker";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-// Amplifyのクライアントを生成
 const client = generateClient<Schema>();
 
 type TimeSlot = {
-  startTime: string;
+  hour: string;
+  minute: string;
   maxParticipants: number;
 };
 
@@ -32,20 +38,57 @@ export default function CreateComponent() {
   const [teaPartyName, setTeaPartyName] = useState("");
   const [visibility, setVisibility] = useState(true);
   const [venue, setVenue] = useState("");
-  const [cost, setCost] = useState("");
-  const [maxParticipants, setMaxParticipants] = useState("");
-  const [currentParticipants, setCurrentParticipants] = useState("");
+  const [cost, setCost] = useState("1500");
+  const [maxParticipants, setMaxParticipants] = useState(0);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [description, setDescription] = useState("");
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([
-    { startTime: "10:00", maxParticipants: 10 },
+    { hour: "10", minute: "00", maxParticipants: 10 },
+    { hour: "11", minute: "00", maxParticipants: 10 },
+    { hour: "12", minute: "00", maxParticipants: 10 },
+    { hour: "13", minute: "00", maxParticipants: 10 },
+    { hour: "14", minute: "00", maxParticipants: 10 },
   ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const router = useRouter(); // useRouterのインスタンスを作成
+  const router = useRouter();
+
+  useEffect(() => {
+    const total = timeSlots.reduce(
+      (sum, slot) => sum + slot.maxParticipants,
+      0
+    );
+    setMaxParticipants(total);
+  }, [timeSlots]);
 
   const handleAddTimeSlot = () => {
-    setTimeSlots([...timeSlots, { startTime: "", maxParticipants: 1 }]);
+    if (timeSlots.length > 0) {
+      const lastSlot = timeSlots[timeSlots.length - 1];
+      let newHour = parseInt(lastSlot.hour, 10) + 1;
+      let newMinute = lastSlot.minute;
+
+      // 新しい時間が24時を超える場合はリセット
+      if (newHour >= 24) {
+        newHour = 0;
+      }
+
+      setTimeSlots([
+        ...timeSlots,
+        {
+          hour: newHour.toString().padStart(2, "0"),
+          minute: newMinute,
+          maxParticipants: 10,
+        },
+      ]);
+    } else {
+      setTimeSlots([
+        {
+          hour: "10",
+          minute: "00",
+          maxParticipants: 10,
+        },
+      ]);
+    }
   };
 
   const handleRemoveTimeSlot = (index: number) => {
@@ -73,15 +116,31 @@ export default function CreateComponent() {
     setSelectedFile(file);
   };
 
+  const generateHourOptions = () => {
+    return Array.from({ length: 14 }, (_, i) => i + 7).map((hour) =>
+      hour.toString().padStart(2, "0")
+    );
+  };
+
+  const generateMinuteOptions = () => {
+    return Array.from({ length: 6 }, (_, i) =>
+      (i * 10).toString().padStart(2, "0")
+    );
+  };
+
+  const generateCostOptions = () => {
+    return Array.from({ length: 19 }, (_, i) => (500 + i * 500).toString());
+  };
+
+  const hourOptions = generateHourOptions();
+  const minuteOptions = generateMinuteOptions();
+  const costOptions = generateCostOptions();
+
   const handleCreate = async () => {
     try {
       let imageUrl = "";
-      // local
-      // const baseUrl =
-      //   "https://amplify-moshimoji-root-sandbox-1-teabucket26470cb4-m9df2bygeb2t.s3.ap-northeast-1.amazonaws.com/";
-      // dev
       const baseUrl =
-        "https://amplify-d2zzbrnh9ajitz-dev-branc-teabucket26470cb4-ttvps8lvvdyb.s3.ap-northeast-1.amazonaws.com/";
+        "https://${output.storage.bucket_name}.s3.ap-northeast-1.amazonaws.com/";
 
       if (selectedFile) {
         const path = `event/${selectedFile.name}`;
@@ -89,25 +148,23 @@ export default function CreateComponent() {
           path,
           data: selectedFile,
         });
-        imageUrl = baseUrl + path; // アップロードされたファイルのパスにリンクを追加
+        imageUrl = baseUrl + path;
       }
 
-      // 日付を指定の形式でフォーマット
       const formattedDate = date
         ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
         : "";
 
-      // Eventを作成
       const { data: createdEvent, errors: eventErrors } =
         await client.models.Event.create({
           title: teaPartyName,
           venue,
-          date: formattedDate, // フォーマットした日付を使用
+          date: formattedDate,
           cost: parseInt(cost, 10),
           description,
-          imageUrl: imageUrl, // アップロードされたファイルのURLを設定
-          maxParticipants: parseInt(maxParticipants, 10),
-          currentParticipants: parseInt(currentParticipants, 10),
+          imageUrl: imageUrl,
+          maxParticipants,
+          currentParticipants: 0,
           isActive: visibility,
         });
 
@@ -116,12 +173,11 @@ export default function CreateComponent() {
         return;
       }
 
-      // EventTimeSlotを作成
       for (const slot of timeSlots) {
-        const { data: createdTimeSlot, errors: timeSlotErrors } =
+        const { errors: timeSlotErrors } =
           await client.models.EventTimeSlot.create({
             eventId: createdEvent?.id,
-            timeSlot: slot.startTime,
+            timeSlot: `${slot.hour}:${slot.minute}`,
             maxParticipants: slot.maxParticipants,
             currentParticipants: 0,
           });
@@ -132,8 +188,6 @@ export default function CreateComponent() {
       }
 
       console.log("Event and time slots created successfully");
-
-      // 作成完了後に/adminにリダイレクト
       router.push("/admin");
     } catch (error) {
       console.error("Failed to create event or time slots:", error);
@@ -181,30 +235,98 @@ export default function CreateComponent() {
         </div>
         <div>
           <Label htmlFor="cost">一人当たりの参加費用</Label>
-          <Input
-            id="cost"
-            placeholder="例: 1000"
-            value={cost}
-            onChange={(e) => setCost(e.target.value)}
-          />
+          <Select value={cost} onValueChange={setCost}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="参加費用を選択" />
+            </SelectTrigger>
+            <SelectContent>
+              {costOptions.map((value) => (
+                <SelectItem key={value} value={value}>
+                  {value}円
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div>
-          <Label htmlFor="max-participants">最大参加人数</Label>
-          <Input
-            id="max-participants"
-            placeholder="例: 60"
-            value={maxParticipants}
-            onChange={(e) => setMaxParticipants(e.target.value)}
-          />
+          <Label>時間の管理</Label>
+          <div className="space-y-2">
+            {timeSlots.map((slot, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <Select
+                  value={slot.hour}
+                  onValueChange={(value) =>
+                    handleChangeTimeSlot(index, "hour", value)
+                  }
+                >
+                  <SelectTrigger className="w-1/4">
+                    <SelectValue placeholder="時" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {hourOptions.map((hour) => (
+                      <SelectItem key={hour} value={hour}>
+                        {hour}時
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={slot.minute}
+                  onValueChange={(value) =>
+                    handleChangeTimeSlot(index, "minute", value)
+                  }
+                >
+                  <SelectTrigger className="w-1/4">
+                    <SelectValue placeholder="分" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {minuteOptions.map((minute) => (
+                      <SelectItem key={minute} value={minute}>
+                        {minute}分
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={slot.maxParticipants.toString()}
+                  onValueChange={(value) =>
+                    handleChangeTimeSlot(index, "maxParticipants", value)
+                  }
+                >
+                  <SelectTrigger className="w-1/4">
+                    <SelectValue placeholder="人数" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Array.from({ length: 50 }, (_, i) =>
+                      (i + 1).toString()
+                    ).map((num) => (
+                      <SelectItem key={num} value={num}>
+                        {num}人
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Button
+                  variant="outline"
+                  className="w-10 h-10"
+                  onClick={() => handleRemoveTimeSlot(index)}
+                >
+                  <MinusIcon className="w-10 h-10" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              variant="outline"
+              className="w-full mt-2"
+              onClick={handleAddTimeSlot}
+            >
+              <PlusIcon className="w-6 h-6" />
+            </Button>
+          </div>
         </div>
         <div>
-          <Label htmlFor="current-participants">現在の参加人数</Label>
-          <Input
-            id="current-participants"
-            placeholder="例: 0"
-            value={currentParticipants}
-            onChange={(e) => setCurrentParticipants(e.target.value)}
-          />
+          <Label htmlFor="max-participants">総参加人数（自動計算）</Label>
+          <Input id="max-participants" value={maxParticipants} readOnly />
         </div>
         <div>
           <Label htmlFor="image-upload">画像の選択</Label>
@@ -228,7 +350,7 @@ export default function CreateComponent() {
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full">
                 {date
-                  ? format(date, "yyyy年M月d日（土）", { locale: ja })
+                  ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
                   : "日付を選択"}
               </Button>
             </PopoverTrigger>
@@ -241,64 +363,6 @@ export default function CreateComponent() {
               />
             </PopoverContent>
           </Popover>
-        </div>
-        <div>
-          <Label>時間の管理</Label>
-          <div className="space-y-2">
-            {timeSlots.map((slot, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-1/3">
-                      {slot.startTime ? slot.startTime : "時間を選択"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[350px] p-0">
-                    <TimePicker
-                      onChange={(value) =>
-                        handleChangeTimeSlot(index, "startTime", value || "")
-                      }
-                      value={slot.startTime}
-                      disableClock={true}
-                      clearIcon={null}
-                      className="w-full p-2 rounded-md border"
-                    />
-                  </PopoverContent>
-                </Popover>
-                <select
-                  value={slot.maxParticipants.toString()}
-                  onChange={(e) =>
-                    handleChangeTimeSlot(
-                      index,
-                      "maxParticipants",
-                      e.target.value
-                    )
-                  }
-                  className="w-1/3 p-2 border rounded-md pr-6"
-                >
-                  {Array.from({ length: 30 }, (_, i) => i + 1).map((num) => (
-                    <option key={num} value={num}>
-                      {num}
-                    </option>
-                  ))}
-                </select>
-                <Button
-                  variant="outline"
-                  className="w-10 h-10"
-                  onClick={() => handleRemoveTimeSlot(index)}
-                >
-                  <MinusIcon className="w-10 h-10" />
-                </Button>
-              </div>
-            ))}
-            <Button
-              variant="outline"
-              className="w-full mt-2"
-              onClick={handleAddTimeSlot}
-            >
-              <PlusIcon className="w-6 h-6" />
-            </Button>
-          </div>
         </div>
         <div>
           <Label htmlFor="description">お茶会の説明</Label>
@@ -328,7 +392,7 @@ function ArrowLeftIcon(props: React.SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
-      viewBox="0 0 24"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -367,7 +431,7 @@ function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      viewBox="0 0 24"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
