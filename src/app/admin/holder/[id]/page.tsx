@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { generateClient } from "aws-amplify/data";
+import { type Schema } from "@/amplify";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -12,166 +14,189 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter } from "next/navigation";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import {
+  ChevronDown,
   Clock,
   CalendarDays,
   Users,
   MapPin,
   JapaneseYen,
-  Pencil,
+  Edit,
+  Trash2,
+  Plus,
   ArrowLeft,
 } from "lucide-react";
+import { Amplify } from "aws-amplify";
+import outputs from "@/output";
 
-// イベントデータの型定義
-interface EventData {
-  id: number;
-  title: string;
-  venue: string;
-  date: string;
-  cost: number;
-  description: string;
-  maxParticipants: number;
-  isActive: boolean;
-}
+Amplify.configure(outputs);
 
-// 予約データの型定義
-interface Reservation {
-  id: number;
-  name: string;
-  email: string;
-  reservationTime: string;
-  participants: number;
-  memo: string;
-}
+const client = generateClient<Schema>();
 
-// イベントデータ（実際のアプリケーションではAPIから取得します）
-const eventData: EventData = {
-  id: 1,
-  title: "七夕茶会",
-  venue: "紅葉園",
-  date: "2023年7月7日(日)",
-  cost: 5000,
-  description:
-    "新緑の美しい季節に、清々しい抹茶と季節の和菓子をお楽しみいただきます。茶道の作法を学びながら、日本の伝統文化に触れる特別な時間をお過ごしください。",
-  maxParticipants: 20,
-  isActive: true,
-};
-
-// 予約データを生成する関数（実際のアプリケーションではAPIから取得します）
-const generateReservations = (): Reservation[] => {
-  const timeSlots = ["10:00", "11:00", "13:00", "14:00", "15:00"];
-  const reservations: Reservation[] = [];
-  timeSlots.forEach((slot) => {
-    const participantsCount = Math.floor(Math.random() * 3) + 1;
-    reservations.push({
-      id: reservations.length + 1,
-      name: `お客様${reservations.length + 1}`,
-      email: `guest${reservations.length + 1}@example.com`,
-      reservationTime: slot,
-      participants: participantsCount,
-      memo: "",
-    });
-  });
-  return reservations;
-};
-
-export default function Component() {
+const EventDetails: React.FC = () => {
+  const params = useParams();
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [reservations, setReservations] = useState<Reservation[]>([]);
-  const [editingReservation, setEditingReservation] =
-    useState<Reservation | null>(null);
-  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] =
-    useState<boolean>(false);
-  const [isSaveConfirmOpen, setIsSaveConfirmOpen] = useState(false);
+  const id = params.id as string;
+
+  const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
+  const [timeSlots, setTimeSlots] = useState<Schema["EventTimeSlot"]["type"][]>(
+    []
+  );
+  const [reservations, setReservations] = useState<
+    Schema["Reservation"]["type"][]
+  >([]);
+  const [openTimeSlots, setOpenTimeSlots] = useState<Record<string, boolean>>(
+    {}
+  );
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [reservationToDelete, setReservationToDelete] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
-    setReservations(generateReservations());
-  }, []);
+    fetchEventData();
+  }, [id]);
 
-  const handleAddReservation = () => {
-    setEditingReservation({
-      id: reservations.length + 1,
-      name: "",
-      email: "",
-      reservationTime: "10:00",
-      participants: 1,
-      memo: "",
-    });
-    setIsAddModalOpen(true);
+  const fetchEventData = async () => {
+    if (!id) {
+      setError("有効なイベントIDが指定されていません。");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { data: eventData, errors: eventErrors } =
+        await client.models.Event.get({ id });
+      if (eventErrors) throw new Error(JSON.stringify(eventErrors));
+      if (!eventData) throw new Error("イベントが見つかりません。");
+      setEvent(eventData);
+
+      const { data: timeSlotsData, errors: timeSlotErrors } =
+        await client.models.EventTimeSlot.list({
+          filter: { eventId: { eq: id } },
+        });
+      if (timeSlotErrors) throw new Error(JSON.stringify(timeSlotErrors));
+      setTimeSlots(
+        timeSlotsData.sort((a, b) =>
+          (a.timeSlot ?? "").localeCompare(b.timeSlot ?? "")
+        )
+      );
+
+      const { data: reservationsData, errors: reservationErrors } =
+        await client.models.Reservation.list({
+          filter: { eventId: { eq: id } },
+        });
+      if (reservationErrors) throw new Error(JSON.stringify(reservationErrors));
+      setReservations(reservationsData);
+    } catch (error) {
+      console.error("Error fetching event data:", error);
+      setError(`データの取得中にエラーが発生しました: ${error}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSave = () => {
-    if (editingReservation) {
-      if (reservations.find((r) => r.id === editingReservation.id)) {
-        setReservations(
-          reservations.map((r) =>
-            r.id === editingReservation.id ? editingReservation : r
-          )
-        );
-      } else {
-        setReservations([...reservations, editingReservation]);
+  const toggleTimeSlot = (timeSlot: string) => {
+    setOpenTimeSlots((prev) => ({
+      ...prev,
+      [timeSlot]: !prev[timeSlot],
+    }));
+  };
+
+  const handleGoBack = () => {
+    router.push("/admin");
+  };
+
+  const handleEdit = (reservationId: string | null | undefined) => {
+    if (reservationId) {
+      router.push(`/admin/user/${reservationId}`);
+    } else {
+      console.error("Invalid reservation ID");
+    }
+  };
+
+  const handleDelete = (reservationId: string | null | undefined) => {
+    if (reservationId) {
+      setReservationToDelete(reservationId);
+      setDeleteConfirmOpen(true);
+    } else {
+      console.error("Invalid reservation ID");
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (reservationToDelete) {
+      try {
+        const { errors } = await client.models.Reservation.delete({
+          id: reservationToDelete,
+        });
+        if (errors) {
+          throw new Error(JSON.stringify(errors));
+        }
+        setDeleteConfirmOpen(false);
+        setReservationToDelete(null);
+        // 予約を削除した後、データを再取得して画面を更新
+        await fetchEventData();
+      } catch (error) {
+        console.error("Error deleting reservation:", error);
+        setError(`予約の削除中にエラーが発生しました: ${error}`);
       }
-      setEditingReservation(null);
-      setIsAddModalOpen(false);
     }
   };
 
-  const groupedReservations = reservations.reduce<
-    Record<string, Reservation[]>
-  >((groups, reservation) => {
-    if (!groups[reservation.reservationTime]) {
-      groups[reservation.reservationTime] = [];
-    }
-    groups[reservation.reservationTime].push(reservation);
-    return groups;
-  }, {});
+  const handleCreateReservation = () => {
+    router.push(`/admin/user/add/${id}`);
+  };
+
+  if (loading) {
+    return <div>データを読み込んでいます...</div>;
+  }
+
+  if (error) {
+    return <div>エラー: {error}</div>;
+  }
+
+  if (!event) {
+    return <div>イベントが見つかりません。</div>;
+  }
 
   return (
-    <div className="container mx-auto py-10 px-4 bg-stone-50">
-      <div className="mb-6 flex items-center">
-        <button
-          onClick={() => router.back()} // 戻るボタンの動作
-          className="flex items-center space-x-2 text-green-800 hover:text-green-600"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>戻る</span>
-        </button>
+    <div className="container mx-auto py-6 px-4 bg-stone-50">
+      <div className="flex justify-between items-center mb-6">
+        <Button variant="ghost" onClick={handleGoBack} className="p-2">
+          <ArrowLeft className="h-6 w-6" />
+        </Button>
+        <Button onClick={handleCreateReservation} className="whitespace-nowrap">
+          <Plus className="mr-2 h-4 w-4" /> 新規予約
+        </Button>
       </div>
 
       <Card className="mb-6 border-2 border-green-800">
         <CardHeader className="bg-green-800 text-white">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-2xl font-serif">
-              {eventData.title}
+          <div className="flex justify-between items-center flex-wrap">
+            <CardTitle className="text-xl md:text-2xl font-serif mb-2 md:mb-0">
+              {event.title}
             </CardTitle>
-            {eventData.isActive ? (
+            {event.isActive ? (
               <Badge className="bg-green-500 text-white">開催中</Badge>
             ) : (
               <Badge variant="secondary">終了</Badge>
@@ -179,490 +204,170 @@ export default function Component() {
           </div>
         </CardHeader>
         <CardContent className="mt-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div className="flex items-center space-x-2">
-              <CalendarDays className="w-5 h-5 text-green-800" />
-              <span>{eventData.date}</span>
+              <CalendarDays className="w-5 h-5 text-green-800 flex-shrink-0" />
+              <span className="text-sm">{event.date}</span>
             </div>
             <div className="flex items-center space-x-2">
-              <MapPin className="w-5 h-5 text-green-800" />
-              <span>{eventData.venue}</span>
+              <MapPin className="w-5 h-5 text-green-800 flex-shrink-0" />
+              <span className="text-sm">{event.venue}</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Users className="w-5 h-5 text-green-800" />
-              <span>定員 {eventData.maxParticipants}名</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <JapaneseYen className="w-5 h-5 text-green-800" />
-              <span>{eventData.cost.toLocaleString()}円</span>
-            </div>
-          </div>
-          <p className="text-muted-foreground mb-4">{eventData.description}</p>
-        </CardContent>
-      </Card>
-
-      <Card className="mb-6 border-2 border-green-800">
-        <CardHeader className="bg-green-800 text-white">
-          <CardTitle className="font-serif">ご予約状況</CardTitle>
-        </CardHeader>
-        <CardContent className="mt-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div className="flex items-center space-x-2">
-              <Users className="w-6 h-6 text-green-800" />
-              <span className="text-2xl font-bold">
-                {reservations.reduce((sum, r) => sum + r.participants, 0)}名
+              <Users className="w-5 h-5 text-green-800 flex-shrink-0" />
+              <span className="text-sm">
+                定員 {event.currentParticipants}/{event.maxParticipants}名
               </span>
-              <span className="text-muted-foreground">予約人数</span>
             </div>
             <div className="flex items-center space-x-2">
-              <JapaneseYen className="w-6 h-6 text-green-800" />
-              <span className="text-2xl font-bold">
-                {reservations.reduce((sum, r) => sum + r.participants, 0) *
-                  eventData.cost}
-                円
-              </span>
-              <span className="text-muted-foreground">総額</span>
+              <JapaneseYen className="w-5 h-5 text-green-800 flex-shrink-0" />
+              <span className="text-sm">{event.cost?.toLocaleString()}円</span>
             </div>
           </div>
-          <div className="mb-2">
-            <h3 className="font-semibold mb-2">参加状況</h3>
-            <Progress
-              value={
-                (reservations.reduce((sum, r) => sum + r.participants, 0) /
-                  eventData.maxParticipants) *
-                100
-              }
-              className="h-2"
-            />
-          </div>
-          <p className="text-sm text-muted-foreground">
-            あと
-            {eventData.maxParticipants -
-              reservations.reduce((sum, r) => sum + r.participants, 0)}
-            名ご予約いただけます
+          <p className="text-sm text-muted-foreground mb-4">
+            {event.description}
           </p>
         </CardContent>
       </Card>
 
       <Card className="border-2 border-green-800">
         <CardHeader className="bg-green-800 text-white">
-          <CardTitle className="font-serif">時間帯別ご予約一覧</CardTitle>
+          <CardTitle className="font-serif text-lg md:text-xl">
+            時間帯別ご予約一覧
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="mt-8 mb-8 flex items-center space-x-4">
-            <Input
-              placeholder="名前またはメールアドレスで検索..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border-green-800"
-            />
-            <Button
-              variant="outline"
-              className="bg-green-800 text-white hover:bg-green-600"
-              onClick={handleAddReservation}
-            >
-              予約追加
-            </Button>
-          </div>
-          {Object.entries(groupedReservations)
-            .sort()
-            .map(([timeSlot, slotReservations]) => (
-              <Collapsible key={timeSlot} className="mb-4">
-                <CollapsibleTrigger className="flex justify-between items-center w-full p-4 bg-green-100 rounded-lg">
-                  <div className="flex items-center space-x-2">
-                    <Clock className="w-4 h-4 text-green-800" />
-                    <span className="font-semibold">{timeSlot}</span>
-                  </div>
-                  <Badge
-                    variant="secondary"
-                    className="bg-green-200 text-green-800"
+          {timeSlots.length === 0 ? (
+            <p className="mt-4">時間枠が設定されていません。</p>
+          ) : (
+            <div className="mt-4 space-y-4">
+              {timeSlots.map((timeSlot) => {
+                const slotReservations = reservations
+                  .filter((r) => r.reservationTime === timeSlot.timeSlot)
+                  .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+                return (
+                  <Collapsible
+                    key={timeSlot.id}
+                    className="mb-4"
+                    open={openTimeSlots[timeSlot.timeSlot ?? ""]}
+                    onOpenChange={() => toggleTimeSlot(timeSlot.timeSlot ?? "")}
                   >
-                    {slotReservations.reduce(
-                      (sum, r) => sum + r.participants,
-                      0
-                    )}
-                    /{4 * slotReservations.length}名
-                  </Badge>
-                </CollapsibleTrigger>
-                <CollapsibleContent className="mt-2">
-                  <div className="overflow-x-auto">
-                    <Table className="min-w-[600px]">
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>名前</TableHead>
-                          <TableHead>メールアドレス</TableHead>
-                          <TableHead>参加人数</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {slotReservations.map((reservation) => (
-                          <Dialog
-                            key={reservation.id}
-                            open={editingReservation?.id === reservation.id}
-                            onOpenChange={(open) =>
-                              setEditingReservation(open ? reservation : null)
-                            }
-                          >
-                            <TableRow
-                              className="cursor-pointer hover:bg-green-50"
-                              onClick={() =>
-                                setEditingReservation({ ...reservation })
-                              }
-                            >
-                              <TableCell className="whitespace-normal break-words">
-                                {reservation.name}
-                              </TableCell>
-                              <TableCell className="whitespace-normal break-words">
-                                {reservation.email}
-                              </TableCell>
-                              <TableCell>
-                                {reservation.participants}名
-                              </TableCell>
+                    <CollapsibleTrigger className="flex justify-between items-center w-full p-3 bg-green-100 rounded-lg hover:bg-green-200 transition-colors">
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4 text-green-800" />
+                        <span className="font-semibold text-sm">
+                          {timeSlot.timeSlot}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Badge
+                          variant="secondary"
+                          className="bg-green-200 text-green-800 text-xs"
+                        >
+                          {timeSlot.currentParticipants}/
+                          {timeSlot.maxParticipants}名
+                        </Badge>
+                        <ChevronDown
+                          className={`w-4 h-4 text-green-800 transition-transform duration-200 ${
+                            openTimeSlots[timeSlot.timeSlot ?? ""]
+                              ? "rotate-180"
+                              : ""
+                          }`}
+                        />
+                      </div>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-2">
+                      <div className="overflow-x-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead className="w-1/3">名前</TableHead>
+                              <TableHead className="w-1/3">人数</TableHead>
+                              <TableHead className="w-1/3">操作</TableHead>
                             </TableRow>
-                            <DialogContent className="sm:max-w-[600px]">
-                              <DialogHeader>
-                                <DialogTitle>予約情報の編集</DialogTitle>
-                              </DialogHeader>
-                              <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label htmlFor="name" className="text-right">
-                                    お名前
-                                  </Label>
-                                  <Input
-                                    id="name"
-                                    value={editingReservation?.name || ""}
-                                    onChange={(e) =>
-                                      setEditingReservation({
-                                        ...editingReservation!,
-                                        name: e.target.value,
-                                      })
-                                    }
-                                    className="col-span-3"
-                                  />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label htmlFor="email" className="text-right">
-                                    メールアドレス
-                                  </Label>
-                                  <Input
-                                    id="email"
-                                    value={editingReservation?.email || ""}
-                                    onChange={(e) =>
-                                      setEditingReservation({
-                                        ...editingReservation!,
-                                        email: e.target.value,
-                                      })
-                                    }
-                                    className="col-span-3"
-                                  />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label
-                                    htmlFor="reservationTime"
-                                    className="text-right"
-                                  >
-                                    予約時間
-                                  </Label>
-                                  <Select
-                                    value={editingReservation?.reservationTime}
-                                    onValueChange={(value) =>
-                                      setEditingReservation({
-                                        ...editingReservation!,
-                                        reservationTime: value,
-                                      })
-                                    }
-                                  >
-                                    <SelectTrigger className="col-span-3">
-                                      <SelectValue placeholder="予約時間を選択" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectItem value="10:00">
-                                        10:00
-                                      </SelectItem>
-                                      <SelectItem value="11:00">
-                                        11:00
-                                      </SelectItem>
-                                      <SelectItem value="13:00">
-                                        13:00
-                                      </SelectItem>
-                                      <SelectItem value="14:00">
-                                        14:00
-                                      </SelectItem>
-                                      <SelectItem value="15:00">
-                                        15:00
-                                      </SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label
-                                    htmlFor="participants"
-                                    className="text-right"
-                                  >
-                                    参加人数
-                                  </Label>
-                                  <Select
-                                    value={editingReservation?.participants.toString()}
-                                    onValueChange={(value) =>
-                                      setEditingReservation({
-                                        ...editingReservation!,
-                                        participants: parseInt(value),
-                                      })
-                                    }
-                                  >
-                                    <SelectTrigger className="col-span-3">
-                                      <SelectValue placeholder="参加人数を選択" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectItem value="1">1名</SelectItem>
-                                      <SelectItem value="2">2名</SelectItem>
-                                      <SelectItem value="3">3名</SelectItem>
-                                      <SelectItem value="4">4名</SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label htmlFor="memo" className="text-right">
-                                    メモ
-                                  </Label>
-                                  <Textarea
-                                    id="memo"
-                                    value={editingReservation?.memo || ""}
-                                    onChange={(e) =>
-                                      setEditingReservation({
-                                        ...editingReservation!,
-                                        memo: e.target.value,
-                                      })
-                                    }
-                                    className="col-span-3"
-                                    placeholder="特記事項があればご記入ください"
-                                  />
-                                </div>
-                              </div>
-                              <DialogFooter className="flex flex-col-reverse sm:flex-row sm:space-y-0 sm:space-x-2">
-                                {editingReservation && (
-                                  <>
-                                    <Button
-                                      variant="destructive"
-                                      className="mb-2 sm:mb-0"
-                                      onClick={() =>
-                                        setIsDeleteConfirmOpen(true)
-                                      }
-                                    >
-                                      削除
-                                    </Button>
-                                    <Dialog
-                                      open={isDeleteConfirmOpen}
-                                      onOpenChange={setIsDeleteConfirmOpen}
-                                    >
-                                      <DialogContent className="sm:max-w-[500px]">
-                                        <DialogHeader>
-                                          <DialogTitle>確認</DialogTitle>
-                                        </DialogHeader>
-                                        <p>
-                                          本当にこの予約を削除してもよろしいですか？
-                                        </p>
-                                        <DialogFooter className="flex flex-col-reverse sm:flex-row sm:space-y-0 sm:space-x-2">
-                                          <Button
-                                            variant="outline"
-                                            className="mb-2 sm:mb-0"
-                                            onClick={() =>
-                                              setIsDeleteConfirmOpen(false)
-                                            }
-                                          >
-                                            キャンセル
-                                          </Button>
-                                          <Button
-                                            variant="destructive"
-                                            className="mb-2 sm:mb-0"
-                                            onClick={() => {
-                                              setReservations(
-                                                reservations.filter(
-                                                  (r) =>
-                                                    r.id !==
-                                                    editingReservation!.id
-                                                )
-                                              );
-                                              setEditingReservation(null);
-                                              setIsDeleteConfirmOpen(false);
-                                              setIsAddModalOpen(false);
-                                            }}
-                                          >
-                                            削除
-                                          </Button>
-                                        </DialogFooter>
-                                      </DialogContent>
-                                    </Dialog>
-                                  </>
-                                )}
-
-                                {/* Save Button triggers save confirmation modal */}
-                                <Button
-                                  type="button"
-                                  className="mb-2 sm:mb-0"
-                                  onClick={() => setIsSaveConfirmOpen(true)}
-                                >
-                                  保存
-                                </Button>
-
-                                {/* Save Confirmation Modal */}
-                                <Dialog
-                                  open={isSaveConfirmOpen}
-                                  onOpenChange={setIsSaveConfirmOpen}
-                                >
-                                  <DialogContent className="sm:max-w-[500px]">
-                                    <DialogHeader>
-                                      <DialogTitle>確認</DialogTitle>
-                                    </DialogHeader>
-                                    <p>この内容で保存してもよろしいですか？</p>
-                                    <DialogFooter className="flex flex-col-reverse sm:flex-row sm:space-y-0 sm:space-x-2">
+                          </TableHeader>
+                          <TableBody>
+                            {slotReservations.length === 0 ? (
+                              <TableRow>
+                                <TableCell colSpan={3} className="text-center">
+                                  予約がありません。
+                                </TableCell>
+                              </TableRow>
+                            ) : (
+                              slotReservations.map((reservation) => (
+                                <TableRow key={reservation.id}>
+                                  <TableCell className="py-2">
+                                    <div className="font-medium truncate">
+                                      {reservation.name}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="py-2">
+                                    <div className="text-sm">
+                                      {reservation.participants}名
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="py-2">
+                                    <div className="flex space-x-1">
                                       <Button
+                                        size="sm"
                                         variant="outline"
-                                        className="mb-2 sm:mb-0"
                                         onClick={() =>
-                                          setIsSaveConfirmOpen(false)
+                                          handleEdit(reservation.id)
                                         }
+                                        className="p-1"
                                       >
-                                        キャンセル
+                                        <Edit className="h-4 w-4" />
                                       </Button>
                                       <Button
-                                        variant="default"
-                                        className="mb-2 sm:mb-0"
-                                        onClick={() => {
-                                          handleSave();
-                                          setIsSaveConfirmOpen(false);
-                                        }}
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() =>
+                                          handleDelete(reservation.id)
+                                        }
+                                        className="p-1"
                                       >
-                                        保存
+                                        <Trash2 className="h-4 w-4" />
                                       </Button>
-                                    </DialogFooter>
-                                  </DialogContent>
-                                </Dialog>
-                              </DialogFooter>
-                            </DialogContent>
-                          </Dialog>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            ))}
+                                    </div>
+                                  </TableCell>
+                                </TableRow>
+                              ))
+                            )}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+                );
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+      <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle>予約の追加</DialogTitle>
+            <DialogTitle>予約の削除確認</DialogTitle>
+            <DialogDescription>
+              この予約を削除してもよろしいですか？この操作は取り消せません。
+            </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                お名前
-              </Label>
-              <Input
-                id="name"
-                value={editingReservation?.name || ""}
-                onChange={(e) =>
-                  setEditingReservation({
-                    ...editingReservation!,
-                    name: e.target.value,
-                  })
-                }
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="email" className="text-right">
-                メールアドレス
-              </Label>
-              <Input
-                id="email"
-                value={editingReservation?.email || ""}
-                onChange={(e) =>
-                  setEditingReservation({
-                    ...editingReservation!,
-                    email: e.target.value,
-                  })
-                }
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="reservationTime" className="text-right">
-                予約時間
-              </Label>
-              <Select
-                value={editingReservation?.reservationTime}
-                onValueChange={(value) =>
-                  setEditingReservation({
-                    ...editingReservation!,
-                    reservationTime: value,
-                  })
-                }
-              >
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="予約時間を選択" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10:00">10:00</SelectItem>
-                  <SelectItem value="11:00">11:00</SelectItem>
-                  <SelectItem value="13:00">13:00</SelectItem>
-                  <SelectItem value="14:00">14:00</SelectItem>
-                  <SelectItem value="15:00">15:00</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="participants" className="text-right">
-                参加人数
-              </Label>
-              <Select
-                value={editingReservation?.participants.toString()}
-                onValueChange={(value) =>
-                  setEditingReservation({
-                    ...editingReservation!,
-                    participants: parseInt(value),
-                  })
-                }
-              >
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="参加人数を選択" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1名</SelectItem>
-                  <SelectItem value="2">2名</SelectItem>
-                  <SelectItem value="3">3名</SelectItem>
-                  <SelectItem value="4">4名</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="memo" className="text-right">
-                メモ
-              </Label>
-              <Textarea
-                id="memo"
-                value={editingReservation?.memo || ""}
-                onChange={(e) =>
-                  setEditingReservation({
-                    ...editingReservation!,
-                    memo: e.target.value,
-                  })
-                }
-                className="col-span-3"
-                placeholder="特記事項があればご記入ください"
-              />
-            </div>
-          </div>
           <DialogFooter>
-            <Button type="submit" onClick={handleSave}>
-              追加
+            <Button
+              variant="outline"
+              onClick={() => setDeleteConfirmOpen(false)}
+            >
+              キャンセル
+            </Button>
+            <Button variant="destructive" onClick={confirmDelete}>
+              削除
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
   );
-}
+};
+
+export default EventDetails;
