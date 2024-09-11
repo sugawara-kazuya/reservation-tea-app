@@ -53,10 +53,19 @@ export default function EventList() {
     }
   };
 
+  const handleBackToAdmin = () => {
+    router.push("/admin");
+  };
+
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">イベント管理</h1>
+        <div className="flex items-center">
+          <Button variant="ghost" onClick={handleBackToAdmin} className="mr-2">
+            <ArrowLeftIcon className="h-5 w-5 text-muted-foreground" />
+          </Button>
+          <h1 className="text-2xl font-bold">イベント管理</h1>
+        </div>
         <Button onClick={navigateToAddEvent}>
           <PlusIcon className="h-4 w-4 mr-2" />
           イベントを追加
@@ -160,6 +169,26 @@ function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M5 12h14" />
       <path d="M12 5v14" />
+    </svg>
+  );
+}
+
+function ArrowLeftIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
     </svg>
   );
 }
