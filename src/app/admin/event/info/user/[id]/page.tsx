@@ -210,7 +210,7 @@ export default function ReservationEdit() {
       }
 
       console.log("予約が正常に更新されました");
-      router.push(`/admin/holder/${event.id}`);
+      router.push(`/admin/event/info/${event.id}`);
     } catch (error) {
       console.error("予約の更新中にエラーが発生しました:", error);
       setError(

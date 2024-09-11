@@ -1,9 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
 import { generateClient } from "aws-amplify/data";
 import { uploadData } from "aws-amplify/storage";
+import type { Schema } from "@/amplify";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -12,15 +17,7 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Amplify } from "aws-amplify";
-import outputs from "@/output";
-import type { Schema } from "@/amplify";
-import { parse } from "date-fns";
+import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -28,42 +25,103 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import outputs from "@/output";
+import { Amplify } from "aws-amplify";
 
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
 
 type TimeSlot = {
-  id: string;
   hour: string;
   minute: string;
   maxParticipants: number;
 };
 
-export default function EventDetail() {
-  const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
-  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
-  const [deletedTimeSlots, setDeletedTimeSlots] = useState<string[]>([]);
+interface EventTimeSlot {
+  id: string;
+  timeSlot: string;
+  maxParticipants: number;
+}
+
+export default function EditComponent({ params }: { params: { id: string } }) {
   const [teaPartyName, setTeaPartyName] = useState("");
   const [visibility, setVisibility] = useState(true);
   const [venue, setVenue] = useState("");
   const [cost, setCost] = useState("1500");
   const [maxParticipants, setMaxParticipants] = useState(0);
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [description, setDescription] = useState("");
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([
+    { hour: "10", minute: "00", maxParticipants: 10 },
+    { hour: "11", minute: "00", maxParticipants: 10 },
+    { hour: "12", minute: "00", maxParticipants: 10 },
+    { hour: "13", minute: "00", maxParticipants: 10 },
+    { hour: "14", minute: "00", maxParticipants: 10 },
+  ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState("");
+  const [eventId, setEventId] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const router = useRouter();
-  const params = useParams();
-  const eventId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   useEffect(() => {
-    if (eventId) {
-      fetchEvent(eventId);
-    } else {
-      console.error("No eventId found in URL");
-    }
-  }, [eventId]);
+    const fetchEvent = async () => {
+      try {
+        setIsLoading(true);
+        const { data: event, errors: eventErrors } =
+          await client.models.Event.get({ id: params.id });
+        if (eventErrors) {
+          throw new Error(
+            "Error fetching event: " +
+              eventErrors.map((e) => e.message).join(", ")
+          );
+        }
+        if (event) {
+          setTeaPartyName(event.title ?? "");
+          setVisibility(event.isActive ?? true);
+          setVenue(event.venue ?? "");
+          setCost(event.cost?.toString() || "0");
+          setMaxParticipants(event.maxParticipants || 0);
+          setDate(event.date ? new Date(event.date) : undefined);
+          setDescription(event.description || "");
+          setEventId(event.id ?? "");
+
+          const { data: timeSlotsData, errors: timeSlotErrors } =
+            await client.models.EventTimeSlot.list({
+              filter: { eventId: { eq: event.id ?? undefined } },
+            });
+
+          if (timeSlotErrors) {
+            throw new Error(
+              "Error fetching time slots: " +
+                timeSlotErrors.map((e) => e.message).join(", ")
+            );
+          }
+
+          if (timeSlotsData) {
+            const timeSlotItems = timeSlotsData as EventTimeSlot[];
+            setTimeSlots(
+              timeSlotItems.map((timeSlot) => ({
+                hour: timeSlot.timeSlot.split(":")[0],
+                minute: timeSlot.timeSlot.split(":")[1],
+                maxParticipants: timeSlot.maxParticipants,
+              }))
+            );
+          }
+        }
+      } catch (error) {
+        setError(
+          error instanceof Error ? error.message : "An unknown error occurred"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEvent();
+  }, [params.id]);
 
   useEffect(() => {
     const total = timeSlots.reduce(
@@ -73,71 +131,12 @@ export default function EventDetail() {
     setMaxParticipants(total);
   }, [timeSlots]);
 
-  const fetchEvent = async (eventId: string) => {
-    try {
-      const { data, errors } = await client.models.Event.get({ id: eventId });
-      if (errors) {
-        console.error("Error fetching event:", errors);
-        return;
-      }
-      if (data) {
-        setEvent(data);
-        setTeaPartyName(data.title || "");
-        setVisibility(data.isActive || false);
-        setVenue(data.venue || "");
-        setCost(data.cost?.toString() || "1500");
-        setDescription(data.description || "");
-        setImageUrl(data.imageUrl || "");
-
-        const eventDate = data.date
-          ? parse(data.date, "yyyy年M月d日(EEE)", new Date(), { locale: ja })
-          : undefined;
-        setDate(eventDate);
-
-        const timeSlotResult = await data.eventTimeSlots();
-        const slots: TimeSlot[] =
-          timeSlotResult?.data?.map((slot) => ({
-            id: slot.id ?? "",
-            hour: slot.timeSlot?.split(":")[0] ?? "07",
-            minute: slot.timeSlot?.split(":")[1] ?? "00",
-            maxParticipants: slot.maxParticipants || 0,
-          })) || [];
-
-        slots.sort((a, b) => {
-          const timeA = parseInt(a.hour + a.minute, 10);
-          const timeB = parseInt(b.hour + b.minute, 10);
-          return timeA - timeB;
-        });
-
-        setTimeSlots(
-          slots.length > 0
-            ? slots
-            : [
-                { id: "", hour: "10", minute: "00", maxParticipants: 10 },
-                { id: "", hour: "11", minute: "00", maxParticipants: 10 },
-                { id: "", hour: "12", minute: "00", maxParticipants: 10 },
-                { id: "", hour: "13", minute: "00", maxParticipants: 10 },
-                { id: "", hour: "14", minute: "00", maxParticipants: 10 },
-              ]
-        );
-      }
-    } catch (error) {
-      console.error("Unexpected error fetching event:", error);
-    }
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    setSelectedFile(file);
-  };
-
   const handleAddTimeSlot = () => {
     if (timeSlots.length > 0) {
       const lastSlot = timeSlots[timeSlots.length - 1];
       let newHour = parseInt(lastSlot.hour, 10) + 1;
       let newMinute = lastSlot.minute;
 
-      // 新しい時間が24時を超える場合はリセット
       if (newHour >= 24) {
         newHour = 0;
       }
@@ -145,7 +144,6 @@ export default function EventDetail() {
       setTimeSlots([
         ...timeSlots,
         {
-          id: "",
           hour: newHour.toString().padStart(2, "0"),
           minute: newMinute,
           maxParticipants: 10,
@@ -154,7 +152,6 @@ export default function EventDetail() {
     } else {
       setTimeSlots([
         {
-          id: "",
           hour: "10",
           minute: "00",
           maxParticipants: 10,
@@ -164,10 +161,6 @@ export default function EventDetail() {
   };
 
   const handleRemoveTimeSlot = (index: number) => {
-    const slotToRemove = timeSlots[index];
-    if (slotToRemove.id) {
-      setDeletedTimeSlots((prev) => [...prev, slotToRemove.id]);
-    }
     setTimeSlots(timeSlots.filter((_, i) => i !== index));
   };
 
@@ -184,14 +177,12 @@ export default function EventDetail() {
           }
         : slot
     );
-
-    updatedTimeSlots.sort((a, b) => {
-      const timeA = parseInt(a.hour + a.minute, 10);
-      const timeB = parseInt(b.hour + b.minute, 10);
-      return timeA - timeB;
-    });
-
     setTimeSlots(updatedTimeSlots);
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setSelectedFile(file);
   };
 
   const generateHourOptions = () => {
@@ -214,9 +205,10 @@ export default function EventDetail() {
   const minuteOptions = generateMinuteOptions();
   const costOptions = generateCostOptions();
 
-  const handleUpdate = async () => {
+  const handleCreate = async () => {
     try {
-      let updatedImageUrl = imageUrl;
+      setIsLoading(true);
+      let imageUrl = "";
       const baseUrl = `https://${outputs.storage.bucket_name}.s3.ap-northeast-1.amazonaws.com/`;
 
       if (selectedFile) {
@@ -225,83 +217,122 @@ export default function EventDetail() {
           path,
           data: selectedFile,
         });
-        updatedImageUrl = baseUrl + path;
+        imageUrl = baseUrl + path;
       }
 
-      const formattedDate = date
-        ? format(date, "yyyy年M月d日(EEE)", { locale: ja })
-        : "";
-
-      const { errors } = await client.models.Event.update({
-        id: eventId,
-        title: teaPartyName,
-        venue,
-        date: formattedDate,
-        cost: parseInt(cost, 10),
-        description,
-        imageUrl: updatedImageUrl,
-        maxParticipants,
-        currentParticipants: 0,
-        isActive: visibility,
-      });
-
-      if (errors) {
-        console.error("Error updating event:", errors);
-        return;
+      let formattedDate = "";
+      if (date && !isNaN(date.getTime())) {
+        formattedDate = format(date, "yyyy年M月d日（EEE）", { locale: ja });
       }
 
+      // Update Event
+      const { data: updatedEvent, errors: eventErrors } =
+        await client.models.Event.update({
+          id: eventId,
+          title: teaPartyName,
+          venue,
+          date: formattedDate,
+          cost: parseInt(cost, 10),
+          description,
+          imageUrl: imageUrl || undefined, // Only update if new image is uploaded
+          maxParticipants,
+          isActive: visibility,
+        });
+
+      if (eventErrors) {
+        throw new Error(
+          "Error updating event: " +
+            eventErrors.map((e) => e.message).join(", ")
+        );
+      }
+
+      // Fetch existing time slots
+      const { data: existingTimeSlots, errors: fetchErrors } =
+        await client.models.EventTimeSlot.list({
+          filter: { eventId: { eq: eventId } },
+        });
+
+      if (fetchErrors) {
+        throw new Error(
+          "Error fetching existing time slots: " +
+            fetchErrors.map((e) => e.message).join(", ")
+        );
+      }
+
+      // Update or create time slots
       for (const slot of timeSlots) {
-        const timeSlot = `${slot.hour}:${slot.minute}`;
-        if (slot.id) {
-          const { errors: timeSlotErrors } =
+        const timeSlotString = `${slot.hour}:${slot.minute}`;
+        const existingSlot = existingTimeSlots.find(
+          (es) => es?.timeSlot === timeSlotString
+        );
+
+        if (existingSlot) {
+          // Update existing slot
+          const { errors: updateErrors } =
             await client.models.EventTimeSlot.update({
-              id: slot.id,
-              eventId: eventId,
-              timeSlot,
+              id: existingSlot.id,
               maxParticipants: slot.maxParticipants,
-              currentParticipants: 0,
             });
 
-          if (timeSlotErrors) {
-            console.error("Error updating time slot:", timeSlotErrors);
+          if (updateErrors) {
+            console.error("Error updating time slot:", updateErrors);
           }
         } else {
-          const { errors: timeSlotErrors } =
+          // Create new slot
+          const { errors: createErrors } =
             await client.models.EventTimeSlot.create({
               eventId: eventId,
-              timeSlot,
+              timeSlot: timeSlotString,
               maxParticipants: slot.maxParticipants,
               currentParticipants: 0,
             });
 
-          if (timeSlotErrors) {
-            console.error("Error creating time slot:", timeSlotErrors);
+          if (createErrors) {
+            console.error("Error creating time slot:", createErrors);
           }
         }
       }
 
-      for (const slotId of deletedTimeSlots) {
-        const { errors: deleteErrors } =
-          await client.models.EventTimeSlot.delete({
-            id: slotId,
-          });
+      // Delete removed slots
+      for (const existingSlot of existingTimeSlots) {
+        if (existingSlot && existingSlot.timeSlot) {
+          const [hour, minute] = existingSlot.timeSlot.split(":");
+          if (
+            !timeSlots.some(
+              (slot) => slot.hour === hour && slot.minute === minute
+            )
+          ) {
+            const { errors: deleteErrors } =
+              await client.models.EventTimeSlot.delete({
+                id: existingSlot.id,
+              });
 
-        if (deleteErrors) {
-          console.error("Error deleting time slot:", deleteErrors);
-        } else {
-          console.log("Time slot deleted successfully:", slotId);
+            if (deleteErrors) {
+              console.error("Error deleting time slot:", deleteErrors);
+            }
+          }
         }
       }
 
       console.log("Event and time slots updated successfully");
       router.push("/admin");
     } catch (error) {
-      console.error("Failed to update event or time slots:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to update event or time slots"
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (!event) {
+  if (isLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -309,18 +340,19 @@ export default function EventDetail() {
       <div className="flex items-center mb-6">
         <ArrowLeftIcon
           className="w-6 h-6 cursor-pointer"
-          onClick={() => router.back()}
+          onClick={() => window.history.back()}
         />
-        <h1 className="text-xl font-bold ml-2">お茶会詳細</h1>
+        <h1 className="text-xl font-bold ml-2">お茶会編集</h1>
       </div>
       <p className="text-muted-foreground mb-6">
-        お茶会の情報を編集することができます。
+        お茶会の情報を編集してください。
       </p>
       <div className="space-y-6">
         <div>
           <Label htmlFor="tea-party-name">お茶会名</Label>
           <Input
             id="tea-party-name"
+            placeholder="例: 七夕茶会"
             value={teaPartyName}
             onChange={(e) => setTeaPartyName(e.target.value)}
           />
@@ -337,6 +369,7 @@ export default function EventDetail() {
           <Label htmlFor="venue">会場</Label>
           <Input
             id="venue"
+            placeholder="例: 紅葉園"
             value={venue}
             onChange={(e) => setVenue(e.target.value)}
           />
@@ -423,7 +456,6 @@ export default function EventDetail() {
                 </Button>
               </div>
             ))}
-
             <Button
               variant="outline"
               className="w-full mt-2"
@@ -438,38 +470,7 @@ export default function EventDetail() {
           <Input id="max-participants" value={maxParticipants} readOnly />
         </div>
         <div>
-          <Label htmlFor="date">日にち</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full">
-                {date
-                  ? format(date, "yyyy年M月d日(EEE)", { locale: ja })
-                  : "日付を選択"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                classNames={{
-                  root: "rounded-md border",
-                }}
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div>
-          <Label htmlFor="description">お茶会の説明</Label>
-          <Textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="min-h-[100px]"
-          />
-        </div>
-        <div>
-          <Label htmlFor="image-upload">画像の編集</Label>
+          <Label htmlFor="image-upload">画像の選択</Label>
           <input
             type="file"
             id="image-upload"
@@ -483,15 +484,43 @@ export default function EventDetail() {
           >
             {selectedFile ? selectedFile.name : "ファイルを選択"}
           </Button>
-          {imageUrl && (
-            <img src={imageUrl} alt="Event Image" className="mt-4 rounded-lg" />
-          )}
+        </div>
+        <div>
+          <Label htmlFor="date">日にち</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full">
+                {date && !isNaN(date.getTime())
+                  ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
+                  : "日付を選択"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[300px] p-0">
+              <Calendar
+                mode="single"
+                selected={date && !isNaN(date.getTime()) ? date : undefined}
+                onSelect={setDate}
+                className="rounded-md border"
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div>
+          <Label htmlFor="description">お茶会の説明</Label>
+          <Textarea
+            id="description"
+            placeholder="例: 各席8〜12名（45分）どなたでも参加いただけます。（服装自由）"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="min-h-[100px]"
+          />
         </div>
         <Button
           className="w-full bg-green-500 text-white"
-          onClick={handleUpdate}
+          onClick={handleCreate}
+          disabled={isLoading}
         >
-          編集完了
+          {isLoading ? "更新中..." : "編集完了"}
         </Button>
       </div>
     </div>

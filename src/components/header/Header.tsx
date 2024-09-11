@@ -46,12 +46,16 @@ export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
         <a
           href="#"
           className="font-semibold"
-          onClick={() => handleNavigation("/info")}
+          onClick={() => handleNavigation("/reservation")}
         >
           予約確認
         </a>
-        <a href="#" className="font-semibold">
-          お問い合わせ
+        <a
+          href="#"
+          className="font-semibold"
+          onClick={() => handleNavigation("/history")}
+        >
+          過去イベント
         </a>
       </nav>
       <div className="absolute bottom-16 left-16 text-white">
