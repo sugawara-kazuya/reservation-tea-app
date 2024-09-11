@@ -123,7 +123,7 @@ const EventDetails: React.FC = () => {
   };
 
   const handleGoBack = () => {
-    router.push("/admin");
+    router.push("/admin/event");
   };
 
   const handleEdit = (reservationId: string | null | undefined) => {
@@ -146,19 +146,61 @@ const EventDetails: React.FC = () => {
   const confirmDelete = async () => {
     if (reservationToDelete) {
       try {
-        const { errors } = await client.models.Reservation.delete({
-          id: reservationToDelete,
-        });
-        if (errors) {
-          throw new Error(JSON.stringify(errors));
+        // 予約情報を取得
+        const { data: reservationData, errors: fetchErrors } =
+          await client.models.Reservation.get({ id: reservationToDelete });
+        if (fetchErrors) throw new Error(JSON.stringify(fetchErrors));
+        if (!reservationData) throw new Error("予約が見つかりません。");
+
+        // 予約を削除
+        const { errors: deleteErrors } = await client.models.Reservation.delete(
+          {
+            id: reservationToDelete,
+          }
+        );
+        if (deleteErrors) throw new Error(JSON.stringify(deleteErrors));
+
+        // Eventの参加者数を更新
+        if (event) {
+          const updatedParticipants =
+            (event.currentParticipants || 0) -
+            (reservationData.participants || 0);
+          const { errors: eventUpdateErrors } =
+            await client.models.Event.update({
+              id: event.id,
+              currentParticipants:
+                updatedParticipants >= 0 ? updatedParticipants : 0,
+            });
+          if (eventUpdateErrors)
+            throw new Error(JSON.stringify(eventUpdateErrors));
         }
+
+        // EventTimeSlotの参加者数を更新
+        const timeSlot = timeSlots.find(
+          (ts) => ts.timeSlot === reservationData.reservationTime
+        );
+        if (timeSlot) {
+          const updatedParticipants =
+            (timeSlot.currentParticipants || 0) -
+            (reservationData.participants || 0);
+          const { errors: timeSlotUpdateErrors } =
+            await client.models.EventTimeSlot.update({
+              id: timeSlot.id,
+              currentParticipants:
+                updatedParticipants >= 0 ? updatedParticipants : 0,
+            });
+          if (timeSlotUpdateErrors)
+            throw new Error(JSON.stringify(timeSlotUpdateErrors));
+        }
+
         setDeleteConfirmOpen(false);
         setReservationToDelete(null);
-        // 予約を削除した後、データを再取得して画面を更新
+
+        // データを再取得して画面を更新
         await fetchEventData();
       } catch (error) {
-        console.error("Error deleting reservation:", error);
-        setError(`予約の削除中にエラーが発生しました: ${error}`);
+        console.error("Error during reservation deletion process:", error);
+        setError(`予約の削除処理中にエラーが発生しました: ${error}`);
       }
     }
   };

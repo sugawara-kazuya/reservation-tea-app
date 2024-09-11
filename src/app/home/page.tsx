@@ -16,7 +16,13 @@ export default function Page() {
   const [events, setEvents] = useState<Schema["Event"]["type"][]>([]);
 
   const fetchEvents = async () => {
-    const { data: items, errors } = await client.models.Event.list();
+    const { data: items, errors } = await client.models.Event.list({
+      filter: { isActive: { eq: true } },
+    });
+    if (errors) {
+      console.error("Error fetching events:", errors);
+      return;
+    }
     setEvents(items);
   };
 
