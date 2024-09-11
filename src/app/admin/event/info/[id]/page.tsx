@@ -128,7 +128,7 @@ const EventDetails: React.FC = () => {
 
   const handleEdit = (reservationId: string | null | undefined) => {
     if (reservationId) {
-      router.push(`/admin/user/${reservationId}`);
+      router.push(`/admin/event/info/user/${reservationId}`);
     } else {
       console.error("Invalid reservation ID");
     }
@@ -206,7 +206,7 @@ const EventDetails: React.FC = () => {
   };
 
   const handleCreateReservation = () => {
-    router.push(`/admin/user/add/${id}`);
+    router.push(`/admin/event/info/add/${id}`);
   };
 
   if (loading) {

@@ -138,7 +138,7 @@ export default function ReservationCreate() {
       }
 
       console.log("Reservation created successfully:", newReservation);
-      router.push(`/admin/holder/${eventId}`);
+      router.push(`/admin/event/info/${eventId}`);
     } catch (error) {
       console.error("Failed to create reservation:", error);
       setError(`予約の作成中にエラーが発生しました: ${error}`);
