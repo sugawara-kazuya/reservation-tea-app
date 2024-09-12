@@ -13,7 +13,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { generateClient } from "aws-amplify/data";
-import { CalendarIcon, PhoneIcon, UsersIcon, CoinsIcon } from "@/avator/icons"; // 正しいパスに変更してください
+import { CalendarIcon, PhoneIcon, UsersIcon, CoinsIcon } from "@/avator/icons";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
@@ -38,6 +38,7 @@ export default function Component() {
   const [notes, setNotes] = useState("");
   const [showBanner, setShowBanner] = useState(false);
   const [bannerMessage, setBannerMessage] = useState("");
+  const [accompaniedGuests, setAccompaniedGuests] = useState<string[]>([]);
 
   const fetchEvent = async () => {
     if (!eventId) {
@@ -84,13 +85,13 @@ export default function Component() {
     );
 
     if (selectedSlot) {
-      const maxParticipants = selectedSlot.maxParticipants ?? 0; // maxParticipants が null または undefined の場合は 0 を使用
+      const maxParticipants = selectedSlot.maxParticipants ?? 0;
       const totalParticipants =
         (selectedSlot.currentParticipants ?? 0) + participants;
       if (totalParticipants > maxParticipants) {
         setBannerMessage("上限人数に達しています。予約ができません。");
         setShowBanner(true);
-        return; // 上限を超えている場合は処理を中断
+        return;
       }
     }
 
@@ -107,6 +108,9 @@ export default function Component() {
           participants,
           totalCost,
           notes,
+          accompaniedGuest1: accompaniedGuests[0] || null,
+          accompaniedGuest2: accompaniedGuests[1] || null,
+          accompaniedGuest3: accompaniedGuests[2] || null,
         });
 
       if (reservationErrors || !newReservation) {
@@ -154,10 +158,17 @@ export default function Component() {
 
   const handleParticipantsSelect = (selectedParticipants: number) => {
     setParticipants(selectedParticipants);
+    setAccompaniedGuests(Array(selectedParticipants - 1).fill(""));
   };
 
   const handleTimeSlotSelect = (timeSlot: string) => {
     setSelectedTimeSlot(timeSlot);
+  };
+
+  const handleAccompaniedGuestChange = (index: number, value: string) => {
+    const newAccompaniedGuests = [...accompaniedGuests];
+    newAccompaniedGuests[index] = value;
+    setAccompaniedGuests(newAccompaniedGuests);
   };
 
   return (
@@ -258,6 +269,21 @@ export default function Component() {
                 </PopoverContent>
               </Popover>
             </div>
+            {accompaniedGuests.map((guest, index) => (
+              <div key={index} className="grid gap-2">
+                <Label htmlFor={`accompaniedGuest${index + 1}`}>
+                  同行者 {index + 1}
+                </Label>
+                <Input
+                  id={`accompaniedGuest${index + 1}`}
+                  placeholder={`同行者 ${index + 1} の名前`}
+                  value={guest}
+                  onChange={(e) =>
+                    handleAccompaniedGuestChange(index, e.target.value)
+                  }
+                />
+              </div>
+            ))}
             <div className="grid gap-2">
               <Label htmlFor="notes">追加メモ</Label>
               <Textarea
@@ -277,7 +303,6 @@ export default function Component() {
             </Button>
           </div>
           <div className="space-y-6">
-            {/* 予約の詳細や他の情報を表示する部分 */}
             {event && (
               <>
                 <div className="grid gap-2">
