@@ -52,6 +52,7 @@ export default function ReservationEdit() {
   const [reservationTime, setReservationTime] = useState("");
   const [participants, setParticipants] = useState("");
   const [notes, setNotes] = useState("");
+  const [accompaniedGuests, setAccompaniedGuests] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [eventTimeSlots, setEventTimeSlots] = useState<
@@ -87,6 +88,13 @@ export default function ReservationEdit() {
         setReservationTime(data.reservationTime || "");
         setParticipants(data.participants?.toString() || "");
         setNotes(data.notes || "");
+        setAccompaniedGuests(
+          [
+            data.accompaniedGuest1 || "",
+            data.accompaniedGuest2 || "",
+            data.accompaniedGuest3 || "",
+          ].slice(0, (data.participants || 1) - 1)
+        );
 
         if (data.eventId) {
           await fetchEvent(data.eventId);
@@ -172,6 +180,9 @@ export default function ReservationEdit() {
           participants: newParticipants,
           totalCost: event.cost ? event.cost * newParticipants : 0,
           notes,
+          accompaniedGuest1: accompaniedGuests[0] || null,
+          accompaniedGuest2: accompaniedGuests[1] || null,
+          accompaniedGuest3: accompaniedGuests[2] || null,
         });
 
       if (reservationErrors) {
@@ -221,8 +232,30 @@ export default function ReservationEdit() {
     }
   };
 
+  const handleParticipantsChange = (value: string) => {
+    const newParticipantsCount = parseInt(value, 10);
+    setParticipants(value);
+
+    const newAccompaniedGuests = [...accompaniedGuests];
+    if (newParticipantsCount > 1) {
+      while (newAccompaniedGuests.length < newParticipantsCount - 1) {
+        newAccompaniedGuests.push("");
+      }
+      newAccompaniedGuests.length = newParticipantsCount - 1;
+    } else {
+      newAccompaniedGuests.length = 0;
+    }
+    setAccompaniedGuests(newAccompaniedGuests);
+  };
+
   const handleGoBack = () => {
     router.back();
+  };
+
+  const handleAccompaniedGuestChange = (index: number, value: string) => {
+    const newAccompaniedGuests = [...accompaniedGuests];
+    newAccompaniedGuests[index] = value;
+    setAccompaniedGuests(newAccompaniedGuests);
   };
 
   if (loading) {
@@ -294,7 +327,7 @@ export default function ReservationEdit() {
         </div>
         <div>
           <Label htmlFor="participants">参加人数</Label>
-          <Select value={participants} onValueChange={setParticipants}>
+          <Select value={participants} onValueChange={handleParticipantsChange}>
             <SelectTrigger>
               <SelectValue placeholder="参加人数を選択" />
             </SelectTrigger>
@@ -306,6 +339,21 @@ export default function ReservationEdit() {
             </SelectContent>
           </Select>
         </div>
+        {accompaniedGuests.map((guest, index) => (
+          <div key={index}>
+            <Label htmlFor={`accompaniedGuest${index + 1}`}>
+              同行者 {index + 1}
+            </Label>
+            <Input
+              id={`accompaniedGuest${index + 1}`}
+              value={guest}
+              onChange={(e) =>
+                handleAccompaniedGuestChange(index, e.target.value)
+              }
+              placeholder={`同行者 ${index + 1} の名前`}
+            />
+          </div>
+        ))}
         <div>
           <Label htmlFor="totalCost">総費用</Label>
           <Input

@@ -36,6 +36,10 @@ const schema = a.schema({
       event: a.belongsTo("Event", "eventId"), // 修正: eventIdを使ったリレーション
       reservationTime: a.string(), // 予約時間
       participants: a.integer(), // 参加人数
+      accompaniedGuest1: a.string(), // 同行者1
+      accompaniedGuest2: a.string(), // 同行者2
+      accompaniedGuest3: a.string(), // 同行者3
+      accompaniedGuest4: a.string(), // 同行者4
       totalCost: a.integer(), // 総費用
       notes: a.string(), // メモ
       createdAt: a.datetime(), // 作成日時

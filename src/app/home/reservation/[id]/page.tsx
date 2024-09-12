@@ -89,6 +89,13 @@ export default function Component() {
     return <div>予約情報が見つかりません。</div>;
   }
 
+  // 同行者の配列を作成
+  const accompaniedGuests = [
+    reservation.accompaniedGuest1,
+    reservation.accompaniedGuest2,
+    reservation.accompaniedGuest3,
+  ].filter(Boolean); // nullや空文字を除外
+
   return (
     <div className="min-h-screen bg-white">
       <main className="p-4">
@@ -142,6 +149,19 @@ export default function Component() {
             </div>
           </div>
         </section>
+        {accompaniedGuests.length > 0 && (
+          <section className="max-w-2xl mx-auto bg-gray-100 p-6 rounded-md shadow-md mt-8">
+            <h2 className="text-2xl font-semibold mb-4">同行者情報</h2>
+            <div className="space-y-4">
+              {accompaniedGuests.map((guest, index) => (
+                <div key={index} className="flex justify-between">
+                  <span className="font-medium">同行者 {index + 1}:</span>
+                  <span>{guest}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
         <div className="flex justify-center mt-8">
           <Button type="button" variant="default" onClick={handleReservation}>
             ホームに戻る

@@ -260,6 +260,34 @@
               "isRequired": false,
               "attributes": []
             },
+            "accompaniedGuest1": {
+              "name": "accompaniedGuest1",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accompaniedGuest2": {
+              "name": "accompaniedGuest2",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accompaniedGuest3": {
+              "name": "accompaniedGuest3",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accompaniedGuest4": {
+              "name": "accompaniedGuest4",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "totalCost": {
               "name": "totalCost",
               "isArray": false,
