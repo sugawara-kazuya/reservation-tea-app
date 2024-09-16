@@ -13,14 +13,66 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { generateClient } from "aws-amplify/data";
-import { CalendarIcon, PhoneIcon, UsersIcon, CoinsIcon } from "@/avator/icons";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { fetchAuthSession } from "aws-amplify/auth";
 
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
+
+async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
+  const { credentials } = await fetchAuthSession();
+  const sesClient = new SESClient({
+    credentials: credentials,
+    region: "ap-northeast-1",
+  }); // AWSリージョンを適切に設定してください
+  const params = {
+    Destination: {
+      ToAddresses: [toEmail],
+    },
+    Message: {
+      Body: {
+        Text: {
+          Charset: "UTF-8",
+          Data: `
+お茶会の予約が完了しました。
+
+予約詳細:
+予約番号: ${reservationDetails.id}
+お茶会名: ${reservationDetails.eventTitle}
+日時: ${reservationDetails.date}
+時間: ${reservationDetails.time}
+会場: ${reservationDetails.venue}
+参加費: ${reservationDetails.cost}円
+参加人数: ${reservationDetails.participants}名
+
+ご予約いただき、ありがとうございます。当日のお越しを心よりお待ちしております。
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+          `,
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: `【予約完了】${reservationDetails.eventTitle}のお知らせ`,
+      },
+    },
+    Source: "kz515yssg@gmail.com ", // SESで検証済みのメールアドレスを設定してください
+  };
+
+  try {
+    const command = new SendEmailCommand(params);
+    const response = await sesClient.send(command);
+    console.log("Email sent successfully:", response.MessageId);
+    return response.MessageId;
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw error;
+  }
+}
 
 export default function Component() {
   const router = useRouter();
@@ -149,6 +201,18 @@ export default function Component() {
           return;
         }
       }
+
+      // 予約確認メールを送信
+      const reservationDetails = {
+        eventTitle: event.title,
+        date: event.date,
+        time: selectedTimeSlot,
+        venue: event.venue,
+        cost: totalCost,
+        participants: participants,
+      };
+
+      await sendConfirmationEmail(email, reservationDetails);
 
       router.push(`/home/reservation/${newReservation.id}`);
     } catch (error) {
@@ -353,5 +417,90 @@ export default function Component() {
         </div>
       </div>
     </div>
+  );
+}
+
+function CalendarIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+      <line x1="16" x2="16" y1="2" y2="6" />
+      <line x1="8" x2="8" y1="2" y2="6" />
+      <line x1="3" x2="21" y1="10" y2="10" />
+    </svg>
+  );
+}
+
+function PhoneIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function UsersIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+function CoinsIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="8" cy="8" r="6" />
+      <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+      <path d="M7 6h1v4" />
+      <path d="m16.71 13.88.7.71-2.82 2.82" />
+    </svg>
   );
 }

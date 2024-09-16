@@ -19,10 +19,70 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { fetchAuthSession } from "aws-amplify/auth";
 
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
+
+async function sendCancellationEmail(
+  toEmail: string,
+  reservationDetails: {
+    name: string;
+    eventTitle: string;
+    date: string;
+    time: string;
+  }
+) {
+  const { credentials } = await fetchAuthSession();
+  const sesClient = new SESClient({
+    credentials: credentials,
+    region: "ap-northeast-1",
+  });
+
+  const params = {
+    Destination: {
+      ToAddresses: [toEmail],
+    },
+    Message: {
+      Body: {
+        Text: {
+          Charset: "UTF-8",
+          Data: `
+${reservationDetails.name} 様
+
+お茶会の予約キャンセルが完了しました。
+
+キャンセルされた予約詳細:
+イベント名: ${reservationDetails.eventTitle}
+日付: ${reservationDetails.date}
+時間: ${reservationDetails.time}
+
+またのご利用をお待ちしております。
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+          `,
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: `【予約キャンセル完了】${reservationDetails.eventTitle}のお知らせ`,
+      },
+    },
+    Source: "kz515yssg@gmail.com ", // SESで検証済みのメールアドレスを設定してください
+  };
+
+  try {
+    const command = new SendEmailCommand(params);
+    const response = await sesClient.send(command);
+    console.log("Email sent successfully:", response.MessageId);
+    return response.MessageId;
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw error;
+  }
+}
 
 export default function Component() {
   const router = useRouter();
@@ -64,7 +124,6 @@ export default function Component() {
     }
 
     try {
-      // 予約情報の取得
       const { data: reservationData, errors: reservationErrors } =
         await client.models.Reservation.get({
           id: reservationId,
@@ -75,17 +134,14 @@ export default function Component() {
         return;
       }
 
-      // participantsがnullの場合は0をデフォルト値として設定
       const participants = reservationData.participants ?? 0;
-
-      // Event IDがnullでないことを確認
       const eventId = reservationData.eventId;
+
       if (!eventId) {
         setError("イベントIDが見つかりません。");
         return;
       }
 
-      // Eventの人数を更新
       const { data: eventData, errors: eventErrors } =
         await client.models.Event.get({
           id: eventId,
@@ -104,12 +160,11 @@ export default function Component() {
 
       await client.models.Event.update(updatedEvent);
 
-      // EventTimeSlotのデータを取得して人数を減算
       const { data: timeSlotsData, errors: timeSlotsErrors } =
         await client.models.EventTimeSlot.list({
           filter: {
             eventId: {
-              eq: eventId, // eventIdがstring型として使用される
+              eq: eventId,
             },
           },
         });
@@ -119,25 +174,41 @@ export default function Component() {
         return;
       }
 
-      // 単に最初のスロットを選んで更新する例
-      if (timeSlotsData.length > 0) {
+      const matchingSlot = timeSlotsData.find(
+        (slot) => slot.timeSlot === reservationData.reservationTime
+      );
+      if (matchingSlot) {
         const updatedTimeSlot = {
-          ...timeSlotsData[0],
+          ...matchingSlot,
           currentParticipants:
-            (timeSlotsData[0].currentParticipants ?? 0) - participants,
+            (matchingSlot.currentParticipants ?? 0) - participants,
         };
 
         await client.models.EventTimeSlot.update(updatedTimeSlot);
       }
 
-      // 予約の削除
       await client.models.Reservation.delete({
         id: reservationId,
       });
 
+      if (reservationData.email) {
+        await sendCancellationEmail(reservationData.email, {
+          name: reservationData.name ?? "ゲスト",
+          eventTitle: eventData.title ?? "不明なイベント",
+          date: eventData.date ?? "不明な日付",
+          time: reservationData.reservationTime ?? "不明な時間",
+        });
+      } else {
+        console.error(
+          "予約にメールアドレスが登録されていません:",
+          reservationId
+        );
+      }
+
       setReservation(null);
       setShowConfirmation(true);
     } catch (cancelError) {
+      console.error("予約のキャンセルに失敗しました:", cancelError);
       setError("予約のキャンセルに失敗しました。");
     }
   };
