@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,14 +28,14 @@ async function sendBulkEmails(
   const { credentials } = await fetchAuthSession();
   const sesClient = new SESClient({
     credentials: credentials,
-    region: "ap-northeast-1", // 適切なリージョンに変更してください
+    region: "ap-northeast-1",
   });
 
   const senderEmail = "kz515yssg@gmail.com";
 
   const params = {
     Destination: {
-      BccAddresses: toAddresses, // BCCで一斉送信
+      BccAddresses: toAddresses,
     },
     Message: {
       Body: {
@@ -65,27 +65,49 @@ async function sendBulkEmails(
 
 export default function Component() {
   const router = useRouter();
+  const params = useParams();
+  const eventId = Array.isArray(params.id) ? params.id[0] : params.id;
+
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
-  const [users, setUsers] = useState<{ id: string; email: string }[]>([]);
+  const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
+  const [reservations, setReservations] = useState<
+    Schema["Reservation"]["type"][]
+  >([]);
   const [isSending, setIsSending] = useState(false);
   const [sendingResult, setSendingResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchUsers() {
+    async function fetchEventAndReservations() {
+      if (!eventId) {
+        setError("イベントIDが指定されていません。");
+        return;
+      }
+
       try {
-        const reservations = await client.models.Reservation.list();
-        const uniqueUsers = Array.from(
-          new Set(reservations.data.map((r) => r.email))
-        ).map((email) => ({ id: email as string, email: email as string }));
-        setUsers(uniqueUsers);
+        // イベント情報の取得
+        const eventData = await client.models.Event.get({ id: eventId });
+        if (!eventData.data) {
+          setError("指定されたイベントが見つかりません。");
+          return;
+        }
+        setEvent(eventData.data);
+
+        // 予約情報の取得
+        const reservationData = await client.models.Reservation.list({
+          filter: { eventId: { eq: eventId } },
+        });
+        setReservations(reservationData.data);
       } catch (error) {
-        console.error("ユーザーの取得に失敗しました:", error);
+        console.error("データの取得に失敗しました:", error);
+        setError("データの取得中にエラーが発生しました。");
       }
     }
-    fetchUsers();
-  }, []);
+
+    fetchEventAndReservations();
+  }, [eventId]);
 
   const handleUserToggle = (userEmail: string) => {
     setSelectedUsers((prev) =>
@@ -96,7 +118,9 @@ export default function Component() {
   };
 
   const handleSelectAll = () => {
-    setSelectedUsers(users.map((user) => user.id));
+    setSelectedUsers(
+      reservations.map((reservation) => reservation.email ?? "").filter(Boolean)
+    );
   };
 
   const handleDeselectAll = () => {
@@ -107,12 +131,11 @@ export default function Component() {
     setIsSending(true);
     setSendingResult(null);
     try {
-      const toAddresses = selectedUsers
-        .map((id) => users.find((user) => user.id === id)?.email)
-        .filter((email): email is string => email !== undefined);
+      const toAddresses = selectedUsers.filter(
+        (email): email is string => email !== undefined
+      );
       await sendBulkEmails(toAddresses, subject, content);
       setSendingResult("メールの送信に成功しました。");
-      // メール送信後、少し待ってから /admin に遷移
       setTimeout(() => router.push("/admin"), 2000);
     } catch (error) {
       console.error("メール送信中にエラーが発生しました:", error);
@@ -125,6 +148,28 @@ export default function Component() {
   const handleGoBack = () => {
     router.back();
   };
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">エラー</h1>
+          <p>{error}</p>
+          <Button onClick={handleGoBack} className="mt-4">
+            戻る
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!event) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-2xl font-bold">読み込み中...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
@@ -142,11 +187,21 @@ export default function Component() {
                 戻る
               </Button>
               <h1 className="text-2xl font-bold text-gray-900">
-                メール一斉送信
+                イベント予約者へのメール送信
               </h1>
             </div>
 
             <div className="space-y-6">
+              <div className="bg-gray-50 p-4 rounded-md">
+                <h2 className="text-xl font-semibold mb-2">{event.title}</h2>
+                <p>
+                  <strong>日付:</strong> {event.date}
+                </p>
+                <p>
+                  <strong>会場:</strong> {event.venue}
+                </p>
+              </div>
+
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -172,21 +227,25 @@ export default function Component() {
                     </Button>
                   </div>
                   <div className="space-y-2 max-h-48 overflow-y-auto border rounded p-2">
-                    {users.map((user) => (
+                    {reservations.map((reservation) => (
                       <div
-                        key={user.id}
+                        key={reservation.id}
                         className="flex items-center space-x-2"
                       >
                         <Checkbox
-                          id={`user-${user.id}`}
-                          checked={selectedUsers.includes(user.email)}
-                          onCheckedChange={() => handleUserToggle(user.email)}
+                          id={`user-${reservation.id}`}
+                          checked={selectedUsers.includes(
+                            reservation.email ?? ""
+                          )}
+                          onCheckedChange={() =>
+                            handleUserToggle(reservation.email ?? "")
+                          }
                         />
                         <Label
-                          htmlFor={`user-${user.id}`}
+                          htmlFor={`user-${reservation.id}`}
                           className="flex-grow"
                         >
-                          {user.email}
+                          {reservation.email}
                         </Label>
                       </div>
                     ))}

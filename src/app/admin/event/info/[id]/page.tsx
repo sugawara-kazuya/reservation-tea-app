@@ -39,6 +39,7 @@ import {
   Trash2,
   Plus,
   ArrowLeft,
+  Mail,
 } from "lucide-react";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
@@ -209,6 +210,10 @@ const EventDetails: React.FC = () => {
     router.push(`/admin/event/info/add/${id}`);
   };
 
+  const handleBulkEmail = () => {
+    router.push(`/admin/event/info/mail/${id}`);
+  };
+
   if (loading) {
     return <div>データを読み込んでいます...</div>;
   }
@@ -227,9 +232,17 @@ const EventDetails: React.FC = () => {
         <Button variant="ghost" onClick={handleGoBack} className="p-2">
           <ArrowLeft className="h-6 w-6" />
         </Button>
-        <Button onClick={handleCreateReservation} className="whitespace-nowrap">
-          <Plus className="mr-2 h-4 w-4" /> 新規予約
-        </Button>
+        <div className="flex space-x-2">
+          <Button onClick={handleBulkEmail} className="whitespace-nowrap">
+            <Mail className="mr-2 h-4 w-4" /> メール一斉送信
+          </Button>
+          <Button
+            onClick={handleCreateReservation}
+            className="whitespace-nowrap"
+          >
+            <Plus className="mr-2 h-4 w-4" /> 新規予約
+          </Button>
+        </div>
       </div>
 
       <Card className="mb-6 border-2 border-green-800">
