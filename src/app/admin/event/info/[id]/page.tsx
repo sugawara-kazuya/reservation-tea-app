@@ -40,6 +40,7 @@ import {
   Plus,
   ArrowLeft,
   Mail,
+  ChevronUp,
 } from "lucide-react";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
@@ -63,15 +64,15 @@ const EventDetails: React.FC = () => {
   const [openTimeSlots, setOpenTimeSlots] = useState<Record<string, boolean>>(
     {}
   );
+  const [openReservations, setOpenReservations] = useState<
+    Record<string, boolean>
+  >({});
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState<string | null>(
     null
   );
-  const [viewReservation, setViewReservation] = useState<
-    Schema["Reservation"]["type"] | null
-  >(null); // 追加：予約詳細表示用の状態
 
   useEffect(() => {
     fetchEventData();
@@ -119,10 +120,44 @@ const EventDetails: React.FC = () => {
     }
   };
 
-  const toggleTimeSlot = (timeSlot: string) => {
+  const toggleTimeSlot = (timeSlot: string, isOpen?: boolean) => {
+    const newState = isOpen !== undefined ? isOpen : !openTimeSlots[timeSlot];
     setOpenTimeSlots((prev) => ({
       ...prev,
-      [timeSlot]: !prev[timeSlot],
+      [timeSlot]: newState,
+    }));
+
+    const timeSlotReservations = reservations.filter(
+      (r) => r.reservationTime === timeSlot
+    );
+
+    setOpenReservations((prev) => {
+      const newOpenReservations = { ...prev };
+      timeSlotReservations.forEach((reservation) => {
+        newOpenReservations[reservation.id ?? ""] = newState;
+      });
+      return newOpenReservations;
+    });
+  };
+
+  const toggleAllTimeSlots = (isOpen: boolean) => {
+    const newOpenTimeSlots: Record<string, boolean> = {};
+    timeSlots.forEach((timeSlot) => {
+      newOpenTimeSlots[timeSlot.timeSlot ?? ""] = isOpen;
+    });
+    setOpenTimeSlots(newOpenTimeSlots);
+
+    const newOpenReservations: Record<string, boolean> = {};
+    reservations.forEach((reservation) => {
+      newOpenReservations[reservation.id ?? ""] = isOpen;
+    });
+    setOpenReservations(newOpenReservations);
+  };
+
+  const toggleReservation = (reservationId: string) => {
+    setOpenReservations((prev) => ({
+      ...prev,
+      [reservationId]: !prev[reservationId],
     }));
   };
 
@@ -217,13 +252,6 @@ const EventDetails: React.FC = () => {
     router.push(`/admin/event/info/mail/${id}`);
   };
 
-  // 追加：ユーザー名クリック時の処理
-  const handleViewReservation = (
-    reservation: Schema["Reservation"]["type"]
-  ) => {
-    setViewReservation(reservation);
-  };
-
   if (loading) {
     return <div>データを読み込んでいます...</div>;
   }
@@ -297,9 +325,31 @@ const EventDetails: React.FC = () => {
 
       <Card className="border-2 border-green-800">
         <CardHeader className="bg-green-800 text-white">
-          <CardTitle className="font-serif text-lg md:text-xl">
-            時間帯別ご予約一覧
-          </CardTitle>
+          <div className="flex justify-between items-center">
+            <CardTitle className="font-serif text-lg md:text-xl">
+              予約一覧
+            </CardTitle>
+            <div className="flex space-x-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => toggleAllTimeSlots(true)}
+                className="bg-white text-green-800 hover:bg-green-100"
+              >
+                <ChevronDown className="mr-2 h-4 w-4" />
+                全部開く
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => toggleAllTimeSlots(false)}
+                className="bg-white text-green-800 hover:bg-green-100"
+              >
+                <ChevronUp className="mr-2 h-4 w-4" />
+                全部閉じる
+              </Button>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           {timeSlots.length === 0 ? (
@@ -317,7 +367,7 @@ const EventDetails: React.FC = () => {
                     open={openTimeSlots[timeSlot.timeSlot ?? ""]}
                     onOpenChange={() => toggleTimeSlot(timeSlot.timeSlot ?? "")}
                   >
-                    <CollapsibleTrigger className="flex justify-between items-center w-full p-3 bg-green-100 rounded-lg hover:bg-green-200 transition-colors">
+                    <CollapsibleTrigger className="flex justify-between items-center w-full p-3 bg-green-100 rounded-lg transition-colors hover:bg-green-200">
                       <div className="flex items-center space-x-2">
                         <Clock className="w-4 h-4 text-green-800" />
                         <span className="font-semibold text-sm">
@@ -348,7 +398,9 @@ const EventDetails: React.FC = () => {
                             <TableRow>
                               <TableHead className="w-1/3">名前</TableHead>
                               <TableHead className="w-1/3">人数</TableHead>
-                              <TableHead className="w-1/3">操作</TableHead>
+                              <TableHead className="w-1/3 text-right">
+                                操作
+                              </TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
@@ -360,47 +412,108 @@ const EventDetails: React.FC = () => {
                               </TableRow>
                             ) : (
                               slotReservations.map((reservation) => (
-                                <TableRow key={reservation.id}>
-                                  <TableCell className="py-2">
-                                    <div
-                                      className="font-medium truncate cursor-pointer text-blue-600"
-                                      onClick={() =>
-                                        handleViewReservation(reservation)
-                                      }
-                                    >
-                                      {reservation.name}
-                                    </div>
-                                  </TableCell>
-                                  <TableCell className="py-2">
-                                    <div className="text-sm">
-                                      {reservation.participants}名
-                                    </div>
-                                  </TableCell>
-                                  <TableCell className="py-2">
-                                    <div className="flex space-x-1">
-                                      <Button
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={() =>
-                                          handleEdit(reservation.id)
-                                        }
-                                        className="p-1"
-                                      >
-                                        <Edit className="h-4 w-4" />
-                                      </Button>
-                                      <Button
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={() =>
-                                          handleDelete(reservation.id)
-                                        }
-                                        className="p-1"
-                                      >
-                                        <Trash2 className="h-4 w-4" />
-                                      </Button>
-                                    </div>
-                                  </TableCell>
-                                </TableRow>
+                                <React.Fragment key={reservation.id}>
+                                  <TableRow
+                                    onClick={() =>
+                                      toggleReservation(reservation.id ?? "")
+                                    }
+                                    className={`cursor-pointer ${
+                                      openReservations[reservation.id ?? ""]
+                                        ? "bg-gray-100"
+                                        : ""
+                                    }`}
+                                  >
+                                    <TableCell className="py-2">
+                                      <div className="font-medium truncate">
+                                        {reservation.name}
+                                      </div>
+                                    </TableCell>
+                                    <TableCell className="py-2">
+                                      <div className="text-sm">
+                                        {reservation.participants}名
+                                      </div>
+                                    </TableCell>
+                                    <TableCell className="py-2">
+                                      <div className="flex items-center justify-end space-x-1">
+                                        <Button
+                                          size="sm"
+                                          variant="outline"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleEdit(reservation.id);
+                                          }}
+                                          className="p-1"
+                                        >
+                                          <Edit className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                          size="sm"
+                                          variant="outline"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDelete(reservation.id);
+                                          }}
+                                          className="p-1"
+                                        >
+                                          <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                          variant="ghost"
+                                          size="sm"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            toggleReservation(
+                                              reservation.id ?? ""
+                                            );
+                                          }}
+                                          className="p-0"
+                                        >
+                                          <ChevronDown
+                                            className={`h-4 w-4 transition-transform ${
+                                              openReservations[
+                                                reservation.id ?? ""
+                                              ]
+                                                ? "rotate-180"
+                                                : ""
+                                            }`}
+                                          />
+                                        </Button>
+                                      </div>
+                                    </TableCell>
+                                  </TableRow>
+                                  {openReservations[reservation.id ?? ""] && (
+                                    <TableRow>
+                                      <TableCell colSpan={3} className="py-2">
+                                        <div className="space-y-1 pl-4">
+                                          {reservation.accompaniedGuest1 && (
+                                            <div>
+                                              <strong>同行者1:</strong>{" "}
+                                              {reservation.accompaniedGuest1}
+                                            </div>
+                                          )}
+                                          {reservation.accompaniedGuest2 && (
+                                            <div>
+                                              <strong>同行者2:</strong>{" "}
+                                              {reservation.accompaniedGuest2}
+                                            </div>
+                                          )}
+                                          {reservation.accompaniedGuest3 && (
+                                            <div>
+                                              <strong>同行者3:</strong>{" "}
+                                              {reservation.accompaniedGuest3}
+                                            </div>
+                                          )}
+                                          {reservation.accompaniedGuest4 && (
+                                            <div>
+                                              <strong>同行者4:</strong>{" "}
+                                              {reservation.accompaniedGuest4}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </TableCell>
+                                    </TableRow>
+                                  )}
+                                </React.Fragment>
                               ))
                             )}
                           </TableBody>
@@ -414,46 +527,6 @@ const EventDetails: React.FC = () => {
           )}
         </CardContent>
       </Card>
-
-      {/* 予約詳細表示用のダイアログ */}
-      <Dialog
-        open={!!viewReservation}
-        onOpenChange={() => setViewReservation(null)}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{viewReservation?.name}の予約詳細</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2">
-            <div>
-              <strong>参加人数:</strong> {viewReservation?.participants}名
-            </div>
-            {viewReservation?.accompaniedGuest1 && (
-              <div>
-                <strong>同行者1:</strong> {viewReservation.accompaniedGuest1}
-              </div>
-            )}
-            {viewReservation?.accompaniedGuest2 && (
-              <div>
-                <strong>同行者2:</strong> {viewReservation.accompaniedGuest2}
-              </div>
-            )}
-            {viewReservation?.accompaniedGuest3 && (
-              <div>
-                <strong>同行者3:</strong> {viewReservation.accompaniedGuest3}
-              </div>
-            )}
-            {viewReservation?.accompaniedGuest4 && (
-              <div>
-                <strong>同行者4:</strong> {viewReservation.accompaniedGuest4}
-              </div>
-            )}
-          </div>
-          <DialogFooter>
-            <Button onClick={() => setViewReservation(null)}>閉じる</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
         <DialogContent>
