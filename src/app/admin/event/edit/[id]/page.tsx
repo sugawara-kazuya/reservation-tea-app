@@ -15,6 +15,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { useRouter } from "next/navigation";
@@ -44,6 +54,14 @@ interface EventTimeSlot {
   maxParticipants: number;
 }
 
+const sortTimeSlots = (slots: TimeSlot[]): TimeSlot[] => {
+  return slots.sort((a, b) => {
+    const timeA = parseInt(a.hour) * 60 + parseInt(a.minute);
+    const timeB = parseInt(b.hour) * 60 + parseInt(b.minute);
+    return timeA - timeB;
+  });
+};
+
 export default function EditComponent({ params }: { params: { id: string } }) {
   const [teaPartyName, setTeaPartyName] = useState("");
   const [visibility, setVisibility] = useState(true);
@@ -52,17 +70,12 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   const [maxParticipants, setMaxParticipants] = useState(0);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [description, setDescription] = useState("");
-  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([
-    { hour: "10", minute: "00", maxParticipants: 10 },
-    { hour: "11", minute: "00", maxParticipants: 10 },
-    { hour: "12", minute: "00", maxParticipants: 10 },
-    { hour: "13", minute: "00", maxParticipants: 10 },
-    { hour: "14", minute: "00", maxParticipants: 10 },
-  ]);
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [eventId, setEventId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const router = useRouter();
 
@@ -74,7 +87,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           await client.models.Event.get({ id: params.id });
         if (eventErrors) {
           throw new Error(
-            "Error fetching event: " +
+            "イベントの取得中にエラーが発生しました: " +
               eventErrors.map((e) => e.message).join(", ")
           );
         }
@@ -95,7 +108,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
 
           if (timeSlotErrors) {
             throw new Error(
-              "Error fetching time slots: " +
+              "タイムスロットの取得中にエラーが発生しました: " +
                 timeSlotErrors.map((e) => e.message).join(", ")
             );
           }
@@ -103,17 +116,19 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           if (timeSlotsData) {
             const timeSlotItems = timeSlotsData as EventTimeSlot[];
             setTimeSlots(
-              timeSlotItems.map((timeSlot) => ({
-                hour: timeSlot.timeSlot.split(":")[0],
-                minute: timeSlot.timeSlot.split(":")[1],
-                maxParticipants: timeSlot.maxParticipants,
-              }))
+              sortTimeSlots(
+                timeSlotItems.map((timeSlot) => ({
+                  hour: timeSlot.timeSlot.split(":")[0],
+                  minute: timeSlot.timeSlot.split(":")[1],
+                  maxParticipants: timeSlot.maxParticipants,
+                }))
+              )
             );
           }
         }
       } catch (error) {
         setError(
-          error instanceof Error ? error.message : "An unknown error occurred"
+          error instanceof Error ? error.message : "不明なエラーが発生しました"
         );
       } finally {
         setIsLoading(false);
@@ -141,14 +156,16 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         newHour = 0;
       }
 
-      setTimeSlots([
-        ...timeSlots,
-        {
-          hour: newHour.toString().padStart(2, "0"),
-          minute: newMinute,
-          maxParticipants: 10,
-        },
-      ]);
+      setTimeSlots(
+        sortTimeSlots([
+          ...timeSlots,
+          {
+            hour: newHour.toString().padStart(2, "0"),
+            minute: newMinute,
+            maxParticipants: 10,
+          },
+        ])
+      );
     } else {
       setTimeSlots([
         {
@@ -177,7 +194,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           }
         : slot
     );
-    setTimeSlots(updatedTimeSlots);
+    setTimeSlots(sortTimeSlots(updatedTimeSlots));
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,14 +215,14 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   };
 
   const generateCostOptions = () => {
-    return Array.from({ length: 19 }, (_, i) => (500 + i * 500).toString());
+    return Array.from({ length: 99 }, (_, i) => (100 + i * 100).toString());
   };
 
   const hourOptions = generateHourOptions();
   const minuteOptions = generateMinuteOptions();
   const costOptions = generateCostOptions();
 
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     try {
       setIsLoading(true);
       let imageUrl = "";
@@ -225,7 +242,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         formattedDate = format(date, "yyyy年M月d日（EEE）", { locale: ja });
       }
 
-      // Update Event
+      // イベントの更新
       const { data: updatedEvent, errors: eventErrors } =
         await client.models.Event.update({
           id: eventId,
@@ -234,19 +251,19 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           date: formattedDate,
           cost: parseInt(cost, 10),
           description,
-          imageUrl: imageUrl || undefined, // Only update if new image is uploaded
+          imageUrl: imageUrl || undefined,
           maxParticipants,
           isActive: visibility,
         });
 
       if (eventErrors) {
         throw new Error(
-          "Error updating event: " +
+          "イベントの更新中にエラーが発生しました: " +
             eventErrors.map((e) => e.message).join(", ")
         );
       }
 
-      // Fetch existing time slots
+      // 既存のタイムスロットを取得
       const { data: existingTimeSlots, errors: fetchErrors } =
         await client.models.EventTimeSlot.list({
           filter: { eventId: { eq: eventId } },
@@ -254,12 +271,12 @@ export default function EditComponent({ params }: { params: { id: string } }) {
 
       if (fetchErrors) {
         throw new Error(
-          "Error fetching existing time slots: " +
+          "既存のタイムスロットの取得中にエラーが発生しました: " +
             fetchErrors.map((e) => e.message).join(", ")
         );
       }
 
-      // Update or create time slots
+      // タイムスロットの更新または作成
       for (const slot of timeSlots) {
         const timeSlotString = `${slot.hour}:${slot.minute}`;
         const existingSlot = existingTimeSlots.find(
@@ -267,7 +284,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         );
 
         if (existingSlot) {
-          // Update existing slot
+          // 既存のスロットを更新
           const { errors: updateErrors } =
             await client.models.EventTimeSlot.update({
               id: existingSlot.id,
@@ -275,10 +292,13 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             });
 
           if (updateErrors) {
-            console.error("Error updating time slot:", updateErrors);
+            console.error(
+              "タイムスロットの更新中にエラーが発生しました:",
+              updateErrors
+            );
           }
         } else {
-          // Create new slot
+          // 新しいスロットを作成
           const { errors: createErrors } =
             await client.models.EventTimeSlot.create({
               eventId: eventId,
@@ -288,12 +308,15 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             });
 
           if (createErrors) {
-            console.error("Error creating time slot:", createErrors);
+            console.error(
+              "タイムスロットの作成中にエラーが発生しました:",
+              createErrors
+            );
           }
         }
       }
 
-      // Delete removed slots
+      // 削除されたスロットを削除
       for (const existingSlot of existingTimeSlots) {
         if (existingSlot && existingSlot.timeSlot) {
           const [hour, minute] = existingSlot.timeSlot.split(":");
@@ -308,19 +331,43 @@ export default function EditComponent({ params }: { params: { id: string } }) {
               });
 
             if (deleteErrors) {
-              console.error("Error deleting time slot:", deleteErrors);
+              console.error(
+                "タイムスロットの削除中にエラーが発生しました:",
+                deleteErrors
+              );
             }
           }
         }
       }
 
-      console.log("Event and time slots updated successfully");
+      console.log("イベントとタイムスロットが正常に更新されました");
       router.push("/admin");
     } catch (error) {
       setError(
         error instanceof Error
           ? error.message
-          : "Failed to update event or time slots"
+          : "イベントまたはタイムスロットの更新に失敗しました"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+      const { errors } = await client.models.Event.delete({ id: eventId });
+      if (errors) {
+        throw new Error(
+          "イベントの削除中にエラーが発生しました: " +
+            errors.map((e) => e.message).join(", ")
+        );
+      }
+      console.log("イベントが正常に削除されました");
+      router.push("/admin");
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "イベントの削除に失敗しました"
       );
     } finally {
       setIsLoading(false);
@@ -328,21 +375,30 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>読み込み中...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>エラー: {error}</div>;
   }
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <div className="flex items-center mb-6">
-        <ArrowLeftIcon
-          className="w-6 h-6 cursor-pointer"
-          onClick={() => window.history.back()}
-        />
-        <h1 className="text-xl font-bold ml-2">お茶会編集</h1>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <ArrowLeftIcon
+            className="w-6 h-6 cursor-pointer"
+            onClick={() => window.history.back()}
+          />
+          <h1 className="text-xl font-bold ml-2">お茶会編集</h1>
+        </div>
+        <Button
+          variant="ghost"
+          className="text-red-500"
+          onClick={() => setIsDeleteModalOpen(true)}
+        >
+          <TrashIcon className="w-6 h-6" />
+        </Button>
       </div>
       <p className="text-muted-foreground mb-6">
         お茶会の情報を編集してください。
@@ -517,12 +573,32 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         </div>
         <Button
           className="w-full bg-green-500 text-white"
-          onClick={handleCreate}
+          onClick={handleUpdate}
           disabled={isLoading}
         >
           {isLoading ? "更新中..." : "編集完了"}
         </Button>
       </div>
+
+      <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>イベントを削除しますか？</AlertDialogTitle>
+            <AlertDialogDescription>
+              この操作は取り消せません。本当にこのイベントを削除してもよろしいですか？
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>キャンセル</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              削除
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
@@ -582,6 +658,27 @@ function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M5 12h14" />
       <path d="M12 5v14" />
+    </svg>
+  );
+}
+
+function TrashIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
     </svg>
   );
 }

@@ -69,6 +69,9 @@ const EventDetails: React.FC = () => {
   const [reservationToDelete, setReservationToDelete] = useState<string | null>(
     null
   );
+  const [viewReservation, setViewReservation] = useState<
+    Schema["Reservation"]["type"] | null
+  >(null); // 追加：予約詳細表示用の状態
 
   useEffect(() => {
     fetchEventData();
@@ -214,6 +217,13 @@ const EventDetails: React.FC = () => {
     router.push(`/admin/event/info/mail/${id}`);
   };
 
+  // 追加：ユーザー名クリック時の処理
+  const handleViewReservation = (
+    reservation: Schema["Reservation"]["type"]
+  ) => {
+    setViewReservation(reservation);
+  };
+
   if (loading) {
     return <div>データを読み込んでいます...</div>;
   }
@@ -352,7 +362,12 @@ const EventDetails: React.FC = () => {
                               slotReservations.map((reservation) => (
                                 <TableRow key={reservation.id}>
                                   <TableCell className="py-2">
-                                    <div className="font-medium truncate">
+                                    <div
+                                      className="font-medium truncate cursor-pointer text-blue-600"
+                                      onClick={() =>
+                                        handleViewReservation(reservation)
+                                      }
+                                    >
                                       {reservation.name}
                                     </div>
                                   </TableCell>
@@ -399,6 +414,46 @@ const EventDetails: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* 予約詳細表示用のダイアログ */}
+      <Dialog
+        open={!!viewReservation}
+        onOpenChange={() => setViewReservation(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{viewReservation?.name}の予約詳細</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2">
+            <div>
+              <strong>参加人数:</strong> {viewReservation?.participants}名
+            </div>
+            {viewReservation?.accompaniedGuest1 && (
+              <div>
+                <strong>同行者1:</strong> {viewReservation.accompaniedGuest1}
+              </div>
+            )}
+            {viewReservation?.accompaniedGuest2 && (
+              <div>
+                <strong>同行者2:</strong> {viewReservation.accompaniedGuest2}
+              </div>
+            )}
+            {viewReservation?.accompaniedGuest3 && (
+              <div>
+                <strong>同行者3:</strong> {viewReservation.accompaniedGuest3}
+              </div>
+            )}
+            {viewReservation?.accompaniedGuest4 && (
+              <div>
+                <strong>同行者4:</strong> {viewReservation.accompaniedGuest4}
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setViewReservation(null)}>閉じる</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
         <DialogContent>

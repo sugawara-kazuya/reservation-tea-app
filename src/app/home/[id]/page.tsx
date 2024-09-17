@@ -91,6 +91,12 @@ export default function Component() {
   const [showBanner, setShowBanner] = useState(false);
   const [bannerMessage, setBannerMessage] = useState("");
   const [accompaniedGuests, setAccompaniedGuests] = useState<string[]>([]);
+  const [errors, setErrors] = useState<{
+    name?: boolean;
+    email?: boolean;
+    phone?: boolean;
+    timeSlot?: boolean;
+  }>({});
 
   const fetchEvent = async () => {
     if (!eventId) {
@@ -126,12 +132,75 @@ export default function Component() {
   }, [eventId]);
 
   const handleReservation = async () => {
-    if (!event?.id || !selectedTimeSlot || !name || !email || !phone) {
-      setBannerMessage("すべてのフィールドを入力してください。");
+    const newErrors = {
+      name: !name,
+      email: !email,
+      phone: !phone,
+      timeSlot: !selectedTimeSlot,
+    };
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((error) => error)) {
+      const missingFields = Object.entries(newErrors)
+        .filter(([_, value]) => value)
+        .map(([key, _]) => {
+          switch (key) {
+            case "name":
+              return "名前";
+            case "email":
+              return "メールアドレス";
+            case "phone":
+              return "電話番号";
+            case "timeSlot":
+              return "時間";
+            default:
+              return "";
+          }
+        })
+        .join("、");
+      setBannerMessage(`以下の項目を入力してください: ${missingFields}`);
       setShowBanner(true);
       return;
     }
 
+    // 重複予約チェック
+    try {
+      const { data: existingReservations, errors: listErrors } =
+        await client.models.Reservation.list({
+          filter: {
+            and: [
+              { eventId: { eq: event?.id ?? "" } },
+              { reservationTime: { eq: selectedTimeSlot ?? "" } },
+              { name: { eq: name ?? "" } },
+              { email: { eq: email ?? "" } },
+            ],
+          },
+        });
+
+      if (listErrors) {
+        console.error("予約リストの取得中にエラーが発生しました:", listErrors);
+        setBannerMessage(
+          "予約チェック中にエラーが発生しました。もう一度お試しください。"
+        );
+        setShowBanner(true);
+        return;
+      }
+
+      if (existingReservations && existingReservations.length > 0) {
+        setBannerMessage("すでに同じ内容の予約があります。");
+        setShowBanner(true);
+        return;
+      }
+    } catch (error) {
+      console.error("予約チェック中にエラーが発生しました:", error);
+      setBannerMessage(
+        "予約チェック中にエラーが発生しました。もう一度お試しください。"
+      );
+      setShowBanner(true);
+      return;
+    }
+
+    // 重複がない場合、予約処理を続行
     const selectedSlot = timeSlots.find(
       (slot) => slot.timeSlot === selectedTimeSlot
     );
@@ -147,7 +216,7 @@ export default function Component() {
       }
     }
 
-    const totalCost = (event.cost ?? 0) * participants;
+    const totalCost = (event?.cost ?? 0) * participants;
 
     try {
       const { data: newReservation, errors: reservationErrors } =
@@ -167,6 +236,10 @@ export default function Component() {
 
       if (reservationErrors || !newReservation) {
         console.error("予約の作成中にエラーが発生しました:", reservationErrors);
+        setBannerMessage(
+          "予約の作成中にエラーが発生しました。もう一度お試しください。"
+        );
+        setShowBanner(true);
         return;
       }
 
@@ -201,22 +274,23 @@ export default function Component() {
           return;
         }
       }
+      router.push(`/home/reservation/${newReservation.id}`);
 
       // 予約確認メールを送信
       const reservationDetails = {
-        eventTitle: event.title,
-        date: event.date,
+        eventTitle: event!.title,
+        date: event!.date,
         time: selectedTimeSlot,
-        venue: event.venue,
+        venue: event!.venue,
         cost: totalCost,
         participants: participants,
       };
 
       await sendConfirmationEmail(email, reservationDetails);
-
-      router.push(`/home/reservation/${newReservation.id}`);
     } catch (error) {
       console.error("予約の作成または更新に失敗しました:", error);
+      setBannerMessage("予約の作成に失敗しました。もう一度お試しください。");
+      setShowBanner(true);
     }
   };
 
@@ -252,39 +326,67 @@ export default function Component() {
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <div className="space-y-6">
             <div className="grid gap-2">
-              <Label htmlFor="name">名前</Label>
+              <Label
+                htmlFor="name"
+                className={errors.name ? "text-red-500" : ""}
+              >
+                名前 *
+              </Label>
               <Input
                 id="name"
                 placeholder="名前を入力してください"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className={errors.name ? "border-red-500" : ""}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="email">メール</Label>
+              <Label
+                htmlFor="email"
+                className={errors.email ? "text-red-500" : ""}
+              >
+                メール *
+              </Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="メールアドレスを入力してください"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className={errors.email ? "border-red-500" : ""}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="phone">電話番号</Label>
+              <Label
+                htmlFor="phone"
+                className={errors.phone ? "text-red-500" : ""}
+              >
+                電話番号 *
+              </Label>
               <Input
                 id="phone"
                 type="tel"
                 placeholder="電話番号を入力してください"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                className={errors.phone ? "border-red-500" : ""}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="date-time">日時</Label>
+              <Label
+                htmlFor="date-time"
+                className={errors.timeSlot ? "text-red-500" : ""}
+              >
+                日時 *
+              </Label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="flex-1 justify-start">
+                  <Button
+                    variant="outline"
+                    className={`flex-1 justify-start ${
+                      errors.timeSlot ? "border-red-500" : ""
+                    }`}
+                  >
                     <span className="font-medium">
                       {selectedTimeSlot ?? "時間を選択"}
                     </span>
