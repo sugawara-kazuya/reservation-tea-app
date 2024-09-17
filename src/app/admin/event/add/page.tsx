@@ -130,7 +130,7 @@ export default function CreateComponent() {
   };
 
   const generateCostOptions = () => {
-    return Array.from({ length: 19 }, (_, i) => (500 + i * 500).toString());
+    return Array.from({ length: 99 }, (_, i) => (100 + i * 100).toString());
   };
 
   const hourOptions = generateHourOptions();

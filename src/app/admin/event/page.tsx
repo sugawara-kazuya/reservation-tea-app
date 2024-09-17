@@ -5,7 +5,7 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
 import { Button } from "@/components/ui/button";
 import { Amplify } from "aws-amplify";
-import { useRouter } from "next/navigation"; // useRouterを追加
+import { useRouter } from "next/navigation";
 import outputs from "@/output";
 
 Amplify.configure(outputs);
@@ -14,9 +14,8 @@ const client = generateClient<Schema>();
 
 export default function EventList() {
   const [events, setEvents] = useState<Schema["Event"]["type"][]>([]);
-  const router = useRouter(); // useRouterのインスタンスを作成
+  const router = useRouter();
 
-  // Eventデータの取得
   const fetchEvents = async () => {
     const { data: items, errors } = await client.models.Event.list();
     if (errors) {
@@ -30,12 +29,10 @@ export default function EventList() {
     fetchEvents();
   }, []);
 
-  // 新しいEventの作成ボタンを押した際に /admin/add に遷移
   const navigateToAddEvent = () => {
     router.push("/admin/event/add");
   };
 
-  // 編集ボタンが押された時に特定のイベント詳細ページへ遷移
   const handleEditEvent = (eventId: string | null | undefined) => {
     if (eventId) {
       router.push(`/admin/event/edit/${eventId}`);
@@ -44,7 +41,6 @@ export default function EventList() {
     }
   };
 
-  // 予約者一覧ボタンが押された時に特定のイベントの予約者一覧ページへ遷移
   const handleViewParticipants = (eventId: string | null | undefined) => {
     if (eventId) {
       router.push(`/admin/event/info/${eventId}`);
@@ -58,20 +54,24 @@ export default function EventList() {
   };
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
         <div className="flex items-center">
-          <Button variant="ghost" onClick={handleBackToAdmin} className="mr-2">
+          <Button
+            variant="ghost"
+            onClick={handleBackToAdmin}
+            className="mr-2 p-2"
+          >
             <ArrowLeftIcon className="h-5 w-5 text-muted-foreground" />
           </Button>
-          <h1 className="text-2xl font-bold">イベント管理</h1>
+          <h1 className="text-xl sm:text-2xl font-bold">イベント管理</h1>
         </div>
-        <Button onClick={navigateToAddEvent}>
+        <Button onClick={navigateToAddEvent} className="w-full sm:w-auto">
           <PlusIcon className="h-4 w-4 mr-2" />
           イベントを追加
         </Button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {events.map((event) => (
           <div key={event.id} className="border p-4 rounded-lg shadow">
             <h2 className="text-lg font-bold">{event.title}</h2>
@@ -88,16 +88,18 @@ export default function EventList() {
                 </span>
               </div>
             </div>
-            <div className="flex justify-between mt-4">
+            <div className="flex flex-col sm:flex-row justify-between mt-4 space-y-2 sm:space-y-0 sm:space-x-2">
               <Button
                 variant="outline"
                 onClick={() => handleEditEvent(event.id)}
+                className="w-full sm:w-auto"
               >
                 編集
               </Button>
               <Button
                 variant="outline"
                 onClick={() => handleViewParticipants(event.id)}
+                className="w-full sm:w-auto"
               >
                 予約者一覧
               </Button>
