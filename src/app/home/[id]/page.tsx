@@ -28,7 +28,7 @@ async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
   const sesClient = new SESClient({
     credentials: credentials,
     region: "ap-northeast-1",
-  }); // AWSリージョンを適切に設定してください
+  });
   const params = {
     Destination: {
       ToAddresses: [toEmail],
@@ -60,7 +60,7 @@ async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
         Data: `【予約完了】${reservationDetails.eventTitle}のお知らせ`,
       },
     },
-    Source: "kz515yssg@gmail.com ", // SESで検証済みのメールアドレスを設定してください
+    Source: "kz515yssg@gmail.com ",
   };
 
   try {
@@ -96,6 +96,7 @@ export default function Component() {
     email?: boolean;
     phone?: boolean;
     timeSlot?: boolean;
+    accompaniedGuests?: boolean[];
   }>({});
 
   const fetchEvent = async () => {
@@ -137,12 +138,22 @@ export default function Component() {
       email: !email,
       phone: !phone,
       timeSlot: !selectedTimeSlot,
+      accompaniedGuests: accompaniedGuests.map((guest) => !guest),
     };
     setErrors(newErrors);
 
-    if (Object.values(newErrors).some((error) => error)) {
+    if (
+      Object.values(newErrors).some((error) =>
+        Array.isArray(error) ? error.some(Boolean) : error
+      )
+    ) {
       const missingFields = Object.entries(newErrors)
-        .filter(([_, value]) => value)
+        .filter(([key, value]) => {
+          if (key === "accompaniedGuests") {
+            return (value as boolean[]).some(Boolean);
+          }
+          return value;
+        })
         .map(([key, _]) => {
           switch (key) {
             case "name":
@@ -153,6 +164,8 @@ export default function Component() {
               return "電話番号";
             case "timeSlot":
               return "時間";
+            case "accompaniedGuests":
+              return "同行者の名前";
             default:
               return "";
           }
@@ -278,6 +291,7 @@ export default function Component() {
 
       // 予約確認メールを送信
       const reservationDetails = {
+        id: newReservation.id,
         eventTitle: event!.title,
         date: event!.date,
         time: selectedTimeSlot,
@@ -437,8 +451,15 @@ export default function Component() {
             </div>
             {accompaniedGuests.map((guest, index) => (
               <div key={index} className="grid gap-2">
-                <Label htmlFor={`accompaniedGuest${index + 1}`}>
-                  同行者 {index + 1}
+                <Label
+                  htmlFor={`accompaniedGuest${index + 1}`}
+                  className={
+                    errors.accompaniedGuests && errors.accompaniedGuests[index]
+                      ? "text-red-500"
+                      : ""
+                  }
+                >
+                  同行者 {index + 1} *
                 </Label>
                 <Input
                   id={`accompaniedGuest${index + 1}`}
@@ -446,6 +467,11 @@ export default function Component() {
                   value={guest}
                   onChange={(e) =>
                     handleAccompaniedGuestChange(index, e.target.value)
+                  }
+                  className={
+                    errors.accompaniedGuests && errors.accompaniedGuests[index]
+                      ? "border-red-500"
+                      : ""
                   }
                 />
               </div>

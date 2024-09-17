@@ -51,6 +51,12 @@ export default function CreateComponent() {
     { hour: "14", minute: "00", maxParticipants: 10 },
   ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [errors, setErrors] = useState({
+    teaPartyName: false,
+    venue: false,
+    image: false,
+    description: false,
+  });
 
   const router = useRouter();
 
@@ -62,13 +68,23 @@ export default function CreateComponent() {
     setMaxParticipants(total);
   }, [timeSlots]);
 
+  const validateForm = () => {
+    const newErrors = {
+      teaPartyName: teaPartyName.trim() === "",
+      venue: venue.trim() === "",
+      image: !selectedFile,
+      description: description.trim() === "",
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
+
   const handleAddTimeSlot = () => {
     if (timeSlots.length > 0) {
       const lastSlot = timeSlots[timeSlots.length - 1];
       let newHour = parseInt(lastSlot.hour, 10) + 1;
       let newMinute = lastSlot.minute;
 
-      // 新しい時間が24時を超える場合はリセット
       if (newHour >= 24) {
         newHour = 0;
       }
@@ -115,6 +131,7 @@ export default function CreateComponent() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     setSelectedFile(file);
+    setErrors({ ...errors, image: !file });
   };
 
   const generateHourOptions = () => {
@@ -138,6 +155,11 @@ export default function CreateComponent() {
   const costOptions = generateCostOptions();
 
   const handleCreate = async () => {
+    if (!validateForm()) {
+      console.error("Validation failed");
+      return;
+    }
+
     try {
       let imageUrl = "";
       const baseUrl = `https://${outputs.storage.bucket_name}.s3.ap-northeast-1.amazonaws.com/`;
@@ -208,13 +230,27 @@ export default function CreateComponent() {
       </p>
       <div className="space-y-6">
         <div>
-          <Label htmlFor="tea-party-name">お茶会名</Label>
+          <Label
+            htmlFor="tea-party-name"
+            className={errors.teaPartyName ? "text-red-500" : ""}
+          >
+            お茶会名 *
+          </Label>
           <Input
             id="tea-party-name"
             placeholder="例: 七夕茶会"
             value={teaPartyName}
-            onChange={(e) => setTeaPartyName(e.target.value)}
+            onChange={(e) => {
+              setTeaPartyName(e.target.value);
+              setErrors({ ...errors, teaPartyName: false });
+            }}
+            className={errors.teaPartyName ? "border-red-500" : ""}
           />
+          {errors.teaPartyName && (
+            <p className="text-red-500 text-sm mt-1">
+              お茶会名を入力してください
+            </p>
+          )}
         </div>
         <div className="flex items-center justify-between">
           <Label htmlFor="visibility">表示・非表示</Label>
@@ -225,13 +261,22 @@ export default function CreateComponent() {
           />
         </div>
         <div>
-          <Label htmlFor="venue">会場</Label>
+          <Label htmlFor="venue" className={errors.venue ? "text-red-500" : ""}>
+            会場 *
+          </Label>
           <Input
             id="venue"
             placeholder="例: 紅葉園"
             value={venue}
-            onChange={(e) => setVenue(e.target.value)}
+            onChange={(e) => {
+              setVenue(e.target.value);
+              setErrors({ ...errors, venue: false });
+            }}
+            className={errors.venue ? "border-red-500" : ""}
           />
+          {errors.venue && (
+            <p className="text-red-500 text-sm mt-1">会場を入力してください</p>
+          )}
         </div>
         <div>
           <Label htmlFor="cost">一人当たりの参加費用</Label>
@@ -329,7 +374,12 @@ export default function CreateComponent() {
           <Input id="max-participants" value={maxParticipants} readOnly />
         </div>
         <div>
-          <Label htmlFor="image-upload">画像の選択</Label>
+          <Label
+            htmlFor="image-upload"
+            className={errors.image ? "text-red-500" : ""}
+          >
+            画像の選択 *
+          </Label>
           <input
             type="file"
             id="image-upload"
@@ -338,11 +388,14 @@ export default function CreateComponent() {
           />
           <Button
             variant="outline"
-            className="w-full mt-2"
+            className={`w-full mt-2 ${errors.image ? "border-red-500" : ""}`}
             onClick={() => document.getElementById("image-upload")?.click()}
           >
             {selectedFile ? selectedFile.name : "ファイルを選択"}
           </Button>
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">画像を選択してください</p>
+          )}
         </div>
         <div>
           <Label htmlFor="date">日にち</Label>
@@ -365,18 +418,32 @@ export default function CreateComponent() {
           </Popover>
         </div>
         <div>
-          <Label htmlFor="description">お茶会の説明</Label>
+          <Label
+            htmlFor="description"
+            className={errors.description ? "text-red-500" : ""}
+          >
+            お茶会の説明 *
+          </Label>
           <Textarea
             id="description"
             placeholder="例: 各席8〜12名（45分）どなたでも参加いただけます。（服装自由）"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="min-h-[100px]"
+            onChange={(e) => {
+              setDescription(e.target.value);
+              setErrors({ ...errors, description: false });
+            }}
+            className={`min-h-[100px] ${errors.description ? "border-red-500" : ""}`}
           />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">
+              お茶会の説明を入力してください
+            </p>
+          )}
         </div>
         <Button
           className="w-full bg-green-500 text-white"
           onClick={handleCreate}
+          disabled={Object.values(errors).some(Boolean)}
         >
           作成完了
         </Button>
