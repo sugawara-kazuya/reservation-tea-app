@@ -369,9 +369,20 @@ export default function CreateComponent() {
             </Button>
           </div>
         </div>
-        <div>
+        <div className="space-y-2">
           <Label htmlFor="max-participants">総参加人数（自動計算）</Label>
-          <Input id="max-participants" value={maxParticipants} readOnly />
+          <div className="flex items-center space-x-2">
+            <Input
+              id="max-participants"
+              value={maxParticipants}
+              readOnly
+              className="bg-gray-100 text-gray-700 cursor-not-allowed"
+            />
+            <span className="text-sm text-muted-foreground">人</span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            この値は各時間枠の参加人数の合計で自動的に計算されます。直接編集することはできません。
+          </p>
         </div>
         <div>
           <Label
