@@ -11,6 +11,8 @@
   "dependencies": {
     "@aws-sdk/client-ses": "^3.651.1",
     "@aws-sdk/client-sns": "^3.651.1",
+    "@headlessui/react": "^2.1.8",
+    "@heroicons/react": "^2.1.5",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",

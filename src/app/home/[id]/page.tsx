@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -60,7 +60,7 @@ async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
         Data: `【予約完了】${reservationDetails.eventTitle}のお知らせ`,
       },
     },
-    Source: "kz515yssg@gmail.com ",
+    Source: "kz515yssg@gmail.com",
   };
 
   try {
@@ -74,7 +74,7 @@ async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
   }
 }
 
-export default function Component() {
+export default function ReservationComponent() {
   const router = useRouter();
   const { id: eventIdParam } = useParams();
   const eventId = Array.isArray(eventIdParam) ? eventIdParam[0] : eventIdParam;
@@ -92,12 +92,40 @@ export default function Component() {
   const [bannerMessage, setBannerMessage] = useState("");
   const [accompaniedGuests, setAccompaniedGuests] = useState<string[]>([]);
   const [errors, setErrors] = useState<{
-    name?: boolean;
-    email?: boolean;
-    phone?: boolean;
-    timeSlot?: boolean;
-    accompaniedGuests?: boolean[];
+    name?: string;
+    email?: string;
+    phone?: string;
+    timeSlot?: string;
+    accompaniedGuests?: string[];
   }>({});
+
+  const [isTimePopoverOpen, setIsTimePopoverOpen] = useState(false);
+  const [isParticipantsPopoverOpen, setIsParticipantsPopoverOpen] =
+    useState(false);
+  const timePopoverRef = useRef<HTMLDivElement>(null);
+  const participantsPopoverRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        timePopoverRef.current &&
+        !timePopoverRef.current.contains(event.target as Node)
+      ) {
+        setIsTimePopoverOpen(false);
+      }
+      if (
+        participantsPopoverRef.current &&
+        !participantsPopoverRef.current.contains(event.target as Node)
+      ) {
+        setIsParticipantsPopoverOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const fetchEvent = async () => {
     if (!eventId) {
@@ -132,46 +160,52 @@ export default function Component() {
     fetchEvent();
   }, [eventId]);
 
+  const validateEmail = (email: string): string | null => {
+    if (!email) {
+      return "メールアドレスを入力してください。";
+    }
+    if (email.includes("＠")) {
+      return "メールアドレスの@が全角になっています。半角の@を使用してください。";
+    }
+    if (!email.includes("@")) {
+      return "正しいメールアドレスを入力してください。";
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return "正しいメールアドレスを入力してください。";
+    }
+    return null;
+  };
+
+  const validatePhone = (phone: string): string | null => {
+    if (!phone) {
+      return "電話番号を入力してください。";
+    }
+    const cleanedPhone = phone.replace(/[\s\-]/g, "");
+    if (!/^\d{10,11}$/.test(cleanedPhone)) {
+      return "正しい電話番号を入力してください。";
+    }
+    return null;
+  };
+
   const handleReservation = async () => {
     const newErrors = {
-      name: !name,
-      email: !email,
-      phone: !phone,
-      timeSlot: !selectedTimeSlot,
-      accompaniedGuests: accompaniedGuests.map((guest) => !guest),
+      name: name ? "" : "名前を入力してください。",
+      email: validateEmail(email) ?? undefined,
+      phone: validatePhone(phone) ?? undefined,
+      timeSlot: selectedTimeSlot ? "" : "時間を選択してください。",
+      accompaniedGuests: accompaniedGuests.map((guest) =>
+        guest ? "" : "同行者の名前を入力してください。"
+      ) as string[],
     };
     setErrors(newErrors);
 
     if (
       Object.values(newErrors).some((error) =>
-        Array.isArray(error) ? error.some(Boolean) : error
+        Array.isArray(error) ? error.some((e) => e !== "") : error !== ""
       )
     ) {
-      const missingFields = Object.entries(newErrors)
-        .filter(([key, value]) => {
-          if (key === "accompaniedGuests") {
-            return (value as boolean[]).some(Boolean);
-          }
-          return value;
-        })
-        .map(([key, _]) => {
-          switch (key) {
-            case "name":
-              return "名前";
-            case "email":
-              return "メールアドレス";
-            case "phone":
-              return "電話番号";
-            case "timeSlot":
-              return "時間";
-            case "accompaniedGuests":
-              return "同行者の名前";
-            default:
-              return "";
-          }
-        })
-        .join("、");
-      setBannerMessage(`以下の項目を入力してください: ${missingFields}`);
+      setBannerMessage("入力に誤りがあります。各項目を確認してください。");
       setShowBanner(true);
       return;
     }
@@ -287,7 +321,6 @@ export default function Component() {
           return;
         }
       }
-      router.push(`/home/reservation/${newReservation.id}`);
 
       // 予約確認メールを送信
       const reservationDetails = {
@@ -301,6 +334,9 @@ export default function Component() {
       };
 
       await sendConfirmationEmail(email, reservationDetails);
+
+      // 予約完了後のナビゲーション
+      router.push(`/home/reservation/${newReservation.id}`);
     } catch (error) {
       console.error("予約の作成または更新に失敗しました:", error);
       setBannerMessage("予約の作成に失敗しました。もう一度お試しください。");
@@ -326,40 +362,41 @@ export default function Component() {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
       {showBanner && (
-        <div className="bg-red-500 text-white text-center py-2 mb-4">
-          {bannerMessage}
+        <div className="bg-red-500 text-white text-center py-2 mb-4 flex justify-between items-center">
+          <span>{bannerMessage}</span>
         </div>
       )}
       <div className="space-y-6 md:space-y-8">
-        <div className="text-center">
-          <h1 className="text-3xl md:text-4xl font-bold">予約画面</h1>
-          <p className="text-muted-foreground mt-2 md:mt-3">
-            茶道のお茶席を予約します。
-          </p>
-        </div>
+        {/* ここにヘッダーやイベント情報の表示コードを追加 */}
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <div className="space-y-6">
+            {/* 名前入力 */}
             <div className="grid gap-2">
               <Label
                 htmlFor="name"
                 className={errors.name ? "text-red-500" : ""}
               >
-                名前 *
+                名前 * (必須)
               </Label>
               <Input
                 id="name"
                 placeholder="名前を入力してください"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className={errors.name ? "border-red-500" : ""}
+                className={`select-text ${errors.name ? "border-red-500" : ""}`}
               />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+              )}
             </div>
+
+            {/* メール入力 */}
             <div className="grid gap-2">
               <Label
                 htmlFor="email"
                 className={errors.email ? "text-red-500" : ""}
               >
-                メール *
+                メール * (必須)
               </Label>
               <Input
                 id="email"
@@ -367,15 +404,20 @@ export default function Component() {
                 placeholder="メールアドレスを入力してください"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={errors.email ? "border-red-500" : ""}
+                className={`select-text ${errors.email ? "border-red-500" : ""}`}
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              )}
             </div>
+
+            {/* 電話番号入力 */}
             <div className="grid gap-2">
               <Label
                 htmlFor="phone"
                 className={errors.phone ? "text-red-500" : ""}
               >
-                電話番号 *
+                電話番号 * (必須)
               </Label>
               <Input
                 id="phone"
@@ -383,17 +425,25 @@ export default function Component() {
                 placeholder="電話番号を入力してください"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className={errors.phone ? "border-red-500" : ""}
+                className={`select-text ${errors.phone ? "border-red-500" : ""}`}
               />
+              {errors.phone && (
+                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+              )}
             </div>
-            <div className="grid gap-2">
+
+            {/* 日時選択 */}
+            <div className="grid gap-2" ref={timePopoverRef}>
               <Label
                 htmlFor="date-time"
                 className={errors.timeSlot ? "text-red-500" : ""}
               >
-                日時 *
+                日時 * (必須)
               </Label>
-              <Popover>
+              <Popover
+                open={isTimePopoverOpen}
+                onOpenChange={setIsTimePopoverOpen}
+              >
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
@@ -413,9 +463,10 @@ export default function Component() {
                         key={slot.id}
                         variant="ghost"
                         size="sm"
-                        onClick={() =>
-                          slot.timeSlot && handleTimeSlotSelect(slot.timeSlot)
-                        }
+                        onClick={() => {
+                          handleTimeSlotSelect(slot.timeSlot ?? "");
+                          setIsTimePopoverOpen(false);
+                        }}
                       >
                         {slot.timeSlot} (予約済み {slot.currentParticipants}/
                         {slot.maxParticipants}名)
@@ -424,10 +475,18 @@ export default function Component() {
                   </div>
                 </PopoverContent>
               </Popover>
+              {errors.timeSlot && (
+                <p className="text-red-500 text-sm mt-1">{errors.timeSlot}</p>
+              )}
             </div>
-            <div className="grid gap-2">
+
+            {/* 参加人数選択 */}
+            <div className="grid gap-2" ref={participantsPopoverRef}>
               <Label htmlFor="participants">参加人数</Label>
-              <Popover>
+              <Popover
+                open={isParticipantsPopoverOpen}
+                onOpenChange={setIsParticipantsPopoverOpen}
+              >
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="flex-1 justify-start">
                     <span className="font-medium">{participants}名</span>
@@ -440,7 +499,10 @@ export default function Component() {
                         key={number}
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleParticipantsSelect(number)}
+                        onClick={() => {
+                          handleParticipantsSelect(number);
+                          setIsParticipantsPopoverOpen(false);
+                        }}
                       >
                         {number}名
                       </Button>
@@ -449,6 +511,8 @@ export default function Component() {
                 </PopoverContent>
               </Popover>
             </div>
+
+            {/* 同行者入力 */}
             {accompaniedGuests.map((guest, index) => (
               <div key={index} className="grid gap-2">
                 <Label
@@ -468,14 +532,22 @@ export default function Component() {
                   onChange={(e) =>
                     handleAccompaniedGuestChange(index, e.target.value)
                   }
-                  className={
+                  className={`select-text ${
                     errors.accompaniedGuests && errors.accompaniedGuests[index]
                       ? "border-red-500"
                       : ""
-                  }
+                  }`}
                 />
+                {errors.accompaniedGuests &&
+                  errors.accompaniedGuests[index] && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.accompaniedGuests[index]}
+                    </p>
+                  )}
               </div>
             ))}
+
+            {/* 追加メモ */}
             <div className="grid gap-2">
               <Label htmlFor="notes">追加メモ</Label>
               <Textarea
@@ -486,6 +558,8 @@ export default function Component() {
                 onChange={(e) => setNotes(e.target.value)}
               />
             </div>
+
+            {/* 予約ボタン */}
             <Button
               type="button"
               className="w-full"
@@ -494,6 +568,8 @@ export default function Component() {
               予約する
             </Button>
           </div>
+
+          {/* イベント情報表示 */}
           <div className="space-y-6">
             {event && (
               <>
@@ -523,20 +599,21 @@ export default function Component() {
                     </div>
                   </div>
                 </div>
+
                 <div className="grid gap-2">
                   <Label>追加メモ</Label>
                   <div className="text-muted-foreground">
                     {event.description}
                   </div>
                 </div>
+
                 <div className="grid gap-2">
                   <Image
-                    src={event.imageUrl || ""}
+                    src={event.imageUrl || "/default-image.jpg"}
                     alt="Event Image"
                     width={500}
                     height={300}
-                    layout="responsive"
-                    objectFit="cover"
+                    className="object-cover rounded-md"
                   />
                 </div>
               </>
@@ -547,6 +624,8 @@ export default function Component() {
     </div>
   );
 }
+
+// SVG Icons
 
 function CalendarIcon(props: React.SVGProps<SVGSVGElement>) {
   return (

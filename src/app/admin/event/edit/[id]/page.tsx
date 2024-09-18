@@ -72,10 +72,17 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   const [description, setDescription] = useState("");
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [eventId, setEventId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [errors, setErrors] = useState({
+    teaPartyName: false,
+    venue: false,
+    image: false,
+    description: false,
+  });
 
   const router = useRouter();
 
@@ -100,6 +107,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           setDate(event.date ? new Date(event.date) : undefined);
           setDescription(event.description || "");
           setEventId(event.id ?? "");
+          setImageUrl(event.imageUrl ?? "");
 
           const { data: timeSlotsData, errors: timeSlotErrors } =
             await client.models.EventTimeSlot.list({
@@ -145,6 +153,17 @@ export default function EditComponent({ params }: { params: { id: string } }) {
     );
     setMaxParticipants(total);
   }, [timeSlots]);
+
+  const validateForm = () => {
+    const newErrors = {
+      teaPartyName: teaPartyName.trim() === "",
+      venue: venue.trim() === "",
+      image: imageUrl.trim() === "" && !selectedFile,
+      description: description.trim() === "",
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
 
   const handleAddTimeSlot = () => {
     if (timeSlots.length > 0) {
@@ -200,6 +219,16 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     setSelectedFile(file);
+    if (file) {
+      setErrors((prevErrors) => ({ ...prevErrors, image: false }));
+      // Optionally, you can clear the existing image URL if a new file is selected
+      // setImageUrl("");
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        image: imageUrl.trim() === "",
+      }));
+    }
   };
 
   const generateHourOptions = () => {
@@ -223,9 +252,14 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   const costOptions = generateCostOptions();
 
   const handleUpdate = async () => {
+    if (!validateForm()) {
+      console.error("Validation failed");
+      return;
+    }
+
     try {
       setIsLoading(true);
-      let imageUrl = "";
+      let newImageUrl = imageUrl;
       const baseUrl = `https://${outputs.storage.bucket_name}.s3.ap-northeast-1.amazonaws.com/`;
 
       if (selectedFile) {
@@ -234,7 +268,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           path,
           data: selectedFile,
         });
-        imageUrl = baseUrl + path;
+        newImageUrl = baseUrl + path;
       }
 
       let formattedDate = "";
@@ -251,7 +285,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           date: formattedDate,
           cost: parseInt(cost, 10),
           description,
-          imageUrl: imageUrl || undefined,
+          imageUrl: newImageUrl || undefined,
           maxParticipants,
           isActive: visibility,
         });
@@ -405,13 +439,27 @@ export default function EditComponent({ params }: { params: { id: string } }) {
       </p>
       <div className="space-y-6">
         <div>
-          <Label htmlFor="tea-party-name">お茶会名</Label>
+          <Label
+            htmlFor="tea-party-name"
+            className={errors.teaPartyName ? "text-red-500" : ""}
+          >
+            お茶会名 *
+          </Label>
           <Input
             id="tea-party-name"
             placeholder="例: 七夕茶会"
             value={teaPartyName}
-            onChange={(e) => setTeaPartyName(e.target.value)}
+            onChange={(e) => {
+              setTeaPartyName(e.target.value);
+              setErrors({ ...errors, teaPartyName: false });
+            }}
+            className={errors.teaPartyName ? "border-red-500" : ""}
           />
+          {errors.teaPartyName && (
+            <p className="text-red-500 text-sm mt-1">
+              お茶会名を入力してください
+            </p>
+          )}
         </div>
         <div className="flex items-center justify-between">
           <Label htmlFor="visibility">表示・非表示</Label>
@@ -422,13 +470,22 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           />
         </div>
         <div>
-          <Label htmlFor="venue">会場</Label>
+          <Label htmlFor="venue" className={errors.venue ? "text-red-500" : ""}>
+            会場 *
+          </Label>
           <Input
             id="venue"
             placeholder="例: 紅葉園"
             value={venue}
-            onChange={(e) => setVenue(e.target.value)}
+            onChange={(e) => {
+              setVenue(e.target.value);
+              setErrors({ ...errors, venue: false });
+            }}
+            className={errors.venue ? "border-red-500" : ""}
           />
+          {errors.venue && (
+            <p className="text-red-500 text-sm mt-1">会場を入力してください</p>
+          )}
         </div>
         <div>
           <Label htmlFor="cost">一人当たりの参加費用</Label>
@@ -521,12 +578,28 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             </Button>
           </div>
         </div>
-        <div>
+        <div className="space-y-2">
           <Label htmlFor="max-participants">総参加人数（自動計算）</Label>
-          <Input id="max-participants" value={maxParticipants} readOnly />
+          <div className="flex items-center space-x-2">
+            <Input
+              id="max-participants"
+              value={maxParticipants}
+              readOnly
+              className="bg-gray-100 text-gray-700 cursor-not-allowed"
+            />
+            <span className="text-sm text-muted-foreground">人</span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            この値は各時間枠の参加人数の合計で自動的に計算されます。直接編集することはできません。
+          </p>
         </div>
         <div>
-          <Label htmlFor="image-upload">画像の選択</Label>
+          <Label
+            htmlFor="image-upload"
+            className={errors.image ? "text-red-500" : ""}
+          >
+            画像の選択 {imageUrl ? "" : "*"}
+          </Label>
           <input
             type="file"
             id="image-upload"
@@ -535,11 +608,18 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           />
           <Button
             variant="outline"
-            className="w-full mt-2"
+            className={`w-full mt-2 ${errors.image ? "border-red-500" : ""}`}
             onClick={() => document.getElementById("image-upload")?.click()}
           >
-            {selectedFile ? selectedFile.name : "ファイルを選択"}
+            {selectedFile
+              ? selectedFile.name
+              : imageUrl
+                ? "現在の画像が設定されています"
+                : "ファイルを選択"}
           </Button>
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">画像を選択してください</p>
+          )}
         </div>
         <div>
           <Label htmlFor="date">日にち</Label>
@@ -562,19 +642,34 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           </Popover>
         </div>
         <div>
-          <Label htmlFor="description">お茶会の説明</Label>
+          <Label
+            htmlFor="description"
+            className={errors.description ? "text-red-500" : ""}
+          >
+            お茶会の説明 *
+          </Label>
           <Textarea
             id="description"
             placeholder="例: 各席8〜12名（45分）どなたでも参加いただけます。（服装自由）"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="min-h-[100px]"
+            onChange={(e) => {
+              setDescription(e.target.value);
+              setErrors({ ...errors, description: false });
+            }}
+            className={`min-h-[100px] ${
+              errors.description ? "border-red-500" : ""
+            }`}
           />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">
+              お茶会の説明を入力してください
+            </p>
+          )}
         </div>
         <Button
           className="w-full bg-green-500 text-white"
           onClick={handleUpdate}
-          disabled={isLoading}
+          disabled={isLoading || Object.values(errors).some(Boolean)}
         >
           {isLoading ? "更新中..." : "編集完了"}
         </Button>
