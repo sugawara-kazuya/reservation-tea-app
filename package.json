@@ -36,6 +36,7 @@
     "react-datepicker": "^7.3.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "react-ios-time-picker": "^0.2.2",
     "react-time-picker": "^7.0.0",
     "tailwind-merge": "^2.4.0",
