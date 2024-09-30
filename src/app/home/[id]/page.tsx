@@ -43,8 +43,7 @@ async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
 予約詳細:
 予約番号: ${reservationDetails.id}
 お茶会名: ${reservationDetails.eventTitle}
-日時: ${reservationDetails.date}
-時間: ${reservationDetails.time}
+日時: ${reservationDetails.date} ${reservationDetails.time}
 会場: ${reservationDetails.venue}
 参加費: ${reservationDetails.cost}円
 参加人数: ${reservationDetails.participants}名
@@ -74,6 +73,14 @@ async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
   }
 }
 
+type Errors = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  timeSlot?: string;
+  accompaniedGuests?: (string | undefined)[];
+};
+
 export default function ReservationComponent() {
   const router = useRouter();
   const { id: eventIdParam } = useParams();
@@ -83,7 +90,7 @@ export default function ReservationComponent() {
   const [timeSlots, setTimeSlots] = useState<Schema["EventTimeSlot"]["type"][]>(
     []
   );
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null); // タイムスロットのIDを保持
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -91,13 +98,7 @@ export default function ReservationComponent() {
   const [showBanner, setShowBanner] = useState(false);
   const [bannerMessage, setBannerMessage] = useState("");
   const [accompaniedGuests, setAccompaniedGuests] = useState<string[]>([]);
-  const [errors, setErrors] = useState<{
-    name?: string;
-    email?: string;
-    phone?: string;
-    timeSlot?: string;
-    accompaniedGuests?: string[];
-  }>({});
+  const [errors, setErrors] = useState<Errors>({});
 
   const [isTimePopoverOpen, setIsTimePopoverOpen] = useState(false);
   const [isParticipantsPopoverOpen, setIsParticipantsPopoverOpen] =
@@ -189,20 +190,22 @@ export default function ReservationComponent() {
   };
 
   const handleReservation = async () => {
-    const newErrors = {
-      name: name ? "" : "名前を入力してください。",
+    const newErrors: Errors = {
+      name: name ? undefined : "名前を入力してください。",
       email: validateEmail(email) ?? undefined,
       phone: validatePhone(phone) ?? undefined,
-      timeSlot: selectedTimeSlot ? "" : "時間を選択してください。",
+      timeSlot: selectedTimeSlot ? undefined : "時間を選択してください。",
       accompaniedGuests: accompaniedGuests.map((guest) =>
-        guest ? "" : "同行者の名前を入力してください。"
-      ) as string[],
+        guest ? undefined : "同行者の名前を入力してください。"
+      ),
     };
     setErrors(newErrors);
 
     if (
       Object.values(newErrors).some((error) =>
-        Array.isArray(error) ? error.some((e) => e !== "") : error !== ""
+        Array.isArray(error)
+          ? error.some((e) => e !== undefined)
+          : error !== undefined
       )
     ) {
       setBannerMessage("入力に誤りがあります。各項目を確認してください。");
@@ -248,9 +251,7 @@ export default function ReservationComponent() {
     }
 
     // 重複がない場合、予約処理を続行
-    const selectedSlot = timeSlots.find(
-      (slot) => slot.timeSlot === selectedTimeSlot
-    );
+    const selectedSlot = timeSlots.find((slot) => slot.id === selectedTimeSlot);
 
     if (selectedSlot) {
       const maxParticipants = selectedSlot.maxParticipants ?? 0;
@@ -272,7 +273,7 @@ export default function ReservationComponent() {
           email,
           phone,
           eventId: event?.id,
-          reservationTime: selectedTimeSlot,
+          reservationTime: selectedTimeSlot, // タイムスロットのIDを設定
           participants,
           totalCost,
           notes,
@@ -323,11 +324,20 @@ export default function ReservationComponent() {
       }
 
       // 予約確認メールを送信
+      if (!selectedSlot) {
+        console.error("選択されたタイムスロットが見つかりません。");
+        setBannerMessage(
+          "予約確認中にエラーが発生しました。もう一度お試しください。"
+        );
+        setShowBanner(true);
+        return;
+      }
+
       const reservationDetails = {
         id: newReservation.id,
         eventTitle: event!.title,
         date: event!.date,
-        time: selectedTimeSlot,
+        time: selectedSlot.timeSlot!, // 非nullアサーションを使用
         venue: event!.venue,
         cost: totalCost,
         participants: participants,
@@ -349,8 +359,8 @@ export default function ReservationComponent() {
     setAccompaniedGuests(Array(selectedParticipants - 1).fill(""));
   };
 
-  const handleTimeSlotSelect = (timeSlot: string) => {
-    setSelectedTimeSlot(timeSlot);
+  const handleTimeSlotSelect = (timeSlotId: string) => {
+    setSelectedTimeSlot(timeSlotId);
   };
 
   const handleAccompaniedGuestChange = (index: number, value: string) => {
@@ -358,6 +368,11 @@ export default function ReservationComponent() {
     newAccompaniedGuests[index] = value;
     setAccompaniedGuests(newAccompaniedGuests);
   };
+
+  // 選択されたタイムスロットの時間を取得
+  const selectedTimeSlotTime = selectedTimeSlot
+    ? timeSlots.find((slot) => slot.id === selectedTimeSlot)?.timeSlot
+    : null;
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
@@ -452,7 +467,7 @@ export default function ReservationComponent() {
                     }`}
                   >
                     <span className="font-medium">
-                      {selectedTimeSlot ?? "時間を選択"}
+                      {selectedTimeSlotTime ?? "時間を選択"}
                     </span>
                   </Button>
                 </PopoverTrigger>
@@ -464,8 +479,13 @@ export default function ReservationComponent() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          handleTimeSlotSelect(slot.timeSlot ?? "");
-                          setIsTimePopoverOpen(false);
+                          if (slot.id) {
+                            // slot.id が存在することを確認
+                            handleTimeSlotSelect(slot.id);
+                            setIsTimePopoverOpen(false);
+                          } else {
+                            console.error("タイムスロットIDが見つかりません");
+                          }
                         }}
                       >
                         {slot.timeSlot} (予約済み {slot.currentParticipants}/
