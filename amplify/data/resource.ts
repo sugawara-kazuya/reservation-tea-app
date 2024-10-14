@@ -44,6 +44,7 @@ const schema = a.schema({
       notes: a.string(), // メモ
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
+      reservationNumber: a.string(), // 新しい6桁の予約番号フィールド
     })
     .authorization((allow) => [allow.guest()]),
 

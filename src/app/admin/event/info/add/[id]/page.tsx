@@ -38,6 +38,7 @@ export default function ReservationCreate() {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [accompaniedGuests, setAccompaniedGuests] = useState<string[]>([]);
 
   useEffect(() => {
     fetchEventData();
@@ -89,60 +90,66 @@ export default function ReservationCreate() {
     const totalCost = event.cost ? event.cost * parseInt(participants, 10) : 0;
 
     try {
-      // 1. Create the reservation
-      const { errors: reservationErrors, data: newReservation } =
-        await client.models.Reservation.create({
-          name,
-          email,
-          phone,
-          reservationTime,
-          participants: parseInt(participants, 10),
-          totalCost,
-          notes,
-          eventId,
-        });
+      const reservationNumber = generateRandomReservationNumber();
 
-      if (reservationErrors) {
-        throw new Error(JSON.stringify(reservationErrors));
-      }
+      await client.models.Reservation.create({
+        name,
+        email,
+        phone,
+        reservationTime,
+        participants: parseInt(participants, 10),
+        totalCost,
+        notes,
+        eventId,
+        reservationNumber,
+        accompaniedGuest1: accompaniedGuests[0] || null,
+        accompaniedGuest2: accompaniedGuests[1] || null,
+        accompaniedGuest3: accompaniedGuests[2] || null,
+      });
 
-      // 2. Update the Event's currentParticipants
-      const updatedEvent = {
-        id: event.id,
+      // イベントの現在の参加人数を更新
+      const updatedEvent = await client.models.Event.update({
+        id: eventId,
         currentParticipants:
           (event.currentParticipants || 0) + parseInt(participants, 10),
-      };
-      const { errors: eventUpdateErrors } =
-        await client.models.Event.update(updatedEvent);
+      });
 
-      if (eventUpdateErrors) {
-        throw new Error(JSON.stringify(eventUpdateErrors));
-      }
-
-      // 3. Update the EventTimeSlot's currentParticipants
-      const timeSlot = timeSlots.find(
+      // 選択された時間スロットの現在の参加人数を更新
+      const selectedTimeSlot = timeSlots.find(
         (slot) => slot.timeSlot === reservationTime
       );
-      if (timeSlot) {
-        const updatedTimeSlot = {
-          id: timeSlot.id,
+      if (selectedTimeSlot) {
+        await client.models.EventTimeSlot.update({
+          id: selectedTimeSlot.id,
           currentParticipants:
-            (timeSlot.currentParticipants || 0) + parseInt(participants, 10),
-        };
-        const { errors: timeSlotUpdateErrors } =
-          await client.models.EventTimeSlot.update(updatedTimeSlot);
-
-        if (timeSlotUpdateErrors) {
-          throw new Error(JSON.stringify(timeSlotUpdateErrors));
-        }
+            (selectedTimeSlot.currentParticipants || 0) +
+            parseInt(participants, 10),
+        });
       }
 
-      console.log("Reservation created successfully:", newReservation);
+      console.log("予約が正常に作成されました:", reservationNumber);
       router.push(`/admin/event/info/${eventId}`);
     } catch (error) {
-      console.error("Failed to create reservation:", error);
+      console.error("予約の作成に失敗しました:", error);
       setError(`予約の作成中にエラーが発生しました: ${error}`);
     }
+  };
+
+  const handleParticipantsChange = (value: string) => {
+    setParticipants(value);
+    const participantsCount = parseInt(value, 10);
+    setAccompaniedGuests(Array(participantsCount - 1).fill(""));
+  };
+
+  const handleAccompaniedGuestChange = (index: number, value: string) => {
+    const newAccompaniedGuests = [...accompaniedGuests];
+    newAccompaniedGuests[index] = value;
+    setAccompaniedGuests(newAccompaniedGuests);
+  };
+
+  // ランダムな6桁の予約番号を生成する関数
+  const generateRandomReservationNumber = (): string => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
   if (loading) {
@@ -211,7 +218,7 @@ export default function ReservationCreate() {
         </div>
         <div>
           <Label htmlFor="participants">参加人数</Label>
-          <Select value={participants} onValueChange={setParticipants}>
+          <Select value={participants} onValueChange={handleParticipantsChange}>
             <SelectTrigger>
               <SelectValue placeholder="参加人数を選択" />
             </SelectTrigger>
@@ -223,6 +230,21 @@ export default function ReservationCreate() {
             </SelectContent>
           </Select>
         </div>
+        {accompaniedGuests.map((guest, index) => (
+          <div key={index}>
+            <Label htmlFor={`accompaniedGuest${index + 1}`}>
+              同行者 {index + 1}
+            </Label>
+            <Input
+              id={`accompaniedGuest${index + 1}`}
+              value={guest}
+              onChange={(e) =>
+                handleAccompaniedGuestChange(index, e.target.value)
+              }
+              placeholder={`同行者 ${index + 1} の名前`}
+            />
+          </div>
+        ))}
         <div>
           <Label htmlFor="notes">メモ</Label>
           <Textarea

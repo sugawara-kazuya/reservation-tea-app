@@ -315,6 +315,13 @@
               "type": "AWSDateTime",
               "isRequired": false,
               "attributes": []
+            },
+            "reservationNumber": {
+              "name": "reservationNumber",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
             }
           },
           "syncable": true,

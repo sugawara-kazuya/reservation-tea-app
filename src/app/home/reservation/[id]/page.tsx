@@ -310,7 +310,7 @@ export default function ConfirmationPage() {
               <InfoItem
                 icon={<CalendarIcon />}
                 label="予約番号"
-                value={reservation.id}
+                value={reservation.reservationNumber} // 新しい予約番号フィールドを表示
               />
               <InfoItem
                 icon={<CalendarIcon />}
