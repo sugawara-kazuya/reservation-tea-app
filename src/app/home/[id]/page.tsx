@@ -16,62 +16,10 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
-import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
-import { fetchAuthSession } from "aws-amplify/auth";
 
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
-
-async function sendConfirmationEmail(toEmail: string, reservationDetails: any) {
-  const { credentials } = await fetchAuthSession();
-  const sesClient = new SESClient({
-    credentials: credentials,
-    region: "ap-northeast-1",
-  });
-  const params = {
-    Destination: {
-      ToAddresses: [toEmail],
-    },
-    Message: {
-      Body: {
-        Text: {
-          Charset: "UTF-8",
-          Data: `
-お茶会の予約が完了しました。
-
-予約詳細:
-予約番号: ${reservationDetails.id}
-お茶会名: ${reservationDetails.eventTitle}
-日時: ${reservationDetails.date} ${reservationDetails.time}
-会場: ${reservationDetails.venue}
-参加費: ${reservationDetails.cost}円
-参加人数: ${reservationDetails.participants}名
-
-ご予約いただき、ありがとうございます。当日のお越しを心よりお待ちしております。
-
-ご不明な点がございましたら、お気軽にお問い合わせください。
-          `,
-        },
-      },
-      Subject: {
-        Charset: "UTF-8",
-        Data: `【予約完了】${reservationDetails.eventTitle}のお知らせ`,
-      },
-    },
-    Source: "kz515yssg@gmail.com",
-  };
-
-  try {
-    const command = new SendEmailCommand(params);
-    const response = await sesClient.send(command);
-    console.log("Email sent successfully:", response.MessageId);
-    return response.MessageId;
-  } catch (error) {
-    console.error("Error sending email:", error);
-    throw error;
-  }
-}
 
 type Errors = {
   name?: string;
@@ -90,7 +38,7 @@ export default function ReservationComponent() {
   const [timeSlots, setTimeSlots] = useState<Schema["EventTimeSlot"]["type"][]>(
     []
   );
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null); // タイムスロットのIDを保持
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -273,7 +221,7 @@ export default function ReservationComponent() {
           email,
           phone,
           eventId: event?.id,
-          reservationTime: selectedTimeSlot, // タイムスロットのIDを設定
+          reservationTime: selectedTimeSlot,
           participants,
           totalCost,
           notes,
@@ -305,7 +253,7 @@ export default function ReservationComponent() {
             "EventTimeSlot の更新中にエラーが発生しました:",
             timeSlotErrors
           );
-          return;
+          // エラー処理を追加する場合はここに記述
         }
       }
 
@@ -319,31 +267,9 @@ export default function ReservationComponent() {
 
         if (eventErrors) {
           console.error("Event の更新中にエラーが発生しました:", eventErrors);
-          return;
+          // エラー処理を追加する場合はここに記述
         }
       }
-
-      // 予約確認メールを送信
-      if (!selectedSlot) {
-        console.error("選択されたタイムスロットが見つかりません。");
-        setBannerMessage(
-          "予約確認中にエラーが発生しました。もう一度お試しください。"
-        );
-        setShowBanner(true);
-        return;
-      }
-
-      const reservationDetails = {
-        id: newReservation.id,
-        eventTitle: event!.title,
-        date: event!.date,
-        time: selectedSlot.timeSlot!, // 非nullアサーションを使用
-        venue: event!.venue,
-        cost: totalCost,
-        participants: participants,
-      };
-
-      await sendConfirmationEmail(email, reservationDetails);
 
       // 予約完了後のナビゲーション
       router.push(`/home/reservation/${newReservation.id}`);
@@ -369,7 +295,6 @@ export default function ReservationComponent() {
     setAccompaniedGuests(newAccompaniedGuests);
   };
 
-  // 選択されたタイムスロットの時間を取得
   const selectedTimeSlotTime = selectedTimeSlot
     ? timeSlots.find((slot) => slot.id === selectedTimeSlot)?.timeSlot
     : null;
@@ -382,7 +307,6 @@ export default function ReservationComponent() {
         </div>
       )}
       <div className="space-y-6 md:space-y-8">
-        {/* ここにヘッダーやイベント情報の表示コードを追加 */}
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <div className="space-y-6">
             {/* 名前入力 */}
@@ -419,7 +343,9 @@ export default function ReservationComponent() {
                 placeholder="メールアドレスを入力してください"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`select-text ${errors.email ? "border-red-500" : ""}`}
+                className={`select-text ${
+                  errors.email ? "border-red-500" : ""
+                }`}
               />
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -440,7 +366,9 @@ export default function ReservationComponent() {
                 placeholder="電話番号を入力してください"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className={`select-text ${errors.phone ? "border-red-500" : ""}`}
+                className={`select-text ${
+                  errors.phone ? "border-red-500" : ""
+                }`}
               />
               {errors.phone && (
                 <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
@@ -480,7 +408,6 @@ export default function ReservationComponent() {
                         size="sm"
                         onClick={() => {
                           if (slot.id) {
-                            // slot.id が存在することを確認
                             handleTimeSlotSelect(slot.id);
                             setIsTimePopoverOpen(false);
                           } else {

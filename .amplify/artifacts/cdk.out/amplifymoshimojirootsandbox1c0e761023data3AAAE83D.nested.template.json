@@ -113,7 +113,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/acf90c24a076b0b2dcfc3e84d5fca0d951ec790b2bf47c496473da828bfb53ab.json"
+       "/9b67d507279465281d9dd9629db4077dc57798269d467bddc8e52e78a13333c2.json"
       ]
      ]
     }
@@ -203,7 +203,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/500efe4697c8d1017912f4dff2960d9459d6bc1d28110d09e8d780e197b86472.json"
+       "/a35fc8af2cb9a52134a1b79de184cafe4e629e801b0fb5e1c8a7d8d9bc240d1c.json"
       ]
      ]
     }
@@ -296,7 +296,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/4cca593a4757df368bc122ce28c230f280485a41b7804cc49e57994cd78faf0f.json"
+       "/e848b49cef4a5743e057b8f02618e05595b70fe8a8a9c3fb73b57a2d94e0ae10.json"
       ]
      ]
     }
@@ -389,7 +389,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/3e339cde44a7df8be2825e7e012476dea13f89345c6b0542ed4461b2a105ce57.json"
+       "/ad0f04d1b78e7ceec1f453b964f8c7d1a86b421ee9e3df5bb17b180af2342cfb.json"
       ]
      ]
     }
@@ -497,7 +497,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/4ef8cf0bb14c5e925925d5662ac5b34c4304c1638375797727df9d5ca796a35b.json"
+       "/f4e7cbf900aaefd42f18e5194df5df2723736dbb869b6f891b09988c67688c88.json"
       ]
      ]
     }
@@ -1908,7 +1908,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VRy26DMBD8lt4dl6Rq74SovaRRGqRe0cYsxIkf1GuCEOLfK3CB5jQPr8Zj74avXyMePUFDK5HfVkqeeXdA8pinHsSNnZBs7QQyaCjroKqoNYJ3Hw6qy4+KK7kFQpYUZnS+9nEl/6lUXFADO1iDO/CQhqikMIvqGb1kHRChJx4PwHKslG01Gs+3tbih383GMM274I43BzpE/rEAR6ukaBc76J5J0Lz7BAMl5svMo3Gyauw44jI0RSjQ5xx4lxRmDy26b3QkrWGpNKVCb817bYQfnJkkxWz2jEjzLvVOmvIIDjR6dGP+JPqejf+QeiilKYezsIukJm/1vJGh4sRDqUwNhTJoSCjJ44YSJceOD/nhxVU1Zj9EHp29yxzdtNPEmlyG1sbmyK/0fN9EfP3Go6crSblytfFSIz8F/AXIpiinTgIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VRy26DMBD8lt4dl6Sq1Cshai9plAapV7QxC3HiB/WaIIT49wpcoDnNw6vx2Lvh69eIR0/Q0Erkt5WSZ94dkDzmqQdxYyckWzuBDBrKOqgqao3g3YeD6vKj4kpugZAlhRmdr31cyX8qFRfUwA7W4A48pCEqKcyiekYvWQdE6InHA7AcK2VbjcbzbS1u6HezMUzzLrjjzYEOkX8swNEqKdrFDrpnEjTvPsFAifky82icrBo7jrgMTREK9DkH3iWF2UOL7hsdSWtYKk2p0FvzXhvhB2cmSTGbPSPSvEu9k6Y8ggONHt2YP4m+Z+M/pB5KacrhLOwiqclbPW9kqDjxUCpTQ6EMGhJK8rihRMmx40N+eHFVjdkPkUdn7zJHN+00sSaXobWxOfIrPd83EV+/8ejpSlKuXG281MhPAX8BJsgYxU4CAAA="
    },
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/CDKMetadata/Default"

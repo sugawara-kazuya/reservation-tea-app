@@ -14,6 +14,7 @@ interface EventProps {
   imageUrl: string;
   maxParticipants: number | undefined; // 新しく追加
   currentParticipants: number | undefined; // 新しく追加
+  isMobile: boolean;
 }
 
 export const EventSection: React.FC<EventProps> = ({
@@ -26,6 +27,7 @@ export const EventSection: React.FC<EventProps> = ({
   imageUrl,
   maxParticipants,
   currentParticipants,
+  isMobile,
 }) => {
   const router = useRouter();
 
@@ -37,7 +39,7 @@ export const EventSection: React.FC<EventProps> = ({
 
   return (
     <section className="mb-8">
-      <div className="flex flex-col md:flex-row items-center mb-8">
+      <div className="flex flex-col md:flex-row items-start mb-8">
         <div className="w-full md:w-1/3 h-auto order-1 md:order-2 mb-4 md:mb-0 md:ml-8">
           <Image
             src={imageUrl}
@@ -48,7 +50,7 @@ export const EventSection: React.FC<EventProps> = ({
             objectFit="cover"
           />
         </div>
-        <div className="flex-1 order-2 md:order-1">
+        <div className="flex-1 order-2 md:order-1 text-left">
           <h3 className="text-xl font-bold mb-2">{title}</h3>
           <p className="mb-2">会場: {venue}</p>
           <p className="mb-2">日時: {date}</p>

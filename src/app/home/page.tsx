@@ -14,6 +14,7 @@ const client = generateClient<Schema>();
 
 export default function Page() {
   const [events, setEvents] = useState<Schema["Event"]["type"][]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   const fetchEvents = async () => {
     const { data: items, errors } = await client.models.Event.list({
@@ -28,6 +29,10 @@ export default function Page() {
 
   useEffect(() => {
     fetchEvents();
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   return (
@@ -37,7 +42,7 @@ export default function Page() {
         <h2 id="event-section" className="text-2xl font-bold text-center mb-8">
           お茶会のご案内
         </h2>
-        <ul className="w-full max-w-5xl p-8">
+        <ul className="w-full px-4 sm:px-0">
           {events.map(
             ({
               id,
@@ -61,6 +66,7 @@ export default function Page() {
                   imageUrl={imageUrl ?? ""}
                   maxParticipants={maxParticipants ?? 0}
                   currentParticipants={currentParticipants ?? 0}
+                  isMobile={isMobile}
                 />
               </li>
             )
