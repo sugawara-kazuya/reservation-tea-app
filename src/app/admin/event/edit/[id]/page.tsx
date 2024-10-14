@@ -25,7 +25,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { ja } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import {
@@ -104,7 +104,24 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           setVenue(event.venue ?? "");
           setCost(event.cost?.toString() || "0");
           setMaxParticipants(event.maxParticipants || 0);
-          setDate(event.date ? new Date(event.date) : undefined);
+
+          // 日付のパースを修正
+          let parsedDate;
+          if (event.date) {
+            // ISO形式を試す
+            parsedDate = new Date(event.date);
+            if (isNaN(parsedDate.getTime())) {
+              // ISO形式でパースできない場合、日本語フォーマットを使用
+              parsedDate = parse(
+                event.date,
+                "yyyy年M月d日（EEE）",
+                new Date(),
+                { locale: ja }
+              );
+            }
+          }
+          setDate(parsedDate || undefined);
+
           setDescription(event.description || "");
           setEventId(event.id ?? "");
           setImageUrl(event.imageUrl ?? "");
@@ -221,8 +238,6 @@ export default function EditComponent({ params }: { params: { id: string } }) {
     setSelectedFile(file);
     if (file) {
       setErrors((prevErrors) => ({ ...prevErrors, image: false }));
-      // Optionally, you can clear the existing image URL if a new file is selected
-      // setImageUrl("");
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -271,9 +286,10 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         newImageUrl = baseUrl + path;
       }
 
+      // 日付をISO形式で保存
       let formattedDate = "";
       if (date && !isNaN(date.getTime())) {
-        formattedDate = format(date, "yyyy年M月d日（EEE）", { locale: ja });
+        formattedDate = date.toISOString();
       }
 
       // イベントの更新
@@ -617,6 +633,20 @@ export default function EditComponent({ params }: { params: { id: string } }) {
                 ? "現在の画像が設定されています"
                 : "ファイルを選択"}
           </Button>
+          {/* 画像のプレビューを追加 */}
+          {selectedFile ? (
+            <img
+              src={URL.createObjectURL(selectedFile)}
+              alt="選択した画像のプレビュー"
+              className="mt-2 w-full h-auto"
+            />
+          ) : imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="現在の画像"
+              className="mt-2 w-full h-auto"
+            />
+          ) : null}
           {errors.image && (
             <p className="text-red-500 text-sm mt-1">画像を選択してください</p>
           )}
