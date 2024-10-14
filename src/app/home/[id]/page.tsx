@@ -29,6 +29,10 @@ type Errors = {
   accompaniedGuests?: (string | undefined)[];
 };
 
+function generateReservationNumber(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 export default function ReservationComponent() {
   const router = useRouter();
   const { id: eventIdParam } = useParams();
@@ -161,8 +165,8 @@ export default function ReservationComponent() {
       return;
     }
 
-    // 重複予約チェック
     try {
+      // 予約内容の重複チェック
       const { data: existingReservations, errors: listErrors } =
         await client.models.Reservation.list({
           filter: {
@@ -189,32 +193,43 @@ export default function ReservationComponent() {
         setShowBanner(true);
         return;
       }
-    } catch (error) {
-      console.error("予約チェック中にエラーが発生しました:", error);
-      setBannerMessage(
-        "予約チェック中にエラーが発生しました。もう一度お試しください。"
-      );
-      setShowBanner(true);
-      return;
-    }
 
-    // 重複がない場合、予約処理を続行
-    const selectedSlot = timeSlots.find((slot) => slot.id === selectedTimeSlot);
+      // ランダムな予約番号の生成と重複チェック
+      let reservationNumber;
+      let isUnique = false;
+      let attempts = 0;
+      const maxAttempts = 10; // 最大試行回数を設定
 
-    if (selectedSlot) {
-      const maxParticipants = selectedSlot.maxParticipants ?? 0;
-      const totalParticipants =
-        (selectedSlot.currentParticipants ?? 0) + participants;
-      if (totalParticipants > maxParticipants) {
-        setBannerMessage("上限人数に達しています。予約ができません。");
-        setShowBanner(true);
-        return;
+      while (!isUnique && attempts < maxAttempts) {
+        reservationNumber = generateReservationNumber();
+        attempts++;
+
+        const { data: existingReservationNumbers, errors: checkErrors } =
+          await client.models.Reservation.list({
+            filter: { reservationNumber: { eq: reservationNumber } },
+          });
+
+        if (checkErrors) {
+          console.error(
+            "予約番号チェック中にエラーが発生しました:",
+            checkErrors
+          );
+          throw new Error("予約番号の確認中にエラーが発生しました。");
+        }
+
+        if (
+          !existingReservationNumbers ||
+          existingReservationNumbers.length === 0
+        ) {
+          isUnique = true;
+        }
       }
-    }
 
-    const totalCost = (event?.cost ?? 0) * participants;
+      if (!isUnique) {
+        throw new Error("一意の予約番号を生成できませんでした。");
+      }
 
-    try {
+      // 予約の作成
       const { data: newReservation, errors: reservationErrors } =
         await client.models.Reservation.create({
           name,
@@ -223,37 +238,38 @@ export default function ReservationComponent() {
           eventId: event?.id,
           reservationTime: selectedTimeSlot,
           participants,
-          totalCost,
+          totalCost: (event?.cost ?? 0) * participants,
           notes,
           accompaniedGuest1: accompaniedGuests[0] || null,
           accompaniedGuest2: accompaniedGuests[1] || null,
           accompaniedGuest3: accompaniedGuests[2] || null,
+          reservationNumber,
         });
 
       if (reservationErrors || !newReservation) {
-        console.error("予約の作成中にエラーが発生しました:", reservationErrors);
-        setBannerMessage(
-          "予約の作成中にエラーが発生しました。もう一度お試しください。"
-        );
-        setShowBanner(true);
-        return;
+        throw new Error("予約の作成中にエラーが発生しました。");
       }
 
-      if (selectedSlot) {
-        const updatedTimeSlot = {
-          id: selectedSlot.id,
-          currentParticipants:
-            (selectedSlot.currentParticipants ?? 0) + participants,
-        };
-        const { data: updatedSlotData, errors: timeSlotErrors } =
-          await client.models.EventTimeSlot.update(updatedTimeSlot);
+      if (selectedTimeSlot) {
+        const selectedSlot = timeSlots.find(
+          (slot) => slot.id === selectedTimeSlot
+        );
+        if (selectedSlot) {
+          const updatedTimeSlot = {
+            id: selectedSlot.id,
+            currentParticipants:
+              (selectedSlot.currentParticipants ?? 0) + participants,
+          };
+          const { data: updatedSlotData, errors: timeSlotErrors } =
+            await client.models.EventTimeSlot.update(updatedTimeSlot);
 
-        if (timeSlotErrors) {
-          console.error(
-            "EventTimeSlot の更新中にエラーが発生しました:",
-            timeSlotErrors
-          );
-          // エラー処理を追加する場合はここに記述
+          if (timeSlotErrors) {
+            console.error(
+              "EventTimeSlot の更新中にエラーが発生しました:",
+              timeSlotErrors
+            );
+            // エラー処理を追加する場合はここに記述
+          }
         }
       }
 
@@ -271,7 +287,6 @@ export default function ReservationComponent() {
         }
       }
 
-      // 予約完了後のナビゲーション
       router.push(`/home/reservation/${newReservation.id}`);
     } catch (error) {
       console.error("予約の作成または更新に失敗しました:", error);

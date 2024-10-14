@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,13 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
@@ -92,50 +99,86 @@ export default function Component() {
   >(null);
   const [error, setError] = useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [events, setEvents] = useState<Schema["Event"]["type"][]>([]);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [isValidInput, setIsValidInput] = useState(false);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const { data: eventData, errors } = await client.models.Event.list();
+      if (errors) {
+        console.error("Error fetching events:", errors);
+        return;
+      }
+      setEvents(eventData);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  useEffect(() => {
+    // 入力が有効かどうかをチェック
+    setIsValidInput(selectedEventId !== null && reservationId.length === 6);
+  }, [selectedEventId, reservationId]);
 
   const handleReservationCheck = async () => {
-    if (!reservationId) {
-      setError("予約IDを入力してください。");
+    if (!isValidInput) {
+      setError("イベントを選択し、6桁の予約番号を入力してください。");
       return;
     }
 
     try {
       const { data: reservationData, errors } =
-        await client.models.Reservation.get({
-          id: reservationId,
+        await client.models.Reservation.list({
+          filter: {
+            reservationNumber: { eq: reservationId },
+            eventId: { eq: selectedEventId ?? "" },
+          },
         });
 
-      if (errors || !reservationData) {
+      if (errors || !reservationData || reservationData.length === 0) {
         setError("予約情報が見つかりません。");
         return;
       }
 
-      setReservation(reservationData);
-      router.push(`/home/reservation/${reservationData.id}`);
+      setReservation(reservationData[0]);
+      router.push(`/home/reservation/${reservationData[0].id}`);
     } catch (fetchError) {
       setError("予約情報の取得に失敗しました。");
     }
   };
 
   const handleReservationCancel = async () => {
-    if (!reservationId) {
-      setError("予約IDを入力してください。");
+    if (!isValidInput) {
+      setError("イベントを選択し、6桁の予約番号を入力してください。");
       return;
     }
 
     try {
       const { data: reservationData, errors: reservationErrors } =
-        await client.models.Reservation.get({
-          id: reservationId,
+        await client.models.Reservation.list({
+          filter: {
+            reservationNumber: { eq: reservationId },
+            eventId: { eq: selectedEventId ?? "" },
+          },
         });
 
-      if (reservationErrors || !reservationData) {
+      if (
+        reservationErrors ||
+        !reservationData ||
+        reservationData.length === 0
+      ) {
         setError("予約情報が見つかりません。");
         return;
       }
 
-      const participants = reservationData.participants ?? 0;
-      const eventId = reservationData.eventId;
+      const reservation = reservationData[0];
+      const participants = reservation.participants ?? 0;
+      const eventId = reservation.eventId;
 
       if (!eventId) {
         setError("イベントIDが見つかりません。");
@@ -175,7 +218,7 @@ export default function Component() {
       }
 
       const matchingSlot = timeSlotsData.find(
-        (slot) => slot.timeSlot === reservationData.reservationTime
+        (slot) => slot.timeSlot === reservation.reservationTime
       );
       if (matchingSlot) {
         const updatedTimeSlot = {
@@ -188,15 +231,15 @@ export default function Component() {
       }
 
       await client.models.Reservation.delete({
-        id: reservationId,
+        id: reservation.id,
       });
 
-      if (reservationData.email) {
-        await sendCancellationEmail(reservationData.email, {
-          name: reservationData.name ?? "ゲスト",
+      if (reservation.email) {
+        await sendCancellationEmail(reservation.email, {
+          name: reservation.name ?? "ゲスト",
           eventTitle: eventData.title ?? "不明なイベント",
           date: eventData.date ?? "不明な日付",
-          time: reservationData.reservationTime ?? "不明な時間",
+          time: reservation.reservationTime ?? "不明な時間",
         });
       } else {
         console.error(
@@ -236,16 +279,36 @@ export default function Component() {
             }}
           >
             <div className="space-y-2">
-              <Label htmlFor="reservation-id">予約ID</Label>
+              <Label htmlFor="event-select">イベント</Label>
+              <Select onValueChange={(value) => setSelectedEventId(value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="イベントを選択してください" />
+                </SelectTrigger>
+                <SelectContent>
+                  {events.map((event) => (
+                    <SelectItem key={event.id ?? ""} value={event.id ?? ""}>
+                      {event.title ?? "無題のイベント"}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="reservation-id">予約番号</Label>
               <Input
                 id="reservation-id"
-                placeholder="予約IDを入力してください"
+                placeholder="6桁の予約番号を入力してください"
                 value={reservationId}
                 onChange={(e) => setReservationId(e.target.value)}
+                maxLength={6}
               />
             </div>
             <div className="flex justify-end space-x-4">
-              <Button type="button" onClick={handleReservationCheck}>
+              <Button
+                type="button"
+                onClick={handleReservationCheck}
+                disabled={!isValidInput}
+              >
                 予約確認
               </Button>
               <Dialog>
@@ -254,6 +317,7 @@ export default function Component() {
                     type="button"
                     variant="destructive"
                     className="bg-red-500 text-white hover:bg-red-600 rounded-md px-4 py-2 font-medium"
+                    disabled={!isValidInput}
                   >
                     予約キャンセル
                   </Button>

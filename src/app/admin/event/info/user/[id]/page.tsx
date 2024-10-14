@@ -59,6 +59,7 @@ export default function ReservationEdit() {
     Schema["EventTimeSlot"]["type"][]
   >([]);
   const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
+  const [reservationNumber, setReservationNumber] = useState("");
   const router = useRouter();
   const params = useParams();
   const reservationId = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -88,6 +89,7 @@ export default function ReservationEdit() {
         setReservationTime(data.reservationTime || "");
         setParticipants(data.participants?.toString() || "");
         setNotes(data.notes || "");
+        setReservationNumber(data.reservationNumber || "");
         setAccompaniedGuests(
           [
             data.accompaniedGuest1 || "",
@@ -183,6 +185,7 @@ export default function ReservationEdit() {
           accompaniedGuest1: accompaniedGuests[0] || null,
           accompaniedGuest2: accompaniedGuests[1] || null,
           accompaniedGuest3: accompaniedGuests[2] || null,
+          reservationNumber,
         });
 
       if (reservationErrors) {
@@ -370,6 +373,10 @@ export default function ReservationEdit() {
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
           />
+        </div>
+        <div>
+          <Label htmlFor="reservationNumber">予約番号</Label>
+          <Input id="reservationNumber" value={reservationNumber} disabled />
         </div>
         <Button onClick={handleUpdate} className="w-full">
           更新
