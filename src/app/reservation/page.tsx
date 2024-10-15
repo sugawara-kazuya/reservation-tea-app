@@ -109,14 +109,20 @@ export default function Component() {
 
   const fetchEvents = async () => {
     try {
-      const { data: eventData, errors } = await client.models.Event.list();
+      const { data: eventData, errors } = await client.models.Event.list({
+        filter: {
+          isActive: {
+            eq: true,
+          },
+        },
+      });
       if (errors) {
-        console.error("Error fetching events:", errors);
+        console.error("イベントの取得中にエラーが発生しました:", errors);
         return;
       }
       setEvents(eventData);
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.error("イベントの取得中にエラーが発生しました:", error);
     }
   };
 
@@ -132,6 +138,16 @@ export default function Component() {
     }
 
     try {
+      const { data: eventData, errors: eventErrors } =
+        await client.models.Event.get({
+          id: selectedEventId ?? "",
+        });
+
+      if (eventErrors || !eventData || !eventData.isActive) {
+        setError("選択されたイベントは無効です。");
+        return;
+      }
+
       const { data: reservationData, errors } =
         await client.models.Reservation.list({
           filter: {
@@ -159,6 +175,20 @@ export default function Component() {
     }
 
     try {
+      const { data: eventDataForCancel, errors: eventErrorsForCancel } =
+        await client.models.Event.get({
+          id: selectedEventId ?? "",
+        });
+
+      if (
+        eventErrorsForCancel ||
+        !eventDataForCancel ||
+        !eventDataForCancel.isActive
+      ) {
+        setError("選択されたイベントは無効です。");
+        return;
+      }
+
       const { data: reservationData, errors: reservationErrors } =
         await client.models.Reservation.list({
           filter: {
@@ -237,8 +267,8 @@ export default function Component() {
       if (reservation.email) {
         await sendCancellationEmail(reservation.email, {
           name: reservation.name ?? "ゲスト",
-          eventTitle: eventData.title ?? "不明なイベント",
-          date: eventData.date ?? "不明な日付",
+          eventTitle: eventDataForCancel.title ?? "不明なイベント",
+          date: eventDataForCancel.date ?? "不明な日付",
           time: reservation.reservationTime ?? "不明な時間",
         });
       } else {

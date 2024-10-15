@@ -17,6 +17,14 @@ import {
 } from "@/components/ui/select";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
+import { format, parse, isValid } from "date-fns";
+import { ja } from "date-fns/locale";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 Amplify.configure(outputs);
 
@@ -60,6 +68,8 @@ export default function ReservationEdit() {
   >([]);
   const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
   const [reservationNumber, setReservationNumber] = useState("");
+  const [date, setDate] = useState<Date | null>(null);
+  const [time, setTime] = useState("");
   const router = useRouter();
   const params = useParams();
   const reservationId = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -82,11 +92,11 @@ export default function ReservationEdit() {
         throw new Error(errors.map((e) => e.message).join(", "));
       }
       if (data) {
+        console.log("取得した予約データ:", data);
         setReservation(data);
         setName(data.name || "");
         setEmail(data.email || "");
         setPhone(data.phone || "");
-        setReservationTime(data.reservationTime || "");
         setParticipants(data.participants?.toString() || "");
         setNotes(data.notes || "");
         setReservationNumber(data.reservationNumber || "");
@@ -101,6 +111,13 @@ export default function ReservationEdit() {
         if (data.eventId) {
           await fetchEvent(data.eventId);
           await fetchEventTimeSlots(data.eventId);
+        }
+
+        if (data.reservationTime) {
+          console.log("予約時間ID:", data.reservationTime);
+          await fetchEventTimeSlot(data.reservationTime);
+        } else {
+          console.error("予約時間が設定されていません");
         }
       } else {
         throw new Error("予約が見つかりません。");
@@ -124,7 +141,26 @@ export default function ReservationEdit() {
         throw new Error(errors.map((e) => e.message).join(", "));
       }
       if (data) {
+        console.log("取得したイベントデータ:", data);
         setEvent(data);
+        if (data.date) {
+          console.log("イベントの日付文字列:", data.date);
+          // date-fnsのparseを使用して日付をパース
+          const parsedDate = parse(
+            data.date,
+            "yyyy年M月d日（EEE）",
+            new Date(),
+            { locale: ja }
+          );
+          console.log("パースされたイベントの日付:", parsedDate);
+          if (!isNaN(parsedDate.getTime())) {
+            setDate(parsedDate);
+          } else {
+            console.error("イベントの日付が無効です:", data.date);
+          }
+        } else {
+          console.error("イベントの日付が設定されていません");
+        }
       }
     } catch (error) {
       console.error("イベントの取得中にエラーが発生しました:", error);
@@ -152,6 +188,16 @@ export default function ReservationEdit() {
           return 0;
         });
         setEventTimeSlots(sortedData);
+
+        // 現在の予約時間が時間スロットに存在する場合、それを選択状態にする
+        if (time) {
+          const matchingSlot = sortedData.find(
+            (slot) => slot.timeSlot === time
+          );
+          if (matchingSlot) {
+            setTime(matchingSlot.timeSlot || "");
+          }
+        }
       }
     } catch (error) {
       console.error("時間スロットの取得中にエラーが発生しました:", error);
@@ -163,13 +209,40 @@ export default function ReservationEdit() {
     }
   };
 
+  const fetchEventTimeSlot = async (timeSlotId: string) => {
+    try {
+      const { data, errors } = await client.models.EventTimeSlot.get({
+        id: timeSlotId,
+      });
+      if (errors) {
+        throw new Error(errors.map((e) => e.message).join(", "));
+      }
+      if (data && data.timeSlot) {
+        console.log("取得した時間スロット:", data);
+        setTime(data.timeSlot);
+      } else {
+        console.error("時間スロットが見つかりません");
+      }
+    } catch (error) {
+      console.error("時間スロットの取得中にエラーが発生しました:", error);
+    }
+  };
+
   const handleUpdate = async () => {
-    if (!reservation || !event) return;
+    if (!reservation || !event || !date) return;
 
     try {
       const oldParticipants = reservation.participants || 0;
       const newParticipants = parseInt(participants, 10);
       const participantsDiff = newParticipants - oldParticipants;
+
+      // 選択された時間スロットのIDを取得
+      const selectedTimeSlot = eventTimeSlots.find(
+        (slot) => slot.timeSlot === time
+      );
+      if (!selectedTimeSlot) {
+        throw new Error("選択された時間スロットが見つかりません");
+      }
 
       // Update reservation
       const { errors: reservationErrors } =
@@ -178,7 +251,7 @@ export default function ReservationEdit() {
           name,
           email,
           phone,
-          reservationTime,
+          reservationTime: selectedTimeSlot.id, // 時間スロットのIDを保存
           participants: newParticipants,
           totalCost: event.cost ? event.cost * newParticipants : 0,
           notes,
@@ -261,12 +334,15 @@ export default function ReservationEdit() {
     setAccompaniedGuests(newAccompaniedGuests);
   };
 
+  console.log("現在の日付状態:", date);
+  console.log("現在の時間状態:", time);
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>読み込み中...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>エラー: {error}</div>;
   }
 
   if (!reservation) {
@@ -308,21 +384,39 @@ export default function ReservationEdit() {
           />
         </div>
         <div>
-          <Label htmlFor="reservationTime">予約時間</Label>
-          <Select value={reservationTime} onValueChange={setReservationTime}>
+          <Label htmlFor="date">日にち</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal"
+              >
+                {date && !isNaN(date.getTime())
+                  ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
+                  : "日付が設定されていません"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={date || new Date()}
+                onSelect={(newDate) => setDate(newDate || null)}
+                disabled={(date) => date < new Date()}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div>
+          <Label htmlFor="time">時間</Label>
+          <Select value={time} onValueChange={setTime}>
             <SelectTrigger>
-              <SelectValue placeholder="予約時間を選択" />
+              <SelectValue placeholder="時間を選択" />
             </SelectTrigger>
             <SelectContent>
               {eventTimeSlots.map((slot) => (
                 <SelectItem key={slot.id} value={slot.timeSlot || ""}>
-                  {slot.timeSlot} (残り
-                  {(slot.maxParticipants || 0) -
-                    (slot.currentParticipants || 0) +
-                    (reservation.reservationTime === slot.timeSlot
-                      ? parseInt(participants, 10)
-                      : 0)}{" "}
-                  /{slot.maxParticipants || 0})
+                  {slot.timeSlot}
                 </SelectItem>
               ))}
             </SelectContent>

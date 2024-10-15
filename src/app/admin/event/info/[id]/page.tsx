@@ -111,6 +111,7 @@ const EventDetails: React.FC = () => {
           filter: { eventId: { eq: id } },
         });
       if (reservationErrors) throw new Error(JSON.stringify(reservationErrors));
+      console.log(reservationsData);
       setReservations(reservationsData);
     } catch (error) {
       console.error("Error fetching event data:", error);
@@ -358,8 +359,9 @@ const EventDetails: React.FC = () => {
             <div className="mt-4 space-y-4">
               {timeSlots.map((timeSlot) => {
                 const slotReservations = reservations
-                  .filter((r) => r.reservationTime === timeSlot.timeSlot)
+                  .filter((r) => r.reservationTime === timeSlot.id)
                   .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+                console.log(slotReservations);
                 return (
                   <Collapsible
                     key={timeSlot.id}
