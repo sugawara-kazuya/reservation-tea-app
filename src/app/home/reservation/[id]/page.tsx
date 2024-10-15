@@ -37,6 +37,33 @@ Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
 
+// 日付と時間をフォーマットする関数を修正
+function formatDateTime(dateTimeString: string | null | undefined): string {
+  if (!dateTimeString) return "未設定";
+
+  try {
+    const date = new Date(dateTimeString);
+
+    // 日付が無効な場合は元の文字列を返す
+    if (isNaN(date.getTime())) {
+      return dateTimeString;
+    }
+
+    return new Intl.DateTimeFormat("ja-JP", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Asia/Tokyo",
+    }).format(date);
+  } catch (error) {
+    console.error("日付のフォーマットエラー:", error);
+    return dateTimeString; // エラーが発生した場合は元の文字列を返す
+  }
+}
+
 function Alert({
   message,
   type,
@@ -75,6 +102,9 @@ export default function ConfirmationPage() {
     Schema["Reservation"]["type"] | null
   >(null);
   const [event, setEvent] = useState<Schema["Event"]["type"] | null>(null);
+  const [eventTimeSlot, setEventTimeSlot] = useState<
+    Schema["EventTimeSlot"]["type"] | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -98,7 +128,7 @@ export default function ConfirmationPage() {
           });
 
         if (reservationErrors || !reservationData) {
-          setError("予約情報の取得に失敗しました。");
+          setError("予約情報の��得に失敗しました。");
           setLoading(false);
           return;
         }
@@ -118,11 +148,28 @@ export default function ConfirmationPage() {
           }
 
           setEvent(eventData);
+
+          // EventTimeSlotの取得
+          if (reservationData.reservationTime) {
+            const { data: timeSlotData, errors: timeSlotErrors } =
+              await client.models.EventTimeSlot.get({
+                id: reservationData.reservationTime,
+              });
+
+            if (timeSlotErrors || !timeSlotData) {
+              setError("時間枠情報の取得に失敗しました。");
+              setLoading(false);
+              return;
+            }
+
+            setEventTimeSlot(timeSlotData);
+          }
         }
 
         setLoading(false);
       } catch (fetchError) {
-        setError("予約情報またはイベント情報の取得中にエラーが発生しました。");
+        console.error("Fetch error:", fetchError); // エラーの詳細をログに出力
+        setError("情報の取得中にエラーが発生しました。");
         setLoading(false);
       }
     };
@@ -325,7 +372,8 @@ export default function ConfirmationPage() {
               <InfoItem
                 icon={<CalendarIcon />}
                 label="日時"
-                value={reservation.reservationTime}
+                value={eventTimeSlot?.timeSlot}
+                isDateTime={true}
               />
               <InfoItem
                 icon={<CreditCardIcon />}
@@ -448,20 +496,25 @@ function InfoItem({
   icon,
   label,
   value,
+  isDateTime = false, // 新しいプロパティを追加
 }: {
   icon: React.ReactNode;
   label: string;
   value: string | number | null | undefined;
+  isDateTime?: boolean; // 新しいプロパティを追加
 }) {
-  const stringValue = value?.toString() || "未設定";
-  const shouldWrap = stringValue.length > 20;
+  let displayValue = value?.toString() || "未設定";
+  if (isDateTime) {
+    displayValue = formatDateTime(displayValue);
+  }
+  const shouldWrap = displayValue.length > 20;
 
   return (
     <div className="flex items-center space-x-3 p-3 bg-background rounded-lg shadow-sm">
       <div className="text-primary">{icon}</div>
       <div className={`flex-1 ${shouldWrap ? "flex flex-col" : ""}`}>
         <p className="text-sm font-medium text-muted-foreground">{label}</p>
-        <p className="text-lg font-semibold text-foreground">{stringValue}</p>
+        <p className="text-lg font-semibold text-foreground">{displayValue}</p>
       </div>
     </div>
   );
