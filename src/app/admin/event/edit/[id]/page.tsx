@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { generateClient } from "aws-amplify/data";
 import { uploadData } from "aws-amplify/storage";
 import type { Schema } from "@/amplify";
@@ -83,6 +83,12 @@ export default function EditComponent({ params }: { params: { id: string } }) {
     image: false,
     description: false,
   });
+  const [isRemoveTimeSlotModalOpen, setIsRemoveTimeSlotModalOpen] =
+    useState(false);
+  const [timeSlotToRemove, setTimeSlotToRemove] = useState<{
+    index: number;
+    hasReservations: boolean;
+  } | null>(null);
 
   const router = useRouter();
 
@@ -213,9 +219,144 @@ export default function EditComponent({ params }: { params: { id: string } }) {
     }
   };
 
-  const handleRemoveTimeSlot = (index: number) => {
-    setTimeSlots(timeSlots.filter((_, i) => i !== index));
-  };
+  const handleRemoveTimeSlot = useCallback(
+    async (index: number) => {
+      const slot = timeSlots[index];
+      const timeSlotString = `${slot.hour}:${slot.minute}`;
+
+      try {
+        // 予約の有無を確認
+        const { data: reservations, errors: reservationErrors } =
+          await client.models.Reservation.list({
+            filter: {
+              eventId: { eq: eventId },
+              reservationTime: { eq: timeSlotString },
+            },
+          });
+
+        if (reservationErrors) {
+          throw new Error("予約の確認中にエラーが発生しました");
+        }
+
+        const hasReservations = reservations.length > 0;
+
+        // モーダルを表示するために状態を更新
+        setTimeSlotToRemove({ index, hasReservations });
+        setIsRemoveTimeSlotModalOpen(true);
+      } catch (error) {
+        console.error("時間枠の削除確認中にエラーが発生しました:", error);
+        setError(
+          error instanceof Error
+            ? error.message
+            : "時間枠の削除確認に失敗しました"
+        );
+      }
+    },
+    [timeSlots, eventId]
+  );
+
+  const confirmRemoveTimeSlot = useCallback(async () => {
+    if (timeSlotToRemove === null) return;
+
+    const { index, hasReservations } = timeSlotToRemove;
+    const slot = timeSlots[index];
+    const timeSlotString = `${slot.hour}:${slot.minute}`;
+
+    try {
+      // EventTimeSlotを削除
+      const { data: eventTimeSlots, errors: eventTimeSlotErrors } =
+        await client.models.EventTimeSlot.list({
+          filter: {
+            eventId: { eq: eventId },
+            timeSlot: { eq: timeSlotString },
+          },
+        });
+
+      if (eventTimeSlotErrors) {
+        throw new Error("EventTimeSlotの取得中にエラーが発生しました");
+      }
+
+      if (eventTimeSlots.length === 0) {
+        throw new Error("該当するEventTimeSlotが見つかりません");
+      }
+
+      const eventTimeSlot = eventTimeSlots[0];
+      const currentParticipantsToRemove =
+        eventTimeSlot.currentParticipants || 0;
+
+      // EventTimeSlotを削除
+      const { errors: deleteErrors } = await client.models.EventTimeSlot.delete(
+        {
+          id: eventTimeSlot.id,
+        }
+      );
+      if (deleteErrors) {
+        throw new Error("EventTimeSlotの削除中にエラーが発生しました");
+      }
+
+      if (hasReservations) {
+        // 関連する予約を削除
+        const { data: reservations, errors: reservationErrors } =
+          await client.models.Reservation.list({
+            filter: {
+              eventId: { eq: eventId },
+              reservationTime: { eq: timeSlotString },
+            },
+          });
+
+        if (reservationErrors) {
+          throw new Error("予約の取得中にエラーが発生しました");
+        }
+
+        for (const reservation of reservations) {
+          const { errors: deleteErrors } =
+            await client.models.Reservation.delete({ id: reservation.id });
+          if (deleteErrors) {
+            throw new Error("予約の削除中にエラーが発生しました");
+          }
+        }
+      }
+
+      // イベントの現在の参加者数を更新
+      const { data: event, errors: getEventErrors } =
+        await client.models.Event.get({ id: eventId });
+      if (getEventErrors) {
+        throw new Error("イベントの取得中にエラーが発生しました");
+      }
+
+      if (event) {
+        const updatedCurrentParticipants = Math.max(
+          (event.currentParticipants || 0) - currentParticipantsToRemove,
+          0
+        );
+        const { errors: updateEventErrors } = await client.models.Event.update({
+          id: eventId,
+          currentParticipants: updatedCurrentParticipants,
+        });
+
+        if (updateEventErrors) {
+          throw new Error("イベントの更新中にエラーが発生しました");
+        }
+      } else {
+        throw new Error("イベントが見つかりません");
+      }
+
+      // ローカルの状態を更新
+      setTimeSlots(timeSlots.filter((_, i) => i !== index));
+      setIsRemoveTimeSlotModalOpen(false);
+      setTimeSlotToRemove(null);
+    } catch (error) {
+      console.error(
+        "タイムスロットと予約の削除中にエラーが発生しました:",
+        error
+      );
+      setError(
+        error instanceof Error
+          ? error.message
+          : "タイムスロットと予約の削除に失敗しました"
+      );
+    }
+  }, [timeSlotToRemove, timeSlots, eventId]);
 
   const handleChangeTimeSlot = (
     index: number,
@@ -717,6 +858,31 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             <AlertDialogCancel>キャンセル</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              削除
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        open={isRemoveTimeSlotModalOpen}
+        onOpenChange={setIsRemoveTimeSlotModalOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>時間枠を削除しますか？</AlertDialogTitle>
+            <AlertDialogDescription>
+              この時間枠を削除すると、関連するすべての予約も削除されます。本当に削除してもよろしいですか？
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setTimeSlotToRemove(null)}>
+              キャンセル
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmRemoveTimeSlot}
               className="bg-red-500 hover:bg-red-600 text-white"
             >
               削除

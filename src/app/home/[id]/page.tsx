@@ -194,6 +194,42 @@ export default function ReservationComponent() {
         return;
       }
 
+      // イベントの参加者数チェック
+      if (
+        event &&
+        event.maxParticipants !== undefined &&
+        event.maxParticipants !== null
+      ) {
+        const totalParticipants =
+          (event.currentParticipants || 0) + participants;
+        if (totalParticipants > event.maxParticipants) {
+          setBannerMessage("申し訳ありませんが、イベントの定員に達しました。");
+          setShowBanner(true);
+          return;
+        }
+      }
+
+      // 選択された時間枠の参加者数チェック
+      if (selectedTimeSlot) {
+        const selectedSlot = timeSlots.find(
+          (slot) => slot.id === selectedTimeSlot
+        );
+        if (selectedSlot && selectedSlot.maxParticipants !== null) {
+          const totalSlotParticipants =
+            (selectedSlot.currentParticipants || 0) + participants;
+          if (
+            selectedSlot.maxParticipants !== undefined &&
+            totalSlotParticipants > selectedSlot.maxParticipants
+          ) {
+            setBannerMessage(
+              "申し訳ありませんが、選択された時間枠の定員に達しました。"
+            );
+            setShowBanner(true);
+            return;
+          }
+        }
+      }
+
       // ランダムな予約番号の生成と重複チェック
       let reservationNumber;
       let isUnique = false;
@@ -250,6 +286,7 @@ export default function ReservationComponent() {
         throw new Error("予約の作成中にエラーが発生しました。");
       }
 
+      // 時間枠の更新
       if (selectedTimeSlot) {
         const selectedSlot = timeSlots.find(
           (slot) => slot.id === selectedTimeSlot
@@ -258,9 +295,9 @@ export default function ReservationComponent() {
           const updatedTimeSlot = {
             id: selectedSlot.id,
             currentParticipants:
-              (selectedSlot.currentParticipants ?? 0) + participants,
+              (selectedSlot.currentParticipants || 0) + participants,
           };
-          const { data: updatedSlotData, errors: timeSlotErrors } =
+          const { errors: timeSlotErrors } =
             await client.models.EventTimeSlot.update(updatedTimeSlot);
 
           if (timeSlotErrors) {
@@ -273,12 +310,13 @@ export default function ReservationComponent() {
         }
       }
 
+      // イベントの更新
       if (event?.id) {
         const updatedEvent = {
           id: event.id,
-          currentParticipants: (event.currentParticipants ?? 0) + participants,
+          currentParticipants: (event.currentParticipants || 0) + participants,
         };
-        const { data: updatedEventData, errors: eventErrors } =
+        const { errors: eventErrors } =
           await client.models.Event.update(updatedEvent);
 
         if (eventErrors) {
