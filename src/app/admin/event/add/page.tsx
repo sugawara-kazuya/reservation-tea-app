@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import outputs from "@/output";
+import { toast } from "@/hooks/use-toast";
 
 const client = generateClient<Schema>();
 
@@ -57,6 +58,7 @@ export default function CreateComponent() {
     image: false,
     description: false,
   });
+  const [duplicateTimeSlotError, setDuplicateTimeSlotError] = useState(false);
 
   const router = useRouter();
 
@@ -154,9 +156,27 @@ export default function CreateComponent() {
   const minuteOptions = generateMinuteOptions();
   const costOptions = generateCostOptions();
 
+  const checkDuplicateTimeSlots = () => {
+    const timeSlotStrings = timeSlots.map(
+      (slot) => `${slot.hour}:${slot.minute}`
+    );
+    const uniqueTimeSlots = new Set(timeSlotStrings);
+    return timeSlotStrings.length !== uniqueTimeSlots.size;
+  };
+
   const handleCreate = async () => {
     if (!validateForm()) {
       console.error("Validation failed");
+      return;
+    }
+
+    if (checkDuplicateTimeSlots()) {
+      setDuplicateTimeSlotError(true);
+      toast({
+        title: "エラー",
+        description: "重複する予約時間があります。時間を確認してください。",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -213,7 +233,19 @@ export default function CreateComponent() {
       router.push("/admin");
     } catch (error) {
       console.error("Failed to create event or time slots:", error);
+      toast({
+        title: "エラー",
+        description: "イベントの作成に失敗しました。",
+        variant: "destructive",
+      });
     }
+  };
+
+  const getErrorCount = () => {
+    return (
+      Object.values(errors).filter(Boolean).length +
+      (duplicateTimeSlotError ? 1 : 0)
+    );
   };
 
   return (
@@ -360,6 +392,11 @@ export default function CreateComponent() {
                 </Button>
               </div>
             ))}
+            {duplicateTimeSlotError && (
+              <p className="text-red-500 text-sm mt-1">
+                重複する予約時間があります。時間を確認してください。
+              </p>
+            )}
             <Button
               variant="outline"
               className="w-full mt-2"
@@ -451,13 +488,22 @@ export default function CreateComponent() {
             </p>
           )}
         </div>
-        <Button
-          className="w-full bg-green-500 text-white"
-          onClick={handleCreate}
-          disabled={Object.values(errors).some(Boolean)}
-        >
-          作成完了
-        </Button>
+        <div className="flex flex-col items-center space-y-2">
+          {getErrorCount() > 0 && (
+            <p className="text-red-500 text-sm">
+              {getErrorCount()}件のエラーが発生しています。
+            </p>
+          )}
+          <Button
+            className="w-full bg-green-500 text-white"
+            onClick={handleCreate}
+            disabled={
+              Object.values(errors).some(Boolean) || duplicateTimeSlotError
+            }
+          >
+            作成完了
+          </Button>
+        </div>
       </div>
     </div>
   );
