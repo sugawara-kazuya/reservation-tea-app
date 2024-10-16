@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/select";
 import outputs from "@/output";
 import { Amplify } from "aws-amplify";
+import { toast } from "@/hooks/use-toast";
 
 Amplify.configure(outputs);
 
@@ -89,6 +90,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
     index: number;
     hasReservations: boolean;
   } | null>(null);
+  const [duplicateTimeSlotError, setDuplicateTimeSlotError] = useState(false);
 
   const router = useRouter();
 
@@ -407,9 +409,27 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   const minuteOptions = generateMinuteOptions();
   const costOptions = generateCostOptions();
 
+  const checkDuplicateTimeSlots = () => {
+    const timeSlotStrings = timeSlots.map(
+      (slot) => `${slot.hour}:${slot.minute}`
+    );
+    const uniqueTimeSlots = new Set(timeSlotStrings);
+    return timeSlotStrings.length !== uniqueTimeSlots.size;
+  };
+
   const handleUpdate = async () => {
     if (!validateForm()) {
       console.error("Validation failed");
+      return;
+    }
+
+    if (checkDuplicateTimeSlots()) {
+      setDuplicateTimeSlotError(true);
+      toast({
+        title: "エラー",
+        description: "重複する予約時間があります。時間を確認してください。",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -467,7 +487,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         );
       }
 
-      // タイムスロットの更新または作成
+      // タイムスロットの���新または作成
       for (const slot of timeSlots) {
         const timeSlotString = `${slot.hour}:${slot.minute}`;
         const existingSlot = existingTimeSlots.find(
@@ -550,7 +570,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
       const { errors } = await client.models.Event.delete({ id: eventId });
       if (errors) {
         throw new Error(
-          "イベントの削除中にエラーが発生しました: " +
+          "イベントの削除中にエラーが���生しました: " +
             errors.map((e) => e.message).join(", ")
         );
       }
@@ -563,6 +583,13 @@ export default function EditComponent({ params }: { params: { id: string } }) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getErrorCount = () => {
+    return (
+      Object.values(errors).filter(Boolean).length +
+      (duplicateTimeSlotError ? 1 : 0)
+    );
   };
 
   if (isLoading) {
@@ -726,6 +753,11 @@ export default function EditComponent({ params }: { params: { id: string } }) {
                 </Button>
               </div>
             ))}
+            {duplicateTimeSlotError && (
+              <p className="text-red-500 text-sm mt-1">
+                重複する予約時間があります。時間を確認してください。
+              </p>
+            )}
             <Button
               variant="outline"
               className="w-full mt-2"
@@ -837,13 +869,24 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             </p>
           )}
         </div>
-        <Button
-          className="w-full bg-green-500 text-white"
-          onClick={handleUpdate}
-          disabled={isLoading || Object.values(errors).some(Boolean)}
-        >
-          {isLoading ? "更新中..." : "編集完了"}
-        </Button>
+        <div className="flex flex-col items-center space-y-2">
+          {getErrorCount() > 0 && (
+            <p className="text-red-500 text-sm">
+              {getErrorCount()}件のエラーが発生しています。
+            </p>
+          )}
+          <Button
+            className="w-full bg-green-500 text-white"
+            onClick={handleUpdate}
+            disabled={
+              isLoading ||
+              Object.values(errors).some(Boolean) ||
+              duplicateTimeSlotError
+            }
+          >
+            {isLoading ? "更新中..." : "編集完了"}
+          </Button>
+        </div>
       </div>
 
       <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
