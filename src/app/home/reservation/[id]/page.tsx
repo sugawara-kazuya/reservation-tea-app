@@ -1,5 +1,3 @@
-// app/confirmation/[id]/page.tsx
-
 "use client";
 
 import { useRouter, useParams, useSearchParams } from "next/navigation";
@@ -122,13 +120,14 @@ export default function ConfirmationPage() {
       }
 
       try {
+        // 予約情報の取得
         const { data: reservationData, errors: reservationErrors } =
           await client.models.Reservation.get({
             id: reservationId,
           });
 
         if (reservationErrors || !reservationData) {
-          setError("予約情報の��得に失敗しました。");
+          setError("予約情報の取得に失敗しました。");
           setLoading(false);
           return;
         }
@@ -136,6 +135,7 @@ export default function ConfirmationPage() {
         setReservation(reservationData);
 
         if (reservationData.eventId) {
+          // イベント情報の取得
           const { data: eventData, errors: eventErrors } =
             await client.models.Event.get({
               id: reservationData.eventId,
@@ -200,6 +200,7 @@ export default function ConfirmationPage() {
     }
 
     try {
+      // 予約の削除
       const { errors: deleteErrors } = await client.models.Reservation.delete({
         id: reservation.id,
       });
@@ -208,6 +209,7 @@ export default function ConfirmationPage() {
         throw new Error("予約の削除に失敗しました");
       }
 
+      // Eventの参加者数を更新
       const updatedEvent = {
         id: event.id,
         currentParticipants: Math.max(
@@ -222,38 +224,21 @@ export default function ConfirmationPage() {
         throw new Error("イベント情報の更新に失敗しました");
       }
 
-      const { data: allTimeSlots, errors: timeSlotErrors } =
-        await client.models.EventTimeSlot.list({
-          filter: { eventId: { eq: event.id } },
+      // EventTimeSlotの参加者数を更新
+      const { data: timeSlotData, errors: timeSlotErrors } =
+        await client.models.EventTimeSlot.get({
+          id: reservation.reservationTime,
         });
 
-      if (timeSlotErrors) {
+      if (timeSlotErrors || !timeSlotData) {
         throw new Error("時間枠情報の取得に失敗しました");
       }
 
-      const reservationDateTime = new Date(
-        reservation.reservationTime || Date.now()
-      );
-      let closestTimeSlot = allTimeSlots.reduce((closest, current) => {
-        const currentDateTime = new Date(current.timeSlot || Date.now());
-        const closestDateTime = new Date(closest.timeSlot || Date.now());
-
-        return Math.abs(
-          currentDateTime.getTime() - reservationDateTime.getTime()
-        ) < Math.abs(closestDateTime.getTime() - reservationDateTime.getTime())
-          ? current
-          : closest;
-      });
-
-      if (!closestTimeSlot) {
-        throw new Error("該当する時間枠が見つかりません");
-      }
-
       const updatedTimeSlot = {
-        id: closestTimeSlot.id,
+        id: timeSlotData.id,
         currentParticipants: Math.max(
           0,
-          (closestTimeSlot.currentParticipants ?? 0) -
+          (timeSlotData.currentParticipants ?? 0) -
             (reservation.participants ?? 0)
         ),
       };
