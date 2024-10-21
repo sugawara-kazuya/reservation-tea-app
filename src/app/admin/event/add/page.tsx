@@ -194,7 +194,7 @@ export default function CreateComponent() {
       }
 
       const formattedDate = date
-        ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
+        ? format(date, "yyyy年MM月dd日（EEE）", { locale: ja })
         : "";
 
       const { data: createdEvent, errors: eventErrors } =
@@ -388,7 +388,7 @@ export default function CreateComponent() {
                   className="w-10 h-10"
                   onClick={() => handleRemoveTimeSlot(index)}
                 >
-                  <MinusIcon className="w-10 h-10" />
+                  <MinusIcon className="w-6 h-6" />
                 </Button>
               </div>
             ))}
@@ -451,7 +451,7 @@ export default function CreateComponent() {
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full">
                 {date
-                  ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
+                  ? format(date, "yyyy年MM月dd日（EEE）", { locale: ja })
                   : "日付を選択"}
               </Button>
             </PopoverTrigger>

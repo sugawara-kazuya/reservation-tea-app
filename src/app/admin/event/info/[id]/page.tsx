@@ -272,12 +272,21 @@ const EventDetails: React.FC = () => {
           <ArrowLeft className="h-6 w-6" />
         </Button>
         <div className="flex space-x-2">
-          <Button onClick={handleBulkEmail} className="whitespace-nowrap">
+          <Button
+            onClick={handleBulkEmail}
+            className="whitespace-nowrap"
+            disabled
+            // 追加でスタイルを調整したい場合は以下のコメントを解除して適用してください
+            // className={`whitespace-nowrap ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+          >
             <Mail className="mr-2 h-4 w-4" /> メール一斉送信
           </Button>
           <Button
             onClick={handleCreateReservation}
             className="whitespace-nowrap"
+            disabled
+            // 追加でスタイルを調整したい場合は以下のコメントを解除して適用してください
+            // className={`whitespace-nowrap ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             <Plus className="mr-2 h-4 w-4" /> 新規予約
           </Button>

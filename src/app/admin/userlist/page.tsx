@@ -108,7 +108,11 @@ const UserList: React.FC = () => {
           </Button>
           <h1 className="text-xl sm:text-2xl font-bold">ユーザー一覧</h1>
         </div>
-        <Button onClick={handleBulkSendEmail} className="w-full sm:w-auto">
+        <Button
+          onClick={handleBulkSendEmail}
+          className="w-full sm:w-auto"
+          disabled
+        >
           <Mails className="mr-2 h-4 w-4" />
           一斉メール送信
         </Button>
