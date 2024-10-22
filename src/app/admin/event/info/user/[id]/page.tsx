@@ -74,6 +74,18 @@ export default function ReservationEdit() {
   const params = useParams();
   const reservationId = Array.isArray(params.id) ? params.id[0] : params.id;
 
+  // バリデーションエラーメッセージの状態
+  const [validationErrors, setValidationErrors] = useState<{
+    name?: string;
+    email?: string;
+    phone?: string;
+    date?: string;
+    time?: string;
+    participants?: string;
+    accompaniedGuests?: string[];
+    notes?: string;
+  }>({});
+
   useEffect(() => {
     if (reservationId) {
       fetchReservation(reservationId);
@@ -228,7 +240,82 @@ export default function ReservationEdit() {
     }
   };
 
+  // バリデーション関数
+  const validate = (): boolean => {
+    const errors: typeof validationErrors = {};
+
+    // 名前のバリデーション
+    if (!name.trim()) {
+      errors.name = "お名前は必須です。";
+    }
+
+    // メールのバリデーション
+    if (!email.trim()) {
+      errors.email = "メールアドレスは必須です。";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        errors.email = "有効なメールアドレスを入力してください。";
+      }
+    }
+
+    // 電話番号のバリデーション
+    if (!phone.trim()) {
+      errors.phone = "電話番号は必須です。";
+    } else {
+      const phoneRegex = /^\d{10,11}$/; // 例: 10桁または11桁の数字
+      if (!phoneRegex.test(phone)) {
+        errors.phone = "有効な電話番号を入力してください（10〜11桁）。";
+      }
+    }
+
+    // 日付のバリデーション
+    if (!date) {
+      errors.date = "日にちを選択してください。";
+    } else if (!isValid(date)) {
+      errors.date = "有効な日にちを選択してください。";
+    }
+
+    // 時間のバリデーション
+    if (!time) {
+      errors.time = "時間を選択してください。";
+    }
+
+    // 参加人数のバリデーション
+    const participantsNumber = parseInt(participants, 10);
+    if (!participants) {
+      errors.participants = "参加人数を選択してください。";
+    } else if (isNaN(participantsNumber) || participantsNumber < 1) {
+      errors.participants = "有効な参加人数を選択してください。";
+    }
+
+    // 同行者のバリデーション
+    if (accompaniedGuests.length !== participantsNumber - 1) {
+      errors.accompaniedGuests = accompaniedGuests.map(() => "");
+    } else {
+      const guestErrors = accompaniedGuests.map((guest) =>
+        guest.trim() ? "" : "同行者の名前を入力してください。"
+      );
+      if (guestErrors.some((msg) => msg)) {
+        errors.accompaniedGuests = guestErrors;
+      }
+    }
+
+    // メモのバリデーション（任意項目のため省略可能）
+    // 必要に応じて追加可能
+
+    setValidationErrors(errors);
+
+    // エラーがなければtrueを返す
+    return Object.keys(errors).length === 0;
+  };
+
   const handleUpdate = async () => {
+    if (!validate()) {
+      // バリデーションエラーがある場合は送信を中止
+      return;
+    }
+
     if (!reservation || !event || !date) return;
 
     try {
@@ -358,14 +445,21 @@ export default function ReservationEdit() {
         <h1 className="text-2xl font-bold">予約編集</h1>
       </div>
       <div className="space-y-6">
+        {/* お名前 */}
         <div>
           <Label htmlFor="name">お名前</Label>
           <Input
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className={validationErrors.name ? "border-red-500" : ""}
           />
+          {validationErrors.name && (
+            <p className="text-red-500 text-sm mt-1">{validationErrors.name}</p>
+          )}
         </div>
+
+        {/* メールアドレス */}
         <div>
           <Label htmlFor="email">メールアドレス</Label>
           <Input
@@ -373,27 +467,45 @@ export default function ReservationEdit() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className={validationErrors.email ? "border-red-500" : ""}
           />
+          {validationErrors.email && (
+            <p className="text-red-500 text-sm mt-1">
+              {validationErrors.email}
+            </p>
+          )}
         </div>
+
+        {/* 電話番号 */}
         <div>
           <Label htmlFor="phone">電話番号</Label>
           <Input
             id="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            className={validationErrors.phone ? "border-red-500" : ""}
           />
+          {validationErrors.phone && (
+            <p className="text-red-500 text-sm mt-1">
+              {validationErrors.phone}
+            </p>
+          )}
         </div>
+
+        {/* 日にち */}
         <div>
           <Label htmlFor="date">日にち</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className="w-full justify-start text-left font-normal"
+                className={`w-full justify-start text-left font-normal ${
+                  validationErrors.date ? "border-red-500" : ""
+                }`}
               >
                 {date && !isNaN(date.getTime())
                   ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
-                  : "日付が設定されていません"}
+                  : "日付を選択してください"}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -401,16 +513,23 @@ export default function ReservationEdit() {
                 mode="single"
                 selected={date || new Date()}
                 onSelect={(newDate) => setDate(newDate || null)}
-                disabled={(date) => date < new Date()}
+                disabled={(currentDate) => currentDate < new Date()}
                 initialFocus
               />
             </PopoverContent>
           </Popover>
+          {validationErrors.date && (
+            <p className="text-red-500 text-sm mt-1">{validationErrors.date}</p>
+          )}
         </div>
+
+        {/* 時間 */}
         <div>
           <Label htmlFor="time">時間</Label>
           <Select value={time} onValueChange={setTime}>
-            <SelectTrigger>
+            <SelectTrigger
+              className={validationErrors.time ? "border-red-500" : ""}
+            >
               <SelectValue placeholder="時間を選択" />
             </SelectTrigger>
             <SelectContent>
@@ -421,11 +540,18 @@ export default function ReservationEdit() {
               ))}
             </SelectContent>
           </Select>
+          {validationErrors.time && (
+            <p className="text-red-500 text-sm mt-1">{validationErrors.time}</p>
+          )}
         </div>
+
+        {/* 参加人数 */}
         <div>
           <Label htmlFor="participants">参加人数</Label>
           <Select value={participants} onValueChange={handleParticipantsChange}>
-            <SelectTrigger>
+            <SelectTrigger
+              className={validationErrors.participants ? "border-red-500" : ""}
+            >
               <SelectValue placeholder="参加人数を選択" />
             </SelectTrigger>
             <SelectContent>
@@ -435,7 +561,14 @@ export default function ReservationEdit() {
               <SelectItem value="4">4人</SelectItem>
             </SelectContent>
           </Select>
+          {validationErrors.participants && (
+            <p className="text-red-500 text-sm mt-1">
+              {validationErrors.participants}
+            </p>
+          )}
         </div>
+
+        {/* 同行者 */}
         {accompaniedGuests.map((guest, index) => (
           <div key={index}>
             <Label htmlFor={`accompaniedGuest${index + 1}`}>
@@ -448,9 +581,23 @@ export default function ReservationEdit() {
                 handleAccompaniedGuestChange(index, e.target.value)
               }
               placeholder={`同行者 ${index + 1} の名前`}
+              className={
+                validationErrors.accompaniedGuests &&
+                validationErrors.accompaniedGuests[index]
+                  ? "border-red-500"
+                  : ""
+              }
             />
+            {validationErrors.accompaniedGuests &&
+              validationErrors.accompaniedGuests[index] && (
+                <p className="text-red-500 text-sm mt-1">
+                  {validationErrors.accompaniedGuests[index]}
+                </p>
+              )}
           </div>
         ))}
+
+        {/* 総費用 */}
         <div>
           <Label htmlFor="totalCost">総費用</Label>
           <Input
@@ -460,6 +607,8 @@ export default function ReservationEdit() {
             disabled
           />
         </div>
+
+        {/* メモ */}
         <div>
           <Label htmlFor="notes">メモ</Label>
           <Textarea
@@ -468,10 +617,14 @@ export default function ReservationEdit() {
             onChange={(e) => setNotes(e.target.value)}
           />
         </div>
+
+        {/* 予約番号 */}
         <div>
           <Label htmlFor="reservationNumber">予約番号</Label>
           <Input id="reservationNumber" value={reservationNumber} disabled />
         </div>
+
+        {/* 更新ボタン */}
         <Button onClick={handleUpdate} className="w-full">
           更新
         </Button>
