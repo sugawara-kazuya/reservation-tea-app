@@ -89,12 +89,14 @@ const EventDetails: React.FC = () => {
     setError(null);
 
     try {
+      // イベント情報の取得
       const { data: eventData, errors: eventErrors } =
         await client.models.Event.get({ id });
       if (eventErrors) throw new Error(JSON.stringify(eventErrors));
       if (!eventData) throw new Error("イベントが見つかりません。");
       setEvent(eventData);
 
+      // EventTimeSlotの取得
       const { data: timeSlotsData, errors: timeSlotErrors } =
         await client.models.EventTimeSlot.list({
           filter: { eventId: { eq: id } },
@@ -106,6 +108,7 @@ const EventDetails: React.FC = () => {
         )
       );
 
+      // Reservationの取得
       const { data: reservationsData, errors: reservationErrors } =
         await client.models.Reservation.list({
           filter: { eventId: { eq: id } },
@@ -115,7 +118,9 @@ const EventDetails: React.FC = () => {
       setReservations(reservationsData);
     } catch (error) {
       console.error("Error fetching event data:", error);
-      setError(`データの取得中にエラーが発生しました: ${error}`);
+      setError(
+        `データの取得中にエラーが発生しました: ${error instanceof Error ? error.message : error}`
+      );
     } finally {
       setLoading(false);
     }
@@ -217,7 +222,7 @@ const EventDetails: React.FC = () => {
 
         // EventTimeSlotの参加者数を更新
         const timeSlot = timeSlots.find(
-          (ts) => ts.timeSlot === reservationData.reservationTime
+          (ts) => ts.id === reservationData.reservationTime // 修正箇所: timeSlot.id と reservationTime を比較
         );
         if (timeSlot) {
           const updatedParticipants =
@@ -231,6 +236,8 @@ const EventDetails: React.FC = () => {
             });
           if (timeSlotUpdateErrors)
             throw new Error(JSON.stringify(timeSlotUpdateErrors));
+        } else {
+          console.warn("対応する時間スロットが見つかりませんでした。");
         }
 
         setDeleteConfirmOpen(false);
@@ -240,7 +247,9 @@ const EventDetails: React.FC = () => {
         await fetchEventData();
       } catch (error) {
         console.error("Error during reservation deletion process:", error);
-        setError(`予約の削除処理中にエラーが発生しました: ${error}`);
+        setError(
+          `予約の削除処理中にエラーが発生しました: ${error instanceof Error ? error.message : error}`
+        );
       }
     }
   };
@@ -254,15 +263,51 @@ const EventDetails: React.FC = () => {
   };
 
   if (loading) {
-    return <div>データを読み込んでいます...</div>;
+    return (
+      <div className="container mx-auto py-6 px-4 bg-stone-50">
+        <Card className="mb-6 border-2 border-green-800">
+          <CardHeader className="bg-green-800 text-white">
+            <CardTitle className="text-xl md:text-2xl font-serif mb-2 md:mb-0">
+              ローディング中...
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="mt-4">
+            <p>データを読み込んでいます...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>エラー: {error}</div>;
+    return (
+      <div className="container mx-auto py-6 px-4 bg-stone-50">
+        <Card className="mb-6 border-2 border-red-800">
+          <CardHeader className="bg-red-800 text-white">
+            <CardTitle className="text-xl md:text-2xl font-serif mb-2 md:mb-0">
+              エラー
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="mt-4">
+            <p>{error}</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   if (!event) {
-    return <div>イベントが見つかりません。</div>;
+    return (
+      <div className="container mx-auto py-6 px-4 bg-stone-50">
+        <Card className="mb-6 border-2 border-red-800">
+          <CardHeader className="bg-red-800 text-white">
+            <CardTitle className="text-xl md:text-2xl font-serif mb-2 md:mb-0">
+              イベントが見つかりません。
+            </CardTitle>
+          </CardHeader>
+        </Card>
+      </div>
+    );
   }
 
   return (
@@ -368,7 +413,7 @@ const EventDetails: React.FC = () => {
             <div className="mt-4 space-y-4">
               {timeSlots.map((timeSlot) => {
                 const slotReservations = reservations
-                  .filter((r) => r.reservationTime === timeSlot.id)
+                  .filter((r) => r.reservationTime === timeSlot.id) // 修正箇所: timeSlot.id を使用
                   .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
                 console.log(slotReservations);
                 return (

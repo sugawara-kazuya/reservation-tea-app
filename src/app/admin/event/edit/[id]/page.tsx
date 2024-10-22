@@ -44,6 +44,7 @@ Amplify.configure(outputs);
 const client = generateClient<Schema>();
 
 type TimeSlot = {
+  id?: string; // 既存または新規のタイムスロットを区別
   hour: string;
   minute: string;
   maxParticipants: number;
@@ -151,6 +152,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             setTimeSlots(
               sortTimeSlots(
                 timeSlotItems.map((timeSlot) => ({
+                  id: timeSlot.id, // idを追加
                   hour: timeSlot.timeSlot.split(":")[0],
                   minute: timeSlot.timeSlot.split(":")[1],
                   maxParticipants: timeSlot.maxParticipants,
@@ -226,32 +228,37 @@ export default function EditComponent({ params }: { params: { id: string } }) {
       const slot = timeSlots[index];
       const timeSlotString = `${slot.hour}:${slot.minute}`;
 
-      try {
-        // 予約の有無を確認
-        const { data: reservations, errors: reservationErrors } =
-          await client.models.Reservation.list({
-            filter: {
-              eventId: { eq: eventId },
-              reservationTime: { eq: timeSlotString },
-            },
-          });
+      if (slot.id) {
+        try {
+          // 予約の有無を確認
+          const { data: reservations, errors: reservationErrors } =
+            await client.models.Reservation.list({
+              filter: {
+                eventId: { eq: eventId },
+                reservationTime: { eq: timeSlotString },
+              },
+            });
 
-        if (reservationErrors) {
-          throw new Error("予約の確認中にエラーが発生しました");
+          if (reservationErrors) {
+            throw new Error("予約の確認中にエラーが発生しました");
+          }
+
+          const hasReservations = reservations.length > 0;
+
+          // モーダルを表示するために状態を更新
+          setTimeSlotToRemove({ index, hasReservations });
+          setIsRemoveTimeSlotModalOpen(true);
+        } catch (error) {
+          console.error("時間枠の削除確認中にエラーが発生しました:", error);
+          setError(
+            error instanceof Error
+              ? error.message
+              : "時間枠の削除確認に失敗しました"
+          );
         }
-
-        const hasReservations = reservations.length > 0;
-
-        // モーダルを表示するために状態を更新
-        setTimeSlotToRemove({ index, hasReservations });
-        setIsRemoveTimeSlotModalOpen(true);
-      } catch (error) {
-        console.error("時間枠の削除確認中にエラーが発生しました:", error);
-        setError(
-          error instanceof Error
-            ? error.message
-            : "時間枠の削除確認に失敗しました"
-        );
+      } else {
+        // 新規追加された時間枠の場合はローカルからのみ削除
+        setTimeSlots(timeSlots.filter((_, i) => i !== index));
       }
     },
     [timeSlots, eventId]
@@ -263,6 +270,14 @@ export default function EditComponent({ params }: { params: { id: string } }) {
     const { index, hasReservations } = timeSlotToRemove;
     const slot = timeSlots[index];
     const timeSlotString = `${slot.hour}:${slot.minute}`;
+
+    if (!slot.id) {
+      // 新規追加された時間枠の場合はローカルからのみ削除
+      setTimeSlots(timeSlots.filter((_, i) => i !== index));
+      setIsRemoveTimeSlotModalOpen(false);
+      setTimeSlotToRemove(null);
+      return;
+    }
 
     try {
       // EventTimeSlotを削除
@@ -487,7 +502,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         );
       }
 
-      // タイムスロットの���新または作成
+      // タイムスロットの更新または作成
       for (const slot of timeSlots) {
         const timeSlotString = `${slot.hour}:${slot.minute}`;
         const existingSlot = existingTimeSlots.find(
@@ -510,7 +525,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           }
         } else {
           // 新しいスロットを作成
-          const { errors: createErrors } =
+          const { errors: createErrors, data: newSlot } =
             await client.models.EventTimeSlot.create({
               eventId: eventId,
               timeSlot: timeSlotString,
@@ -522,6 +537,15 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             console.error(
               "タイムスロットの作成中にエラーが発生しました:",
               createErrors
+            );
+          } else if (newSlot) {
+            // 新しく作成されたスロットにidを設定
+            setTimeSlots((prevSlots) =>
+              prevSlots.map((s) =>
+                s.hour === slot.hour && s.minute === slot.minute && !s.id
+                  ? { ...s, id: newSlot.id ?? undefined }
+                  : s
+              )
             );
           }
         }
@@ -570,7 +594,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
       const { errors } = await client.models.Event.delete({ id: eventId });
       if (errors) {
         throw new Error(
-          "イベントの削除中にエラーが���生しました: " +
+          "イベントの削除中にエラーが発生しました: " +
             errors.map((e) => e.message).join(", ")
         );
       }
@@ -749,7 +773,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
                   className="w-10 h-10"
                   onClick={() => handleRemoveTimeSlot(index)}
                 >
-                  <MinusIcon className="w-10 h-10" />
+                  <MinusIcon className="w-6 h-6" />
                 </Button>
               </div>
             ))}
@@ -879,9 +903,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             className="w-full bg-green-500 text-white"
             onClick={handleUpdate}
             disabled={
-              isLoading ||
-              Object.values(errors).some(Boolean) ||
-              duplicateTimeSlotError
+              isLoading // エラーに基づく非活性化条件を削除
             }
           >
             {isLoading ? "更新中..." : "編集完了"}
