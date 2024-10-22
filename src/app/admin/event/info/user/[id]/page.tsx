@@ -323,13 +323,16 @@ export default function ReservationEdit() {
       const newParticipants = parseInt(participants, 10);
       const participantsDiff = newParticipants - oldParticipants;
 
-      // 選択された時間スロットのIDを取得
+      const oldTimeSlotId = reservation.reservationTime;
+
+      // 選択された時間スロットのオブジェクトを取得
       const selectedTimeSlot = eventTimeSlots.find(
         (slot) => slot.timeSlot === time
       );
       if (!selectedTimeSlot) {
         throw new Error("選択された時間スロットが見つかりません");
       }
+      const newTimeSlotId = selectedTimeSlot.id;
 
       // Update reservation
       const { errors: reservationErrors } =
@@ -338,7 +341,7 @@ export default function ReservationEdit() {
           name,
           email,
           phone,
-          reservationTime: selectedTimeSlot.id, // 時間スロットのIDを保存
+          reservationTime: newTimeSlotId, // 新しい時間スロットのIDを保存
           participants: newParticipants,
           totalCost: event.cost ? event.cost * newParticipants : 0,
           notes,
@@ -366,20 +369,60 @@ export default function ReservationEdit() {
       }
 
       // Update EventTimeSlot's currentParticipants
-      const timeSlot = eventTimeSlots.find(
-        (slot) => slot.timeSlot === reservationTime
-      );
-      if (timeSlot) {
-        const updatedTimeSlot = {
-          id: timeSlot.id,
-          currentParticipants:
-            (timeSlot.currentParticipants || 0) + participantsDiff,
-        };
-        const { errors: timeSlotErrors } =
-          await client.models.EventTimeSlot.update(updatedTimeSlot);
 
-        if (timeSlotErrors) {
-          throw new Error(timeSlotErrors.map((e) => e.message).join(", "));
+      if (oldTimeSlotId === newTimeSlotId) {
+        // 同じ時間スロットの場合、差分を加算
+        const timeSlot = eventTimeSlots.find(
+          (slot) => slot.id === oldTimeSlotId
+        );
+        if (timeSlot) {
+          const updatedTimeSlot = {
+            id: timeSlot.id,
+            currentParticipants:
+              (timeSlot.currentParticipants || 0) + participantsDiff,
+          };
+          const { errors: timeSlotErrors } =
+            await client.models.EventTimeSlot.update(updatedTimeSlot);
+
+          if (timeSlotErrors) {
+            throw new Error(timeSlotErrors.map((e) => e.message).join(", "));
+          }
+        }
+      } else {
+        // 異なる時間スロットの場合、古いスロットから減算し、新しいスロットに加算
+        // 古いスロットを取得
+        const oldTimeSlot = eventTimeSlots.find(
+          (slot) => slot.id === oldTimeSlotId
+        );
+        if (oldTimeSlot) {
+          const updatedOldTimeSlot = {
+            id: oldTimeSlot.id,
+            currentParticipants: Math.max(
+              0,
+              (oldTimeSlot.currentParticipants || 0) - oldParticipants
+            ),
+          };
+          const { errors: oldTimeSlotErrors } =
+            await client.models.EventTimeSlot.update(updatedOldTimeSlot);
+
+          if (oldTimeSlotErrors) {
+            throw new Error(oldTimeSlotErrors.map((e) => e.message).join(", "));
+          }
+        }
+
+        // 新しいスロットを取得
+        if (selectedTimeSlot) {
+          const updatedNewTimeSlot = {
+            id: selectedTimeSlot.id,
+            currentParticipants:
+              (selectedTimeSlot.currentParticipants || 0) + newParticipants,
+          };
+          const { errors: newTimeSlotErrors } =
+            await client.models.EventTimeSlot.update(updatedNewTimeSlot);
+
+          if (newTimeSlotErrors) {
+            throw new Error(newTimeSlotErrors.map((e) => e.message).join(", "));
+          }
         }
       }
 
