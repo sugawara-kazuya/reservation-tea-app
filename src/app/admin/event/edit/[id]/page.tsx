@@ -117,16 +117,13 @@ export default function EditComponent({ params }: { params: { id: string } }) {
           // 日付のパースを修正
           let parsedDate;
           if (event.date) {
-            // ISO形式を試す
-            parsedDate = new Date(event.date);
+            // 日本語フォーマットでパース
+            parsedDate = parse(event.date, "yyyy年M月d日（EEE）", new Date(), {
+              locale: ja,
+            });
             if (isNaN(parsedDate.getTime())) {
-              // ISO形式でパースできない場合、日本語フォーマットを使用
-              parsedDate = parse(
-                event.date,
-                "yyyy年M月d日（EEE）",
-                new Date(),
-                { locale: ja }
-              );
+              // パースに失敗した場合は現在の日付を使用
+              parsedDate = new Date();
             }
           }
           setDate(parsedDate || undefined);
@@ -462,10 +459,10 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         newImageUrl = baseUrl + path;
       }
 
-      // 日付をISO形式で保存
+      // 日付を日本語形式で保存
       let formattedDate = "";
       if (date && !isNaN(date.getTime())) {
-        formattedDate = date.toISOString();
+        formattedDate = format(date, "yyyy年MM月dd日（EEE）", { locale: ja });
       }
 
       // イベントの更新
@@ -903,7 +900,9 @@ export default function EditComponent({ params }: { params: { id: string } }) {
             className="w-full bg-green-500 text-white"
             onClick={handleUpdate}
             disabled={
-              isLoading // エラーに基づく非活性化条件を削除
+              Object.values(errors).some(Boolean) ||
+              duplicateTimeSlotError ||
+              isLoading
             }
           >
             {isLoading ? "更新中..." : "編集完了"}
@@ -911,6 +910,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         </div>
       </div>
 
+      {/* イベント削除用のアラートダイアログ */}
       <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -931,6 +931,7 @@ export default function EditComponent({ params }: { params: { id: string } }) {
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* タイムスロット削除用のアラートダイアログ */}
       <AlertDialog
         open={isRemoveTimeSlotModalOpen}
         onOpenChange={setIsRemoveTimeSlotModalOpen}
