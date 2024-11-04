@@ -7,18 +7,6 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  User: a
-    .model({
-      id: a.id(), // ID
-      name: a.string(), // 名前
-      email: a.email(), // メールアドレス
-      phone: a.phone(), // 電話番号
-      reservation: a.belongsTo("Reservation", "id"),
-      createdAt: a.datetime(), // 作成日時
-      updatedAt: a.datetime(), // 更新日時
-    })
-    .authorization((allow) => [allow.guest()]),
-
   Event: a
     .model({
       id: a.id(), // ID
@@ -29,9 +17,10 @@ const schema = a.schema({
       description: a.string(), // 説明
       imageUrl: a.string(), // 画像URL
       maxParticipants: a.integer(), // 最大参加人数
+      currentParticipants: a.integer(), // 現在の参加人数
       isActive: a.boolean(), // イベントが開催中かどうか
-      reservation: a.belongsTo("Reservation", "id"),
-      eventTimeSlot: a.belongsTo("EventTimeSlot", "id"),
+      reservations: a.hasMany("Reservation", "eventId"), // 修正: eventIdを使ったリレーション
+      eventTimeSlots: a.hasMany("EventTimeSlot", "eventId"), // 修正: eventIdを使ったリレーション
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
     })
@@ -40,21 +29,30 @@ const schema = a.schema({
   Reservation: a
     .model({
       id: a.id(), // ID
-      userId: a.hasMany("User", "id"), // ユーザーID
-      eventId: a.hasMany("Event", "id"), // イベントID
+      name: a.string(), // 名前
+      email: a.email(), // メールアドレス
+      phone: a.string(), // 電話番号
+      eventId: a.id(), // 修正: eventIdフィールドを追加
+      event: a.belongsTo("Event", "eventId"), // 修正: eventIdを使ったリレーション
       reservationTime: a.string(), // 予約時間
       participants: a.integer(), // 参加人数
+      accompaniedGuest1: a.string(), // 同行者1
+      accompaniedGuest2: a.string(), // 同行者2
+      accompaniedGuest3: a.string(), // 同行者3
+      accompaniedGuest4: a.string(), // 同行者4
       totalCost: a.integer(), // 総費用
       notes: a.string(), // メモ
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
+      reservationNumber: a.string(), // 新しい6桁の予約番号フィールド
     })
     .authorization((allow) => [allow.guest()]),
 
   EventTimeSlot: a
     .model({
       id: a.id(), // ID
-      event: a.hasMany("Event", "id"),
+      eventId: a.id(), // 修正: eventIdフィールドを追加
+      event: a.belongsTo("Event", "eventId"), // 修正: eventIdを使ったリレーション
       timeSlot: a.string(), // 時間スロット
       maxParticipants: a.integer(), // 最大参加人数
       currentParticipants: a.integer(), // 現在の参加人数

@@ -277,7 +277,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02Lyw6CQAxFv8X9UIFE94aVG2Mwrs04U7U82oQpEjPh3w0hKKt77mlvDtkuhXRjh5A4XycN3SGeMCj6i1pXGzuEW3TyZFKBeA3YnUUaUzz4xwsUDSHr+vQ3R4+spJ9lvO6lNHhQte7VIutoyLYQJzk9TjmOpsQgfedmteJC2JOS8GhYPEIVtu88hWwP6aYKREnXs1KLUM75Bb495SzwAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02LywrCQAxFv8X9NLYFwa105Uak4lrGmajpI4FOapGh/y6lVLu6557k5pDtUkg3dgiJ83XS0B3iCYOiv6h1tbFDuEUnTyYViNeA3VmkMcWDf7xA0RCyrk9/c/TISvpZxuteSoMHVeteLbKOhmwLcZLT45TjaEoM0nduVisuhD0pCY+GxSNUYfvOU8j2kG6qQJR0PSu1COWcX1BT1U7wAAAA"
    },
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/auth/CDKMetadata/Default"

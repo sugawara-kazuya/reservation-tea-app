@@ -34,106 +34,6 @@
     "model_introspection": {
       "version": 1,
       "models": {
-        "User": {
-          "name": "User",
-          "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
-            "name": {
-              "name": "name",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "email": {
-              "name": "email",
-              "isArray": false,
-              "type": "AWSEmail",
-              "isRequired": false,
-              "attributes": []
-            },
-            "phone": {
-              "name": "phone",
-              "isArray": false,
-              "type": "AWSPhone",
-              "isRequired": false,
-              "attributes": []
-            },
-            "reservation": {
-              "name": "reservation",
-              "isArray": false,
-              "type": {
-                "model": "Reservation"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "id"
-                ]
-              }
-            },
-            "createdAt": {
-              "name": "createdAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": []
-            },
-            "updatedAt": {
-              "name": "updatedAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": []
-            }
-          },
-          "syncable": true,
-          "pluralName": "Users",
-          "attributes": [
-            {
-              "type": "model",
-              "properties": {}
-            },
-            {
-              "type": "key",
-              "properties": {
-                "fields": [
-                  "id"
-                ]
-              }
-            },
-            {
-              "type": "auth",
-              "properties": {
-                "rules": [
-                  {
-                    "allow": "public",
-                    "provider": "iam",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
-                  }
-                ]
-              }
-            }
-          ],
-          "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
-            "sortKeyFieldNames": []
-          }
-        },
         "Event": {
           "name": "Event",
           "fields": {
@@ -193,6 +93,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "currentParticipants": {
+              "name": "currentParticipants",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": false,
+              "attributes": []
+            },
             "isActive": {
               "name": "isActive",
               "isArray": false,
@@ -200,33 +107,35 @@
               "isRequired": false,
               "attributes": []
             },
-            "reservation": {
-              "name": "reservation",
-              "isArray": false,
+            "reservations": {
+              "name": "reservations",
+              "isArray": true,
               "type": {
                 "model": "Reservation"
               },
               "isRequired": false,
               "attributes": [],
+              "isArrayNullable": true,
               "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "id"
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "eventId"
                 ]
               }
             },
-            "eventTimeSlot": {
-              "name": "eventTimeSlot",
-              "isArray": false,
+            "eventTimeSlots": {
+              "name": "eventTimeSlots",
+              "isArray": true,
               "type": {
                 "model": "EventTimeSlot"
               },
               "isRequired": false,
               "attributes": [],
+              "isArrayNullable": true,
               "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "id"
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "eventId"
                 ]
               }
             },
@@ -294,35 +203,46 @@
               "isRequired": true,
               "attributes": []
             },
-            "userId": {
-              "name": "userId",
-              "isArray": true,
-              "type": {
-                "model": "User"
-              },
+            "name": {
+              "name": "name",
+              "isArray": false,
+              "type": "String",
               "isRequired": false,
-              "attributes": [],
-              "isArrayNullable": true,
-              "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "id"
-                ]
-              }
+              "attributes": []
+            },
+            "email": {
+              "name": "email",
+              "isArray": false,
+              "type": "AWSEmail",
+              "isRequired": false,
+              "attributes": []
+            },
+            "phone": {
+              "name": "phone",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
             },
             "eventId": {
               "name": "eventId",
-              "isArray": true,
+              "isArray": false,
+              "type": "ID",
+              "isRequired": false,
+              "attributes": []
+            },
+            "event": {
+              "name": "event",
+              "isArray": false,
               "type": {
                 "model": "Event"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
               "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "id"
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "eventId"
                 ]
               }
             },
@@ -337,6 +257,34 @@
               "name": "participants",
               "isArray": false,
               "type": "Int",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accompaniedGuest1": {
+              "name": "accompaniedGuest1",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accompaniedGuest2": {
+              "name": "accompaniedGuest2",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accompaniedGuest3": {
+              "name": "accompaniedGuest3",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accompaniedGuest4": {
+              "name": "accompaniedGuest4",
+              "isArray": false,
+              "type": "String",
               "isRequired": false,
               "attributes": []
             },
@@ -365,6 +313,13 @@
               "name": "updatedAt",
               "isArray": false,
               "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": []
+            },
+            "reservationNumber": {
+              "name": "reservationNumber",
+              "isArray": false,
+              "type": "String",
               "isRequired": false,
               "attributes": []
             }
@@ -418,19 +373,25 @@
               "isRequired": true,
               "attributes": []
             },
+            "eventId": {
+              "name": "eventId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": false,
+              "attributes": []
+            },
             "event": {
               "name": "event",
-              "isArray": true,
+              "isArray": false,
               "type": {
                 "model": "Event"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
               "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "id"
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "eventId"
                 ]
               }
             },
@@ -513,6 +474,10 @@
       "enums": {},
       "nonModels": {}
     }
+  },
+  "storage": {
+    "aws_region": "ap-northeast-1",
+    "bucket_name": "amplify-moshimoji-root-sandbox-1-teabucket26470cb4-m9df2bygeb2t"
   },
   "version": "1"
 }
