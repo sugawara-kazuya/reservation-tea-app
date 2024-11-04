@@ -33,7 +33,7 @@ docker内でも機能はする。
 
 ### sessionが切れた場合は
 
-以下を実行
+以下を実行します
 
 ```
 aws sso login --profile moshimoji
@@ -49,25 +49,36 @@ npm run lint:fix
 ```
 
 Welcome to the moshimoji wiki!
+
 # Docker
+
 ## コンテナ立ち上げ
+
 `docker-compose up -d --build`でコンテナ立ち上げ。  
 2回目以降は`docker-compose up -d`
 
 ## コンテナの中に入る
+
 `docker-compose exec amplify bash`
 
 ## ローカルサーバーの立ち上げ
+
 初回は`npm install && npm run dev`（パッケージのインストール後に立ち上げ）。  
 2回目以降は`npm run dev`。  
 `http://localhost:3000/`にて画面確認可能。
+
 ## コンテナを落とす
+
 `docker-compose down`
 
 # AWS
+
 ## SSO設定
+
 バックエンド管理のためにAWSにアクセスする必要がある。
+
 ### 初回設定
+
 以下コマンドを入力。  
 もしawsコマンドが効かなければ[AWS CLIの導入](https://zenn.dev/hayato94087/articles/7848e9d6a2e3d6)。
 
@@ -105,22 +116,27 @@ To use this profile, specify the profile name using --profile, as shown:
 
 aws s3 ls --profile moshimoji
 ```
+
 ### 2回目以降
 
 時間が経つとセッションの有効期限が切れるため、以下のコマンドにて再度SSOログインが必要。  
-このロールは12時間制限としている。  
+このロールは12時間制限としている。
 
 ```jsx
 $ aws sso login --profile moshimoji
 ```
 
 ### 確認方法
+
 コンテナ内で以下コマンドを実行。
+
 ```
 npx ampx sandbox --profile moshimoji
 ```
+
 以下のような出力を確認できれば成功。  
 3-4分程度の時間がかかる。
+
 ```
 ✨  Total time: 200.22s
 
@@ -140,11 +156,15 @@ $ npx ampx sandbox
 npm error could not determine executable to run
 npm error A complete log of this run can be found in: /root/.npm/_logs/2024-07-02T10_41_57_814Z-debug-0.log
 ```
+
 以下を実行して、aws-amplifyを入れ直す
+
 ```
 npm i @aws-amplify/backend@1.0.3 @aws-amplify/backend-cli@1.0.4
 ```
+
 # VScode拡張機能
+
 - Code Spell Checker
 - Prettier - Code formatter
 - ESLint
