@@ -1,3 +1,6 @@
+## アプリテスト環境
+https://dev.d2zzbrnh9ajitz.amplifyapp.com/home
+
 ## docker環境の構築
 
 ルートディレクトリで
