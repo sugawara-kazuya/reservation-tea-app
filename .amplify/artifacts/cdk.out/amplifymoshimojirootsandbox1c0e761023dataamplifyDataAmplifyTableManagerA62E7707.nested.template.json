@@ -401,7 +401,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNSwqDQBBEz+J+7PghkG0UsgxBDyDtTCvtZwbsMRLEuwcVV6+KB1UJxPcIogAXCbXpw4FrWN8knkzpUfcKF6lWxhHWwg2k8sYe/LiB9W+vZ9rUgGNtENbXbLVnZ3d35U1JWqEIeYHnDiUpZLPuyWcotKmCxM2TJnXY0mPLtj3OLpE3NnfW8DlnnSHo5PZNIogfEAWdMIfTbD2PBMXJP7tw0QDcAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNSwqDQBBEz+J+7PghkG0UsgxBDyDtTCvtZwbsMRLEuwcVV6+KB1UJxPcIogAXCbXpw4FrWN8knkzpUfcKF6lWxhHWwg2k8sYe/LiB9W+vZ9rUgGNtENbXbLVnZ3d35U1JWqEIeYHnDiUpZLPuyWcotKmCxM2TJnXY0mPLtj3OLpE3NnfW8DlnnSHo5PZNIogfEAedMIfTbD2PBMXJP3sU+RfcAAAA"
    },
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/CDKMetadata/Default"

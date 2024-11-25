@@ -7,6 +7,22 @@ import type { Schema } from "@/amplify";
 import { generateClient } from "aws-amplify/data";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import { translations } from "@aws-amplify/ui-react";
+import { I18n } from "aws-amplify/utils";
+const customTranslations = {
+  ja: {
+    "Code *": "認証コード",
+    "Password must have at least 8 characters":
+      "パスワードは8文字以上必要です",
+    "Your passwords must match": "パスワードが一致しません",
+  }
+}
+I18n.putVocabularies(translations);
+I18n.putVocabularies(customTranslations);
+I18n.setLanguage("ja");
 
 Amplify.configure(outputs);
 
@@ -36,6 +52,7 @@ export default function Page() {
   }, []);
 
   return (
+    <Authenticator>
     <div className="flex flex-col items-center w-full">
       <Header backgroundImage="https://reservation-tea-app.s3.ap-northeast-1.amazonaws.com/sample/homeback.jpg" />
       <main className="w-full max-w-5xl p-8">
@@ -77,6 +94,7 @@ export default function Page() {
           <p>ぜひ茶道の楽しさに触れていただけると嬉しいです！！</p>
         </section>
       </main>
-    </div>
+      </div>
+    </Authenticator>
   );
 }
