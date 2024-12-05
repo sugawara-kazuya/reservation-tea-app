@@ -53,7 +53,10 @@ export default function TeaCeremonyBooking() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8 space-y-8">
+    <div 
+      style={{ backgroundImage: "url('/path/to/image.jpg')" }}
+      className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8 space-y-8"
+    >
       <div className="flex items-center justify-between">
         <button 
           onClick={() => router.back()} 
