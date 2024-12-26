@@ -15,6 +15,8 @@ import { Amplify } from "aws-amplify";
 import outputs from "@/output";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { fetchAuthSession } from "aws-amplify/auth";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(outputs);
 
@@ -172,9 +174,10 @@ export default function Component() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+    <Authenticator>
+      <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-white shadow-sm rounded-lg overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
             <div className="flex items-center mb-6">
               <Button
@@ -305,6 +308,7 @@ export default function Component() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </Authenticator>
   );
 }

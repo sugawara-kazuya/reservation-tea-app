@@ -25,6 +25,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(outputs);
 
@@ -349,6 +351,8 @@ export default function ReservationEdit() {
           accompaniedGuest2: accompaniedGuests[1] || null,
           accompaniedGuest3: accompaniedGuests[2] || null,
           reservationNumber,
+        }, {
+          authMode: 'userPool',
         });
 
       if (reservationErrors) {
@@ -362,7 +366,9 @@ export default function ReservationEdit() {
           (event.currentParticipants || 0) + participantsDiff,
       };
       const { errors: eventErrors } =
-        await client.models.Event.update(updatedEvent);
+        await client.models.Event.update(updatedEvent, {
+          authMode: 'userPool',
+        });
 
       if (eventErrors) {
         throw new Error(eventErrors.map((e) => e.message).join(", "));
@@ -382,7 +388,9 @@ export default function ReservationEdit() {
               (timeSlot.currentParticipants || 0) + participantsDiff,
           };
           const { errors: timeSlotErrors } =
-            await client.models.EventTimeSlot.update(updatedTimeSlot);
+            await client.models.EventTimeSlot.update(updatedTimeSlot, {
+              authMode: 'userPool',
+            });
 
           if (timeSlotErrors) {
             throw new Error(timeSlotErrors.map((e) => e.message).join(", "));
@@ -403,7 +411,9 @@ export default function ReservationEdit() {
             ),
           };
           const { errors: oldTimeSlotErrors } =
-            await client.models.EventTimeSlot.update(updatedOldTimeSlot);
+            await client.models.EventTimeSlot.update(updatedOldTimeSlot, {
+              authMode: 'userPool',
+            });
 
           if (oldTimeSlotErrors) {
             throw new Error(oldTimeSlotErrors.map((e) => e.message).join(", "));
@@ -418,7 +428,9 @@ export default function ReservationEdit() {
               (selectedTimeSlot.currentParticipants || 0) + newParticipants,
           };
           const { errors: newTimeSlotErrors } =
-            await client.models.EventTimeSlot.update(updatedNewTimeSlot);
+            await client.models.EventTimeSlot.update(updatedNewTimeSlot, {
+              authMode: 'userPool',
+            });
 
           if (newTimeSlotErrors) {
             throw new Error(newTimeSlotErrors.map((e) => e.message).join(", "));
@@ -480,7 +492,8 @@ export default function ReservationEdit() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <Authenticator>
+      <div className="max-w-7xl mx-auto p-6">
       <div className="flex items-center mb-6">
         <Button variant="ghost" onClick={handleGoBack} className="mr-4">
           <ArrowLeftIcon className="h-6 w-6" />
@@ -672,6 +685,7 @@ export default function ReservationEdit() {
           更新
         </Button>
       </div>
-    </div>
+      </div>
+    </Authenticator>
   );
 }

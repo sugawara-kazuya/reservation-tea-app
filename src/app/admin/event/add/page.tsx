@@ -25,6 +25,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 import outputs from "@/output";
 import { toast } from "@/hooks/use-toast";
 
@@ -208,6 +210,9 @@ export default function CreateComponent() {
           maxParticipants,
           currentParticipants: 0,
           isActive: visibility,
+        },
+        {
+          authMode: 'userPool',
         });
 
       if (eventErrors) {
@@ -222,7 +227,11 @@ export default function CreateComponent() {
             timeSlot: `${slot.hour}:${slot.minute}`,
             maxParticipants: slot.maxParticipants,
             currentParticipants: 0,
-          });
+          },
+          {
+            authMode: 'userPool',
+          }
+        );
 
         if (timeSlotErrors) {
           console.error("Error creating time slot:", timeSlotErrors);
@@ -249,6 +258,7 @@ export default function CreateComponent() {
   };
 
   return (
+    <Authenticator>
     <div className="max-w-7xl mx-auto p-6">
       <div className="flex items-center mb-6">
         <ArrowLeftIcon
@@ -505,7 +515,8 @@ export default function CreateComponent() {
           </Button>
         </div>
       </div>
-    </div>
+      </div>
+    </Authenticator>
   );
 }
 

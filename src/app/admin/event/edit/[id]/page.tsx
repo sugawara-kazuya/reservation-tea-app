@@ -15,6 +15,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -622,341 +624,343 @@ export default function EditComponent({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <ArrowLeftIcon
-            className="w-6 h-6 cursor-pointer"
-            onClick={() => window.history.back()}
-          />
-          <h1 className="text-xl font-bold ml-2">お茶会編集</h1>
-        </div>
-        <Button
-          variant="ghost"
-          className="text-red-500"
-          onClick={() => setIsDeleteModalOpen(true)}
-        >
-          <TrashIcon className="w-6 h-6" />
-        </Button>
-      </div>
-      <p className="text-muted-foreground mb-6">
-        お茶会の情報を編集してください。
-      </p>
-      <div className="space-y-6">
-        <div>
-          <Label
-            htmlFor="tea-party-name"
-            className={errors.teaPartyName ? "text-red-500" : ""}
+    <Authenticator>
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <ArrowLeftIcon
+              className="w-6 h-6 cursor-pointer"
+              onClick={() => window.history.back()}
+            />
+            <h1 className="text-xl font-bold ml-2">お茶会編集</h1>
+          </div>
+          <Button
+            variant="ghost"
+            className="text-red-500"
+            onClick={() => setIsDeleteModalOpen(true)}
           >
-            お茶会名 *
-          </Label>
-          <Input
-            id="tea-party-name"
-            placeholder="例: 七夕茶会"
-            value={teaPartyName}
-            onChange={(e) => {
-              setTeaPartyName(e.target.value);
-              setErrors({ ...errors, teaPartyName: false });
-            }}
-            className={errors.teaPartyName ? "border-red-500" : ""}
-          />
-          {errors.teaPartyName && (
-            <p className="text-red-500 text-sm mt-1">
-              お茶会名を入力してください
-            </p>
-          )}
+            <TrashIcon className="w-6 h-6" />
+          </Button>
         </div>
-        <div className="flex items-center justify-between">
-          <Label htmlFor="visibility">表示・非表示</Label>
-          <Switch
-            id="visibility"
-            checked={visibility}
-            onCheckedChange={setVisibility}
-          />
-        </div>
-        <div>
-          <Label htmlFor="venue" className={errors.venue ? "text-red-500" : ""}>
-            会場 *
-          </Label>
-          <Input
-            id="venue"
-            placeholder="例: 紅葉園"
-            value={venue}
-            onChange={(e) => {
-              setVenue(e.target.value);
-              setErrors({ ...errors, venue: false });
-            }}
-            className={errors.venue ? "border-red-500" : ""}
-          />
-          {errors.venue && (
-            <p className="text-red-500 text-sm mt-1">会場を入力してください</p>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="cost">一人当たりの参加費用</Label>
-          <Select value={cost} onValueChange={setCost}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="参加費用を選択" />
-            </SelectTrigger>
-            <SelectContent>
-              {costOptions.map((value) => (
-                <SelectItem key={value} value={value}>
-                  {value}円
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label>時間の管理</Label>
-          <div className="space-y-2">
-            {timeSlots.map((slot, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <Select
-                  value={slot.hour}
-                  onValueChange={(value) =>
-                    handleChangeTimeSlot(index, "hour", value)
-                  }
-                >
-                  <SelectTrigger className="w-1/4">
-                    <SelectValue placeholder="時" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {hourOptions.map((hour) => (
-                      <SelectItem key={hour} value={hour}>
-                        {hour}時
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select
-                  value={slot.minute}
-                  onValueChange={(value) =>
-                    handleChangeTimeSlot(index, "minute", value)
-                  }
-                >
-                  <SelectTrigger className="w-1/4">
-                    <SelectValue placeholder="分" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {minuteOptions.map((minute) => (
-                      <SelectItem key={minute} value={minute}>
-                        {minute}分
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select
-                  value={slot.maxParticipants.toString()}
-                  onValueChange={(value) =>
-                    handleChangeTimeSlot(index, "maxParticipants", value)
-                  }
-                >
-                  <SelectTrigger className="w-1/4">
-                    <SelectValue placeholder="人数" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Array.from({ length: 50 }, (_, i) =>
-                      (i + 1).toString()
-                    ).map((num) => (
-                      <SelectItem key={num} value={num}>
-                        {num}人
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Button
-                  variant="outline"
-                  className="w-10 h-10"
-                  onClick={() => handleRemoveTimeSlot(index)}
-                >
-                  <MinusIcon className="w-6 h-6" />
-                </Button>
-              </div>
-            ))}
-            {duplicateTimeSlotError && (
+        <p className="text-muted-foreground mb-6">
+          お茶会の情報を編集してください。
+        </p>
+        <div className="space-y-6">
+          <div>
+            <Label
+              htmlFor="tea-party-name"
+              className={errors.teaPartyName ? "text-red-500" : ""}
+            >
+              お茶会名 *
+            </Label>
+            <Input
+              id="tea-party-name"
+              placeholder="例: 七夕茶会"
+              value={teaPartyName}
+              onChange={(e) => {
+                setTeaPartyName(e.target.value);
+                setErrors({ ...errors, teaPartyName: false });
+              }}
+              className={errors.teaPartyName ? "border-red-500" : ""}
+            />
+            {errors.teaPartyName && (
               <p className="text-red-500 text-sm mt-1">
-                重複する予約時間があります。時間を確認してください。
+                お茶会名を入力してください
+              </p>
+            )}
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="visibility">表示・非表示</Label>
+            <Switch
+              id="visibility"
+              checked={visibility}
+              onCheckedChange={setVisibility}
+            />
+          </div>
+          <div>
+            <Label htmlFor="venue" className={errors.venue ? "text-red-500" : ""}>
+              会場 *
+            </Label>
+            <Input
+              id="venue"
+              placeholder="例: 紅葉園"
+              value={venue}
+              onChange={(e) => {
+                setVenue(e.target.value);
+                setErrors({ ...errors, venue: false });
+              }}
+              className={errors.venue ? "border-red-500" : ""}
+            />
+            {errors.venue && (
+              <p className="text-red-500 text-sm mt-1">会場を入力してください</p>
+            )}
+          </div>
+          <div>
+            <Label htmlFor="cost">一人当たりの参加費用</Label>
+            <Select value={cost} onValueChange={setCost}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="参加費用を選択" />
+              </SelectTrigger>
+              <SelectContent>
+                {costOptions.map((value) => (
+                  <SelectItem key={value} value={value}>
+                    {value}円
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label>時間の管理</Label>
+            <div className="space-y-2">
+              {timeSlots.map((slot, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <Select
+                    value={slot.hour}
+                    onValueChange={(value) =>
+                      handleChangeTimeSlot(index, "hour", value)
+                    }
+                  >
+                    <SelectTrigger className="w-1/4">
+                      <SelectValue placeholder="時" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {hourOptions.map((hour) => (
+                        <SelectItem key={hour} value={hour}>
+                          {hour}時
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select
+                    value={slot.minute}
+                    onValueChange={(value) =>
+                      handleChangeTimeSlot(index, "minute", value)
+                    }
+                  >
+                    <SelectTrigger className="w-1/4">
+                      <SelectValue placeholder="分" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {minuteOptions.map((minute) => (
+                        <SelectItem key={minute} value={minute}>
+                          {minute}分
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select
+                    value={slot.maxParticipants.toString()}
+                    onValueChange={(value) =>
+                      handleChangeTimeSlot(index, "maxParticipants", value)
+                    }
+                  >
+                    <SelectTrigger className="w-1/4">
+                      <SelectValue placeholder="人数" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: 50 }, (_, i) =>
+                        (i + 1).toString()
+                      ).map((num) => (
+                        <SelectItem key={num} value={num}>
+                          {num}人
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    variant="outline"
+                    className="w-10 h-10"
+                    onClick={() => handleRemoveTimeSlot(index)}
+                  >
+                    <MinusIcon className="w-6 h-6" />
+                  </Button>
+                </div>
+              ))}
+              {duplicateTimeSlotError && (
+                <p className="text-red-500 text-sm mt-1">
+                  重複する予約時間があります。時間を確認してください。
+                </p>
+              )}
+              <Button
+                variant="outline"
+                className="w-full mt-2"
+                onClick={handleAddTimeSlot}
+              >
+                <PlusIcon className="w-6 h-6" />
+              </Button>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="max-participants">総参加人数（自動計算）</Label>
+            <div className="flex items-center space-x-2">
+              <Input
+                id="max-participants"
+                value={maxParticipants}
+                readOnly
+                className="bg-gray-100 text-gray-700 cursor-not-allowed"
+              />
+              <span className="text-sm text-muted-foreground">人</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              この値は各時間枠の参加人数の合計で自動的に計算されます。直接編集することはできません。
+            </p>
+          </div>
+          <div>
+            <Label
+              htmlFor="image-upload"
+              className={errors.image ? "text-red-500" : ""}
+            >
+              画像の選択 {imageUrl ? "" : "*"}
+            </Label>
+            <input
+              type="file"
+              id="image-upload"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <Button
+              variant="outline"
+              className={`w-full mt-2 ${errors.image ? "border-red-500" : ""}`}
+              onClick={() => document.getElementById("image-upload")?.click()}
+            >
+              {selectedFile
+                ? selectedFile.name
+                : imageUrl
+                  ? "現在の画像が設定されています"
+                  : "ファイルを選択"}
+            </Button>
+            {/* 画像のプレビューを追加 */}
+            {selectedFile ? (
+              <img
+                src={URL.createObjectURL(selectedFile)}
+                alt="選択した画像のプレビュー"
+                className="mt-2 w-full h-auto"
+              />
+            ) : imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="現在の画像"
+                className="mt-2 w-full h-auto"
+              />
+            ) : null}
+            {errors.image && (
+              <p className="text-red-500 text-sm mt-1">画像を選択してください</p>
+            )}
+          </div>
+          <div>
+            <Label htmlFor="date">日にち</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full">
+                  {date && !isNaN(date.getTime())
+                    ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
+                    : "日付を選択"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[300px] p-0">
+                <Calendar
+                  mode="single"
+                  selected={date && !isNaN(date.getTime()) ? date : undefined}
+                  onSelect={setDate}
+                  className="rounded-md border"
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div>
+            <Label
+              htmlFor="description"
+              className={errors.description ? "text-red-500" : ""}
+            >
+              お茶会の説明 *
+            </Label>
+            <Textarea
+              id="description"
+              placeholder="例: 各席8〜12名（45分）どなたでも参加いただけます。（服装自由）"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                setErrors({ ...errors, description: false });
+              }}
+              className={`min-h-[100px] ${
+                errors.description ? "border-red-500" : ""
+              }`}
+            />
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">
+                お茶会の説明を入力してください
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            {getErrorCount() > 0 && (
+              <p className="text-red-500 text-sm">
+                {getErrorCount()}件のエラーが発生しています。
               </p>
             )}
             <Button
-              variant="outline"
-              className="w-full mt-2"
-              onClick={handleAddTimeSlot}
+              className="w-full bg-green-500 text-white"
+              onClick={handleUpdate}
+              disabled={
+                Object.values(errors).some(Boolean) ||
+                duplicateTimeSlotError ||
+                isLoading
+              }
             >
-              <PlusIcon className="w-6 h-6" />
+              {isLoading ? "更新中..." : "編集完了"}
             </Button>
           </div>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="max-participants">総参加人数（自動計算）</Label>
-          <div className="flex items-center space-x-2">
-            <Input
-              id="max-participants"
-              value={maxParticipants}
-              readOnly
-              className="bg-gray-100 text-gray-700 cursor-not-allowed"
-            />
-            <span className="text-sm text-muted-foreground">人</span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            この値は各時間枠の参加人数の合計で自動的に計算されます。直接編集することはできません。
-          </p>
-        </div>
-        <div>
-          <Label
-            htmlFor="image-upload"
-            className={errors.image ? "text-red-500" : ""}
-          >
-            画像の選択 {imageUrl ? "" : "*"}
-          </Label>
-          <input
-            type="file"
-            id="image-upload"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-          <Button
-            variant="outline"
-            className={`w-full mt-2 ${errors.image ? "border-red-500" : ""}`}
-            onClick={() => document.getElementById("image-upload")?.click()}
-          >
-            {selectedFile
-              ? selectedFile.name
-              : imageUrl
-                ? "現在の画像が設定されています"
-                : "ファイルを選択"}
-          </Button>
-          {/* 画像のプレビューを追加 */}
-          {selectedFile ? (
-            <img
-              src={URL.createObjectURL(selectedFile)}
-              alt="選択した画像のプレビュー"
-              className="mt-2 w-full h-auto"
-            />
-          ) : imageUrl ? (
-            <img
-              src={imageUrl}
-              alt="現在の画像"
-              className="mt-2 w-full h-auto"
-            />
-          ) : null}
-          {errors.image && (
-            <p className="text-red-500 text-sm mt-1">画像を選択してください</p>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="date">日にち</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full">
-                {date && !isNaN(date.getTime())
-                  ? format(date, "yyyy年M月d日（EEE）", { locale: ja })
-                  : "日付を選択"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0">
-              <Calendar
-                mode="single"
-                selected={date && !isNaN(date.getTime()) ? date : undefined}
-                onSelect={setDate}
-                className="rounded-md border"
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div>
-          <Label
-            htmlFor="description"
-            className={errors.description ? "text-red-500" : ""}
-          >
-            お茶会の説明 *
-          </Label>
-          <Textarea
-            id="description"
-            placeholder="例: 各席8〜12名（45分）どなたでも参加いただけます。（服装自由）"
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-              setErrors({ ...errors, description: false });
-            }}
-            className={`min-h-[100px] ${
-              errors.description ? "border-red-500" : ""
-            }`}
-          />
-          {errors.description && (
-            <p className="text-red-500 text-sm mt-1">
-              お茶会の説明を入力してください
-            </p>
-          )}
-        </div>
-        <div className="flex flex-col items-center space-y-2">
-          {getErrorCount() > 0 && (
-            <p className="text-red-500 text-sm">
-              {getErrorCount()}件のエラーが発生しています。
-            </p>
-          )}
-          <Button
-            className="w-full bg-green-500 text-white"
-            onClick={handleUpdate}
-            disabled={
-              Object.values(errors).some(Boolean) ||
-              duplicateTimeSlotError ||
-              isLoading
-            }
-          >
-            {isLoading ? "更新中..." : "編集完了"}
-          </Button>
-        </div>
+
+        {/* イベント削除用のアラートダイアログ */}
+        <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>イベントを削除しますか？</AlertDialogTitle>
+              <AlertDialogDescription>
+                この操作は取り消せません。本当にこのイベントを削除してもよろしいですか？
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>キャンセル</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDelete}
+                className="bg-red-500 hover:bg-red-600 text-white"
+              >
+                削除
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        {/* タイムスロット削除用のアラートダイアログ */}
+        <AlertDialog
+          open={isRemoveTimeSlotModalOpen}
+          onOpenChange={setIsRemoveTimeSlotModalOpen}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>時間枠を削除しますか？</AlertDialogTitle>
+              <AlertDialogDescription>
+                この時間枠を削除すると、関連するすべての予約も削除されます。本当に削除してもよろしいですか？
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setTimeSlotToRemove(null)}>
+                キャンセル
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={confirmRemoveTimeSlot}
+                className="bg-red-500 hover:bg-red-600 text-white"
+              >
+                削除
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
-
-      {/* イベント削除用のアラートダイアログ */}
-      <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>イベントを削除しますか？</AlertDialogTitle>
-            <AlertDialogDescription>
-              この操作は取り消せません。本当にこのイベントを削除してもよろしいですか？
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>キャンセル</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              className="bg-red-500 hover:bg-red-600 text-white"
-            >
-              削除
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* タイムスロット削除用のアラートダイアログ */}
-      <AlertDialog
-        open={isRemoveTimeSlotModalOpen}
-        onOpenChange={setIsRemoveTimeSlotModalOpen}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>時間枠を削除しますか？</AlertDialogTitle>
-            <AlertDialogDescription>
-              この時間枠を削除すると、関連するすべての予約も削除されます。本当に削除してもよろしいですか？
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setTimeSlotToRemove(null)}>
-              キャンセル
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmRemoveTimeSlot}
-              className="bg-red-500 hover:bg-red-600 text-white"
-            >
-              削除
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+    </Authenticator>
   );
 }
 

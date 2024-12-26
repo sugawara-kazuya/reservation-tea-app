@@ -7,11 +7,14 @@ import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 export default function TeaCeremonyProfile() {
   const router = useRouter()
 
   return (
+    <Authenticator>
     <div className="min-h-screen bg-white">
       <Header />
 
@@ -124,7 +127,8 @@ export default function TeaCeremonyProfile() {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </Authenticator>
   )
 }
 

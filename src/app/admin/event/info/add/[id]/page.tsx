@@ -17,6 +17,8 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
@@ -161,6 +163,7 @@ export default function ReservationCreate() {
   }
 
   return (
+    <Authenticator>
     <div className="max-w-7xl mx-auto p-6">
       <div className="flex items-center mb-6">
         <ArrowLeftIcon
@@ -261,7 +264,8 @@ export default function ReservationCreate() {
           予約を作成
         </Button>
       </div>
-    </div>
+      </div>
+    </Authenticator>
   );
 }
 

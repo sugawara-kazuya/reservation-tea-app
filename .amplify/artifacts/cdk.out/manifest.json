@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ac26c3a15f97a2edb2fb959565494ce92e0ef8ceb2335b4049bbbf795c81f28d.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b5e6403e26144e40c3fee5f6dfe1afb27272fc9f433490c4237a8b26a9a11383.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -2301,18 +2301,6 @@
             "data": "amplifyDataConnectionStackNestedStackConnectionStackNestedStackResourceAB0F312B"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AuthRolePolicy01/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifyDataAuthRolePolicy01567A5654"
-          }
-        ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/UnauthRolePolicy01/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifyDataUnauthRolePolicy01355B9DCF"
-          }
-        ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -2571,10 +2559,10 @@
             "data": "CDKMetadataAvailable"
           }
         ],
-        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": [
+        "/amplify-moshimoji-root-sandbox-1c0e761023/storage/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+            "data": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
           }
         ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/storage/amplifymoshimojirootsandbox1c0e761023storageteaBucket3B5EF348Ref": [

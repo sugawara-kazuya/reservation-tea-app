@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Amplify } from "aws-amplify";
 import { useRouter } from "next/navigation";
 import outputs from "@/output";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(outputs);
 
@@ -54,9 +56,10 @@ export default function EventList() {
   };
 
   return (
-    <div className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
-        <div className="flex items-center">
+    <Authenticator>
+      <div className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+          <div className="flex items-center">
           <Button
             variant="ghost"
             onClick={handleBackToAdmin}
@@ -107,7 +110,8 @@ export default function EventList() {
           </div>
         ))}
       </div>
-    </div>
+      </div>
+    </Authenticator>
   );
 }
 

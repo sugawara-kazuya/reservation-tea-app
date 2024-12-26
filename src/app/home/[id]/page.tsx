@@ -16,6 +16,8 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(outputs);
 
@@ -280,6 +282,8 @@ export default function ReservationComponent() {
           accompaniedGuest2: accompaniedGuests[1] || null,
           accompaniedGuest3: accompaniedGuests[2] || null,
           reservationNumber,
+        }, {
+          authMode: 'userPool',
         });
 
       if (reservationErrors || !newReservation) {
@@ -298,7 +302,9 @@ export default function ReservationComponent() {
               (selectedSlot.currentParticipants || 0) + participants,
           };
           const { errors: timeSlotErrors } =
-            await client.models.EventTimeSlot.update(updatedTimeSlot);
+            await client.models.EventTimeSlot.update(updatedTimeSlot, {
+              authMode: 'userPool',
+            });
 
           if (timeSlotErrors) {
             console.error(
@@ -317,7 +323,9 @@ export default function ReservationComponent() {
           currentParticipants: (event.currentParticipants || 0) + participants,
         };
         const { errors: eventErrors } =
-          await client.models.Event.update(updatedEvent);
+          await client.models.Event.update(updatedEvent, {
+            authMode: 'userPool',
+          });
 
         if (eventErrors) {
           console.error("Event の更新中にエラーが発生しました:", eventErrors);
@@ -353,8 +361,9 @@ export default function ReservationComponent() {
     : null;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
-      {showBanner && (
+    <Authenticator>
+      <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        {showBanner && (
         <div className="bg-red-500 text-white text-center py-2 mb-4 flex justify-between items-center">
           <span>{bannerMessage}</span>
         </div>
@@ -621,7 +630,8 @@ export default function ReservationComponent() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </Authenticator>
   );
 }
 
