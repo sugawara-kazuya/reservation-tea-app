@@ -156,7 +156,7 @@
    }
   },
   "awsAppsyncAuthenticationType": {
-   "Value": "AWS_IAM"
+   "Value": "AMAZON_COGNITO_USER_POOLS"
   },
   "awsAppsyncRegion": {
    "Value": {
@@ -201,7 +201,7 @@
    }
   },
   "awsAppsyncAdditionalAuthenticationTypes": {
-   "Value": "AMAZON_COGNITO_USER_POOLS"
+   "Value": "AWS_IAM"
   },
   "storageRegion": {
    "Value": {
@@ -315,7 +315,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/9f434603c168cd1708be07445943b152e9d07558149d221158e8e7354f5a48ae.json"
+       "/5080b40f7c64598e10da33a40c4ac08b6ab44c4e4d4f792749d8930b3781387c.json"
       ]
      ]
     }
@@ -332,10 +332,10 @@
    "Type": "AWS::CloudFormation::Stack",
    "Properties": {
     "Parameters": {
-     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef": {
+     "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref": {
       "Fn::GetAtt": [
        "auth179371D7",
-       "Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthunauthenticatedUserRole3FD00C1FRef"
+       "Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthauthenticatedUserRoleF08DB504Ref"
       ]
      }
     },
@@ -365,7 +365,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/b776dd58ac1279819912291a0daf2e61843ee50b5c000942a363acc5bfd7b8db.json"
+       "/b7b991b7dace89452ef4f29e91b0c967ff5d045ae919d360ca661dba5878ca14.json"
       ]
      ]
     }

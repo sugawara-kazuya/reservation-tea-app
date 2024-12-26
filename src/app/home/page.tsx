@@ -35,6 +35,7 @@ export default function Page() {
   const fetchEvents = async () => {
     const { data: items, errors } = await client.models.Event.list({
       filter: { isActive: { eq: true } },
+      authMode: 'userPool',
     });
     if (errors) {
       console.error("Error fetching events:", errors);

@@ -5,7 +5,7 @@ export const storage = defineStorage({
   access: (allow) => ({
     "event/*": [
       // 未認証ユーザー（ゲスト）に読み取り、書き込み、削除の権限を付与
-      allow.guest.to(["read", "write", "delete"]),
+      allow.authenticated.to(["read", "write", "delete"]),
     ],
   }),
 });

@@ -30,6 +30,8 @@ import {
   TrashIcon,
   CheckCircleIcon,
 } from "lucide-react";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(outputs);
 
@@ -203,6 +205,8 @@ export default function ConfirmationPage() {
       // 予約の削除
       const { errors: deleteErrors } = await client.models.Reservation.delete({
         id: reservation.id,
+      }, {
+        authMode: 'userPool',
       });
 
       if (deleteErrors) {
@@ -218,7 +222,9 @@ export default function ConfirmationPage() {
         ),
       };
       const { errors: eventUpdateErrors } =
-        await client.models.Event.update(updatedEvent);
+        await client.models.Event.update(updatedEvent, {
+          authMode: 'userPool',
+        });
 
       if (eventUpdateErrors) {
         throw new Error("イベント情報の更新に失敗しました");
@@ -243,7 +249,9 @@ export default function ConfirmationPage() {
         ),
       };
       const { errors: timeSlotUpdateErrors } =
-        await client.models.EventTimeSlot.update(updatedTimeSlot);
+        await client.models.EventTimeSlot.update(updatedTimeSlot, {
+          authMode: 'userPool',
+        });
 
       if (timeSlotUpdateErrors) {
         throw new Error("時間枠情報の更新に失敗しました");
@@ -320,8 +328,9 @@ export default function ConfirmationPage() {
   ].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      {alert && <Alert message={alert.message} type={alert.type} />}
+    <Authenticator>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        {alert && <Alert message={alert.message} type={alert.type} />}
       <main className="max-w-4xl mx-auto">
         <Card className="mb-8 shadow-lg">
           <CardHeader className="text-center bg-primary text-primary-foreground rounded-t-lg">
@@ -473,7 +482,8 @@ export default function ConfirmationPage() {
           </AlertDialogContent>
         </AlertDialog>
       </main>
-    </div>
+      </div>
+    </Authenticator>
   );
 }
 

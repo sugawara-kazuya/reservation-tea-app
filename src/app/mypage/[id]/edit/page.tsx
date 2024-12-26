@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 export default function ProfileUpdate() {
   const router = useRouter()
@@ -39,8 +41,9 @@ export default function ProfileUpdate() {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-16"> {/* Added pt-16 to push content down */}
-      {/* Header */}
+    <Authenticator>
+      <div className="min-h-screen bg-white pt-16"> {/* Added pt-16 to push content down */}
+        {/* Header */}
       <Header />
 
       {/* Main Content */}
@@ -98,7 +101,8 @@ export default function ProfileUpdate() {
           <ChevronUp className="w-6 h-6" />
         </button>
       )}
-    </div>
-  )
+      </div>
+    </Authenticator>
+  );
 }
 

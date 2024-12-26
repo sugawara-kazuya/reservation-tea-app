@@ -17,6 +17,8 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(outputs);
 
@@ -99,7 +101,8 @@ export default function Component() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <Authenticator>
+      <div className="min-h-screen bg-white">
       <Header backgroundImage="https://reservation-tea-app.s3.ap-northeast-1.amazonaws.com/sample/homeback4.jpg" />
       <main className="flex flex-col items-center w-full flex-1 p-6 bg-white">
         <div className="max-w-2xl w-full space-y-8">
@@ -152,6 +155,7 @@ export default function Component() {
           </form>
         </div>
       </main>
-    </div>
+      </div>
+    </Authenticator>
   );
 }

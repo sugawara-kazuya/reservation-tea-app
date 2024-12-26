@@ -24,7 +24,7 @@ const schema = a.schema({
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
     })
-    .authorization((allow) => [allow.guest()]),
+    .authorization((allow) => [allow.authenticated()]),
 
   Reservation: a
     .model({
@@ -46,7 +46,7 @@ const schema = a.schema({
       updatedAt: a.datetime(), // 更新日時
       reservationNumber: a.string(), // 新しい6桁の予約番号フィールド
     })
-    .authorization((allow) => [allow.guest()]),
+    .authorization((allow) => [allow.authenticated()]),
 
   EventTimeSlot: a
     .model({
@@ -59,7 +59,7 @@ const schema = a.schema({
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
     })
-    .authorization((allow) => [allow.guest()]),
+    .authorization((allow) => [allow.authenticated()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -67,7 +67,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "iam",
+    defaultAuthorizationMode: "userPool",
   },
 });
 

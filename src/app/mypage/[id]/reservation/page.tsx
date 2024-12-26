@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Calendar, Users, Trash, ArrowLeft } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 export default function TeaCeremonyBooking() {
   const router = useRouter()
@@ -53,8 +55,9 @@ export default function TeaCeremonyBooking() {
   }
 
   return (
-    <div 
-      style={{ backgroundImage: "url('/path/to/image.jpg')" }}
+    <Authenticator>
+      <div 
+        style={{ backgroundImage: "url('/path/to/image.jpg')" }}
       className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8 space-y-8"
     >
       <div className="flex items-center justify-between">
@@ -148,7 +151,8 @@ export default function TeaCeremonyBooking() {
           <Trash className="h-5 w-5" />
         </button>
       </div>
-    </div>
+      </div>
+    </Authenticator>
   )
 }
 

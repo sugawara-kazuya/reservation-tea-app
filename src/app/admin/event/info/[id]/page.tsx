@@ -44,6 +44,8 @@ import {
 } from "lucide-react";
 import { Amplify } from "aws-amplify";
 import outputs from "@/output";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(outputs);
 
@@ -311,7 +313,8 @@ const EventDetails: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto py-6 px-4 bg-stone-50">
+    <Authenticator>
+      <div className="container mx-auto py-6 px-4 bg-stone-50">
       <div className="flex justify-between items-center mb-6">
         <Button variant="ghost" onClick={handleGoBack} className="p-2">
           <ArrowLeft className="h-6 w-6" />
@@ -605,7 +608,8 @@ const EventDetails: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </Authenticator>
   );
 };
 
