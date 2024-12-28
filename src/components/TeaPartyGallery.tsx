@@ -11,10 +11,10 @@ type TeaParty = {
 }
 
 const teaParties: TeaParty[] = [
-  { id: 1, title: "新緑の茶会", description: "桜の香り漂う、静寂の一服", imageUrl: "/placeholder.svg?height=600&width=800" },
-  { id: 2, title: "七夕茶会", description: "星月夜に愉しむ夜茶の会", imageUrl: "/placeholder.svg?height=600&width=800" },
-  { id: 3, title: "中国茶藝の会", description: "千年の歴史が紡ぐ茶の世界", imageUrl: "/placeholder.svg?height=600&width=800" },
-  { id: 4, title: "涼煎茶の会", description: "清涼な一煎に夏の暑さを忘れる", imageUrl: "/placeholder.svg?height=600&width=800" },
+  { id: 1, title: "新緑の茶会", description: "桜の香り漂う、静寂の一服", imageUrl: "https://tea-app-sample-pic.s3.ap-northeast-1.amazonaws.com/tea-app-sample-1.jpg" },
+  { id: 2, title: "七夕茶会", description: "星月夜に愉しむ夜茶の会", imageUrl: "https://tea-app-sample-pic.s3.ap-northeast-1.amazonaws.com/tea-app-sample-2.jpg" },
+  { id: 3, title: "中国茶藝の会", description: "千年の歴史が紡ぐ茶の世界", imageUrl: "https://tea-app-sample-pic.s3.ap-northeast-1.amazonaws.com/tea-app-sample-3.jpg" },
+  { id: 4, title: "涼煎茶の会", description: "清涼な一煎に夏の暑さを忘れる", imageUrl: "https://tea-app-sample-pic.s3.ap-northeast-1.amazonaws.com/tea-app-sample-4.jpg" },
 ]
 
 export function TeaPartyGallery() {
