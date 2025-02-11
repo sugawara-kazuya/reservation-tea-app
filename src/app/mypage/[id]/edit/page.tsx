@@ -124,7 +124,7 @@ export default function ProfileUpdate() {
         <main className="max-w-2xl mx-auto px-4 py-6 pt-35">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name">名前（フルネーム）</Label>
+              <Label htmlFor="name">名前（フルネーム） *必須</Label>
               <Input
                 id="name"
                 value={name}
@@ -133,7 +133,7 @@ export default function ProfileUpdate() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">メールアドレス</Label>
+              <Label htmlFor="email">メールアドレス *必須</Label>
               <Input
                 id="email"
                 type="email"
@@ -152,7 +152,7 @@ export default function ProfileUpdate() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="bio">自己紹介</Label>
+              <Label htmlFor="bio">自己紹介（任意）</Label>
               <Textarea
                 id="bio"
                 value={bio}

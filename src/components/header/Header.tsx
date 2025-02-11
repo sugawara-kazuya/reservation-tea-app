@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { getCurrentUser } from 'aws-amplify/auth';
+import { toast } from "react-hot-toast";
 
 interface HeaderProps {
   backgroundImage?: string;
@@ -29,6 +30,9 @@ export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
   const handleNavigation = (path: string) => {
     if (path === "/mypage" && userId) {
       router.push(`/mypage/${userId}`);
+    } else if (path === "/mypage") {
+      router.push('/');
+      toast.error('ログインが必要です');
     } else {
       router.push(path);
     }
@@ -79,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
               className="text-white font-semibold py-2 md:py-0 hover:text-yellow-400 transition-colors duration-200"
               onClick={() => handleNavigation("/mypage")}
             >
-              マイページ
+              あなたのページ
             </a>
           </div>
         </div>
