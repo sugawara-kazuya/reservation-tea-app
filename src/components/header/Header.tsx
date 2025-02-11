@@ -83,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
               className="text-white font-semibold py-2 md:py-0 hover:text-yellow-400 transition-colors duration-200"
               onClick={() => handleNavigation("/mypage")}
             >
-              マイページ
+              あなたのページ
             </a>
           </div>
         </div>
