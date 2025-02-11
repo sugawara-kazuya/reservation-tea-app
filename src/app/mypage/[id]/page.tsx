@@ -126,9 +126,15 @@ export default function TeaCeremonyProfile() {
             console.log('Final reservations with events:', reservationsWithEvents)
             setReservations(reservationsWithEvents.filter(r => r.event) as ReservationWithEvent[])
           } else {
-            toast.error('プロフィールが見つかりません')
-            router.push('/home')
-            return
+            // プロフィールが存在しない場合、編集ページにリダイレクト
+            if (currentUserId === userId) {
+              toast.info('プロフィールの作成が必要です');
+              router.push(`/mypage/${userId}/edit`);
+            } else {
+              toast.error('プロフィールが見つかりません');
+              router.push('/home');
+            }
+            return;
           }
         } catch (error) {
           console.error('Error fetching data:', error)
