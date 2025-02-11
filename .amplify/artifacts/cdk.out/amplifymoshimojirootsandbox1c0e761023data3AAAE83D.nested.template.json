@@ -1499,6 +1499,79 @@
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/AMPLIFY_DATA_DEFAULT_NAMEParameter/Resource"
    }
   },
+  "GraphqlAccessPolicy11EF5618C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "appsync:GraphQL",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "amplifyDataGraphQLAPI42A6FA33",
+             "Arn"
+            ]
+           },
+           "/types/Query/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "amplifyDataGraphQLAPI42A6FA33",
+             "Arn"
+            ]
+           },
+           "/types/Subscription/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "modelIntrospectionSchemaBucketF566B665",
+            "Arn"
+           ]
+          },
+          "/modelIntrospectionSchema.json"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GraphqlAccessPolicy11EF5618C",
+    "Roles": [
+     {
+      "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputsamplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/GraphqlAccessPolicy1/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
@@ -1558,6 +1631,9 @@
    "Type": "String"
   },
   "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputsamplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef": {
    "Type": "String"
   }
  },

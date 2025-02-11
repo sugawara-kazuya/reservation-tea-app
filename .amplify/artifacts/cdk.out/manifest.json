@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/9f149c1a0f3c9a2b48904e5ba92d4396fb41397f6a47585a79d452f5ee878518.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d3eb1c3071ffe419e228bd363ced98eb34e4397d1375c342a67eaad0268a53d5.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -287,6 +287,12 @@
             "data": "postconfirmationlambdaServiceRoleD88F89BD"
           }
         ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/function/post-confirmation-lambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postconfirmationlambdaServiceRoleDefaultPolicyCD4BF2C1"
+          }
+        ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/function/post-confirmation-lambda/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -315,6 +321,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambda0E7E4638Ref"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/function/amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef"
           }
         ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/function.NestedStack/function.NestedStackResource": [
@@ -3873,6 +3885,12 @@
             "data": "AMPLIFYDATADEFAULTNAMEParameterE7C23CC4"
           }
         ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/GraphqlAccessPolicy1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GraphqlAccessPolicy11EF5618C"
+          }
+        ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/data/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
@@ -3907,6 +3925,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputsamplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
+          }
+        ],
+        "/amplify-moshimoji-root-sandbox-1c0e761023/data/reference-to-amplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputs.amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputsamplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef"
           }
         ],
         "/amplify-moshimoji-root-sandbox-1c0e761023/data/amplifymoshimojirootsandbox1c0e761023dataamplifyDataGraphQLAPIB7076B64ApiId": [
