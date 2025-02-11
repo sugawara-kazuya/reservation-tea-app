@@ -346,7 +346,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/0fe1e5c0323b7c99bcb783d61f2ca76c6af529ac917f77b94ac1b86590b70df8.json"
+       "/808bfc595086146de0b4016b935fe7841124f81d3fd197b30b9c97d40421dc56.json"
       ]
      ]
     }
@@ -386,6 +386,12 @@
        "auth179371D7",
        "Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
       ]
+     },
+     "referencetoamplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputsamplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef": {
+      "Fn::GetAtt": [
+       "function1351588B",
+       "Outputs.amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef"
+      ]
      }
     },
     "Tags": [
@@ -414,7 +420,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/e847562e07ed396a1a08b62590befc08ce08828012e1b815d6dee550b2fb9ef9.json"
+       "/5e53b2ea0d442d66cca94f7e04de8ffe60a7a5510d0f90808e830a87bc9ce7f8.json"
       ]
      ]
     }

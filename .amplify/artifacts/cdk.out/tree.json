@@ -822,6 +822,127 @@
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
                           "version": "2.178.1"
                         }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "amplify-moshimoji-root-sandbox-1c0e761023/function/post-confirmation-lambda/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "amplify-moshimoji-root-sandbox-1c0e761023/function/post-confirmation-lambda/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "ssm:GetParameters",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":ssm:",
+                                              {
+                                                "Ref": "AWS::Region"
+                                              },
+                                              ":",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              ":parameter/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_GRAPHQL_ENDPOINT"
+                                            ]
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":ssm:",
+                                              {
+                                                "Ref": "AWS::Region"
+                                              },
+                                              ":",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              ":parameter/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_BUCKET_NAME"
+                                            ]
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":ssm:",
+                                              {
+                                                "Ref": "AWS::Region"
+                                              },
+                                              ":",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              ":parameter/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_KEY"
+                                            ]
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":ssm:",
+                                              {
+                                                "Ref": "AWS::Region"
+                                              },
+                                              ":",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              ":parameter/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_DEFAULT_NAME"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "postconfirmationlambdaServiceRoleDefaultPolicyCD4BF2C1",
+                                "roles": [
+                                  {
+                                    "Ref": "postconfirmationlambdaServiceRoleD88F89BD"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.178.1"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.178.1",
+                          "metadata": []
+                        }
                       }
                     },
                     "constructInfo": {
@@ -870,11 +991,15 @@
                           "s3Bucket": {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "s3Key": "c7c44c66d078d1006a3f0228a7aa5e237cb391e1c8966f6b66b8450e607e4150.zip"
+                          "s3Key": "4a20bf58d5af84191a1365a7b7c332763c367808783f1b45e2d31f0f7cd6ea98.zip"
                         },
                         "environment": {
                           "variables": {
-                            "AMPLIFY_SSM_ENV_CONFIG": "{}"
+                            "AMPLIFY_SSM_ENV_CONFIG": "{\"/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_GRAPHQL_ENDPOINT\":{\"name\":\"AMPLIFY_DATA_GRAPHQL_ENDPOINT\"},\"/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_BUCKET_NAME\":{\"name\":\"AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_BUCKET_NAME\"},\"/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_KEY\":{\"name\":\"AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_KEY\"},\"/amplify/resource_reference/moshimoji/root-sandbox-1c0e761023/AMPLIFY_DATA_DEFAULT_NAME\":{\"name\":\"AMPLIFY_DATA_DEFAULT_NAME\"}}",
+                            "AMPLIFY_DATA_GRAPHQL_ENDPOINT": "<value will be resolved during runtime>",
+                            "AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_BUCKET_NAME": "<value will be resolved during runtime>",
+                            "AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_KEY": "<value will be resolved during runtime>",
+                            "AMPLIFY_DATA_DEFAULT_NAME": "<value will be resolved during runtime>"
                           }
                         },
                         "ephemeralStorage": {
@@ -959,6 +1084,14 @@
                   "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.178.1"
                 }
+              },
+              "amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef": {
+                "id": "amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef",
+                "path": "amplify-moshimoji-root-sandbox-1c0e761023/function/amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.178.1"
+                }
               }
             },
             "constructInfo": {
@@ -1002,7 +1135,7 @@
                           {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "/0fe1e5c0323b7c99bcb783d61f2ca76c6af529ac917f77b94ac1b86590b70df8.json"
+                          "/808bfc595086146de0b4016b935fe7841124f81d3fd197b30b9c97d40421dc56.json"
                         ]
                       ]
                     }
@@ -23386,6 +23519,93 @@
                   "metadata": []
                 }
               },
+              "GraphqlAccessPolicy1": {
+                "id": "GraphqlAccessPolicy1",
+                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/GraphqlAccessPolicy1",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/GraphqlAccessPolicy1/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "appsync:GraphQL",
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "amplifyDataGraphQLAPI42A6FA33",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/types/Query/*"
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "amplifyDataGraphQLAPI42A6FA33",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/types/Subscription/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": "s3:GetObject",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "modelIntrospectionSchemaBucketF566B665",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "/modelIntrospectionSchema.json"
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "GraphqlAccessPolicy11EF5618C",
+                        "roles": [
+                          {
+                            "Ref": "referencetoamplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputsamplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.178.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.178.1",
+                  "metadata": []
+                }
+              },
               "CDKMetadata": {
                 "id": "CDKMetadata",
                 "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/CDKMetadata",
@@ -23439,6 +23659,14 @@
               "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref": {
                 "id": "reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref",
                 "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/reference-to-amplifymoshimojirootsandbox1c0e761023authNestedStackauthNestedStackResource9169A636Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnParameter",
+                  "version": "2.178.1"
+                }
+              },
+              "reference-to-amplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputs.amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef": {
+                "id": "reference-to-amplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputs.amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef",
+                "path": "amplify-moshimoji-root-sandbox-1c0e761023/data/reference-to-amplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputs.amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnParameter",
                   "version": "2.178.1"
@@ -23508,6 +23736,12 @@
                           "auth179371D7",
                           "Outputs.amplifymoshimojirootsandbox1c0e761023authamplifyAuthIdentityPool5B7F1FC2Ref"
                         ]
+                      },
+                      "referencetoamplifymoshimojirootsandbox1c0e761023functionNestedStackfunctionNestedStackResourceA9CA5854Outputsamplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef": {
+                        "Fn::GetAtt": [
+                          "function1351588B",
+                          "Outputs.amplifymoshimojirootsandbox1c0e761023functionpostconfirmationlambdaServiceRole068114CARef"
+                        ]
                       }
                     },
                     "tags": [
@@ -23536,7 +23770,7 @@
                           {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "/e847562e07ed396a1a08b62590befc08ce08828012e1b815d6dee550b2fb9ef9.json"
+                          "/5e53b2ea0d442d66cca94f7e04de8ffe60a7a5510d0f90808e830a87bc9ce7f8.json"
                         ]
                       ]
                     }
