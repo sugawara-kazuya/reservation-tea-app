@@ -43,12 +43,14 @@
     "react-hot-toast": "^2.4.1",
     "react-ios-time-picker": "^0.2.2",
     "react-time-picker": "^7.0.0",
+    "sonner": "^1.7.4",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "^1.0.4",
-    "@aws-amplify/backend-cli": "^1.2.1",
+    "@aws-amplify/backend": "^1.14.0",
+    "@aws-amplify/backend-cli": "^1.4.9",
+    "@types/aws-lambda": "^8.10.147",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

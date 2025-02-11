@@ -18,6 +18,8 @@ import { Amplify } from "aws-amplify";
 import outputs from "@/output";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import { getCurrentUser } from 'aws-amplify/auth';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 Amplify.configure(outputs);
 
@@ -82,37 +84,64 @@ export default function ReservationComponent() {
     };
   }, []);
 
-  const fetchEvent = async () => {
-    if (!eventId) {
-      console.error(
-        "Event ID が存在しません。URLに正しいパスが含まれているか確認してください。"
-      );
-      return;
-    }
-
-    const { data: eventData } = await client.models.Event.get({
-      id: eventId,
-    });
-    setEvent(eventData);
-
-    if (eventData?.id) {
-      const { data: timeSlotData } = await client.models.EventTimeSlot.list({
-        filter: { eventId: { eq: eventData.id } },
-      });
-
-      const sortedTimeSlots = timeSlotData.sort((a, b) => {
-        if (!a.timeSlot && !b.timeSlot) return 0;
-        if (!a.timeSlot) return 1;
-        if (!b.timeSlot) return -1;
-        return a.timeSlot.localeCompare(b.timeSlot);
-      });
-
-      setTimeSlots(sortedTimeSlots);
-    }
-  };
-
   useEffect(() => {
-    fetchEvent();
+    const fetchUserProfileAndEvent = async () => {
+      try {
+        // イベント情報の取得
+        if (!eventId) {
+          console.error("Event ID が存在しません。");
+          return;
+        }
+
+        const { data: eventData } = await client.models.Event.get(
+          { id: eventId },
+          { authMode: 'userPool' }
+        );
+        setEvent(eventData);
+
+        // ユーザープロフィールの取得
+        const { userId: cognitoUserId } = await getCurrentUser();
+        const { data: profiles } = await client.models.UserProfile.list({
+          filter: {
+            userId: {
+              eq: cognitoUserId
+            }
+          },
+          authMode: 'userPool'
+        });
+
+        // プロフィール情報があれば、フォームに自動入力
+        if (profiles && profiles.length > 0) {
+          const profile = profiles[0];
+          setName(profile.name || '');
+          setEmail(profile.email || '');
+          setPhone(profile.phone || '');
+        }
+
+        // タイムスロットの取得
+        if (eventData?.id) {
+          const { data: timeSlotData } = await client.models.EventTimeSlot.list({
+            filter: { eventId: { eq: eventData.id } },
+            authMode: 'userPool'
+          });
+
+          const sortedTimeSlots = timeSlotData.sort((a, b) => {
+            if (!a.timeSlot && !b.timeSlot) return 0;
+            if (!a.timeSlot) return 1;
+            if (!b.timeSlot) return -1;
+            return a.timeSlot.localeCompare(b.timeSlot);
+          });
+
+          setTimeSlots(sortedTimeSlots);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setBannerMessage('データの取得に失敗しました');
+        setShowBanner(true);
+      }
+    };
+
+    fetchUserProfileAndEvent();
   }, [eventId]);
 
   const validateEmail = (email: string): string | null => {
@@ -134,7 +163,7 @@ export default function ReservationComponent() {
 
   const validatePhone = (phone: string): string | null => {
     if (!phone) {
-      return "電話番号を入力してください。";
+      return null; // 空欄を許可
     }
     const cleanedPhone = phone.replace(/[\s\-]/g, "");
     if (!/^\d{10,11}$/.test(cleanedPhone)) {
@@ -147,7 +176,7 @@ export default function ReservationComponent() {
     const newErrors: Errors = {
       name: name ? undefined : "名前を入力してください。",
       email: validateEmail(email) ?? undefined,
-      phone: validatePhone(phone) ?? undefined,
+      phone: phone ? validatePhone(phone) ?? undefined : undefined,
       timeSlot: selectedTimeSlot ? undefined : "時間を選択してください。",
       accompaniedGuests: accompaniedGuests.map((guest) =>
         guest ? undefined : "同行者の名前を入力してください。"
@@ -168,6 +197,9 @@ export default function ReservationComponent() {
     }
 
     try {
+      // 現在のユーザーIDを取得
+      const { userId: currentUserId } = await getCurrentUser();
+
       // 予約内容の重複チェック
       const { data: existingReservations, errors: listErrors } =
         await client.models.Reservation.list({
@@ -270,6 +302,7 @@ export default function ReservationComponent() {
       // 予約の作成
       const { data: newReservation, errors: reservationErrors } =
         await client.models.Reservation.create({
+          userId: currentUserId,
           name,
           email,
           phone,
@@ -383,8 +416,9 @@ export default function ReservationComponent() {
                 id="name"
                 placeholder="名前を入力してください"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
-                className={`select-text ${errors.name ? "border-red-500" : ""}`}
+                readOnly
+                disabled
+                className={`select-text ${errors.name ? "border-red-500" : ""} bg-gray-100`}
               />
               {errors.name && (
                 <p className="text-red-500 text-sm mt-1">{errors.name}</p>
@@ -404,10 +438,9 @@ export default function ReservationComponent() {
                 type="email"
                 placeholder="メールアドレスを入力してください"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={`select-text ${
-                  errors.email ? "border-red-500" : ""
-                }`}
+                readOnly
+                disabled
+                className={`select-text ${errors.email ? "border-red-500" : ""} bg-gray-100`}
               />
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -420,21 +453,29 @@ export default function ReservationComponent() {
                 htmlFor="phone"
                 className={errors.phone ? "text-red-500" : ""}
               >
-                電話番号 * (必須)
+                電話番号（任意）
               </Label>
               <Input
                 id="phone"
                 type="tel"
                 placeholder="電話番号を入力してください"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className={`select-text ${
-                  errors.phone ? "border-red-500" : ""
-                }`}
+                readOnly
+                disabled
+                className={`select-text ${errors.phone ? "border-red-500" : ""} bg-gray-100`}
               />
               {errors.phone && (
                 <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
               )}
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => router.push('/mypage/1/edit')}
+                  className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  プロフィールを変更する →
+                </button>
+              </div>
             </div>
 
             {/* 日時選択 */}

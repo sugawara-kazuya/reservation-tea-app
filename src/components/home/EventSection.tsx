@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { getUrl } from 'aws-amplify/storage';
 
 interface EventProps {
   id: string | undefined;
@@ -30,6 +31,24 @@ export const EventSection: React.FC<EventProps> = ({
   isMobile,
 }) => {
   const router = useRouter();
+  const [imageUrlState, setImageUrlState] = useState<string>('');
+
+  useEffect(() => {
+    const fetchImageUrl = async () => {
+      try {
+        if (!imageUrl) {
+          setImageUrlState('/placeholder.jpg');
+          return;
+        }
+        setImageUrlState(imageUrl);
+      } catch (error) {
+        console.error('Error with image URL:', error);
+        setImageUrlState('/placeholder.jpg');
+      }
+    };
+
+    fetchImageUrl();
+  }, [imageUrl]);
 
   const handleReservation = () => {
     if (id) {
@@ -42,12 +61,11 @@ export const EventSection: React.FC<EventProps> = ({
       <div className="flex flex-col md:flex-row items-start mb-8">
         <div className="w-full md:w-1/3 h-auto order-1 md:order-2 mb-4 md:mb-0 md:ml-8">
           <Image
-            src={imageUrl}
-            alt="Event Image"
+            src={imageUrlState || '/placeholder.jpg'}
+            alt={title || 'Event Image'}
             width={500}
             height={300}
-            layout="responsive"
-            objectFit="cover"
+            className="w-full h-full object-cover"
           />
         </div>
         <div className="flex-1 order-2 md:order-1 text-left">

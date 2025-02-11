@@ -7,6 +7,41 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
+  UserProfile: a
+    .model({
+      id: a.id(),
+      userId: a.string(),  // Cognitoユーザーのサブ属性
+      name: a.string(),    // ユーザー名
+      email: a.email(),    // メールアドレス
+      phone: a.string(),   // 電話番号
+      bio: a.string(),     // 自己紹介
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
+    })
+    .authorization((allow) => [
+      allow.owner()
+    ]),
+
+  Comment: a
+    .model({
+      id: a.id(),
+      content: a.string(),
+      eventId: a.string(),
+      event: a.belongsTo("Event", "eventId"),
+      userId: a.string(),
+      userName: a.string(),
+      isReply: a.boolean(),
+      parentCommentId: a.string(),
+      parent: a.belongsTo("Comment", "parentCommentId"),
+      replies: a.hasMany("Comment", "parentCommentId"),
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
+    })
+    .authorization((allow) => [
+      allow.owner(),
+      allow.authenticated().to(['read'])
+    ]),
+
   Event: a
     .model({
       id: a.id(), // ID
@@ -21,6 +56,7 @@ const schema = a.schema({
       isActive: a.boolean(), // イベントが開催中かどうか
       reservations: a.hasMany("Reservation", "eventId"), // 修正: eventIdを使ったリレーション
       eventTimeSlots: a.hasMany("EventTimeSlot", "eventId"), // 修正: eventIdを使ったリレーション
+      comments: a.hasMany("Comment", "eventId"),
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
     })
@@ -29,11 +65,12 @@ const schema = a.schema({
   Reservation: a
     .model({
       id: a.id(), // ID
+      userId: a.string(), // ユーザーID
       name: a.string(), // 名前
       email: a.email(), // メールアドレス
       phone: a.string(), // 電話番号
-      eventId: a.id(), // 修正: eventIdフィールドを追加
-      event: a.belongsTo("Event", "eventId"), // 修正: eventIdを使ったリレーション
+      eventId: a.id(), // イベントID
+      event: a.belongsTo("Event", "eventId"), // イベントとのリレーション
       reservationTime: a.string(), // 予約時間
       participants: a.integer(), // 参加人数
       accompaniedGuest1: a.string(), // 同行者1
@@ -44,9 +81,12 @@ const schema = a.schema({
       notes: a.string(), // メモ
       createdAt: a.datetime(), // 作成日時
       updatedAt: a.datetime(), // 更新日時
-      reservationNumber: a.string(), // 新しい6桁の予約番号フィールド
+      reservationNumber: a.string(), // 予約番号
     })
-    .authorization((allow) => [allow.authenticated()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.authenticated()
+    ]),
 
   EventTimeSlot: a
     .model({

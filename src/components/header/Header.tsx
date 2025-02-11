@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { getCurrentUser } from 'aws-amplify/auth';
 
 interface HeaderProps {
   backgroundImage?: string;
@@ -10,16 +11,26 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const handleNavigation = (path: string, scrollToSection = false) => {
-    router.push(path);
-    if (scrollToSection) {
-      setTimeout(() => {
-        const target = document.getElementById("event-section");
-        if (target) {
-          target.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 500);
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const { userId: currentUserId } = await getCurrentUser();
+        setUserId(currentUserId);
+      } catch (error) {
+        console.error('Error fetching user ID:', error);
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
+  const handleNavigation = (path: string) => {
+    if (path === "/mypage" && userId) {
+      router.push(`/mypage/${userId}`);
+    } else {
+      router.push(path);
     }
     setIsMenuOpen(false);
   };
@@ -52,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
             <a
               href="#"
               className="text-white font-semibold py-2 md:py-0 hover:text-yellow-400 transition-colors duration-200"
-              onClick={() => handleNavigation("/home", true)}
+              onClick={() => handleNavigation("/home")}
             >
               ホーム
             </a>
@@ -66,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ backgroundImage }) => {
             <a
               href="#"
               className="text-white font-semibold py-2 md:py-0 hover:text-yellow-400 transition-colors duration-200"
-              onClick={() => handleNavigation("/mypage/1")}
+              onClick={() => handleNavigation("/mypage")}
             >
               マイページ
             </a>

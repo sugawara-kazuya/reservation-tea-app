@@ -42,7 +42,10 @@
           "dynamodb:DescribeContinuousBackups",
           "dynamodb:DescribeTimeToLive",
           "dynamodb:UpdateContinuousBackups",
-          "dynamodb:UpdateTimeToLive"
+          "dynamodb:UpdateTimeToLive",
+          "dynamodb:TagResource",
+          "dynamodb:UntagResource",
+          "dynamodb:ListTagsOfResource"
          ],
          "Effect": "Allow",
          "Resource": {
@@ -54,6 +57,16 @@
             },
             "envName": "NONE"
            }
+          ]
+         }
+        },
+        {
+         "Action": "lambda:ListTags",
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::Sub": [
+           "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*TableManager*",
+           {}
           ]
          }
         }
@@ -78,6 +91,8 @@
      }
     ]
    },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/AmplifyManagedTableIsCompleteRole/Resource"
    }
@@ -124,7 +139,10 @@
           "dynamodb:DescribeContinuousBackups",
           "dynamodb:DescribeTimeToLive",
           "dynamodb:UpdateContinuousBackups",
-          "dynamodb:UpdateTimeToLive"
+          "dynamodb:UpdateTimeToLive",
+          "dynamodb:TagResource",
+          "dynamodb:UntagResource",
+          "dynamodb:ListTagsOfResource"
          ],
          "Effect": "Allow",
          "Resource": {
@@ -136,6 +154,16 @@
             },
             "envName": "NONE"
            }
+          ]
+         }
+        },
+        {
+         "Action": "lambda:ListTags",
+         "Effect": "Allow",
+         "Resource": {
+          "Fn::Sub": [
+           "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*TableManager*",
+           {}
           ]
          }
         }
@@ -160,6 +188,8 @@
      }
     ]
    },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/AmplifyManagedTableOnEventRole/Resource"
    }
@@ -186,6 +216,8 @@
      }
     ]
    },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/AmplifyManagedTableOnEventRole/DefaultPolicy/Resource"
    }
@@ -197,7 +229,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "50ec7798440abbb1c7b139ad95a42e4d80321841e63eab29ebbc7341104378d4.zip"
+     "S3Key": "1f7e4e867309fea8e686c6b2efd8d07ad8f06818fb62f26bb5d6ff80ffcf4bbb.zip"
     },
     "Description": "AmplifyManagedTable - onEvent (amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/TableManagerCustomProvider)",
     "Environment": {
@@ -235,9 +267,11 @@
     "AmplifyManagedTableOnEventRoleDefaultPolicyF6DABCB6",
     "AmplifyManagedTableOnEventRoleB4E71DEA"
    ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/TableManagerCustomProvider/framework-onEvent/Resource",
-    "aws:asset:path": "asset.50ec7798440abbb1c7b139ad95a42e4d80321841e63eab29ebbc7341104378d4",
+    "aws:asset:path": "asset.1f7e4e867309fea8e686c6b2efd8d07ad8f06818fb62f26bb5d6ff80ffcf4bbb",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -249,7 +283,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "50ec7798440abbb1c7b139ad95a42e4d80321841e63eab29ebbc7341104378d4.zip"
+     "S3Key": "1f7e4e867309fea8e686c6b2efd8d07ad8f06818fb62f26bb5d6ff80ffcf4bbb.zip"
     },
     "Description": "AmplifyManagedTable - isComplete (amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/TableManagerCustomProvider)",
     "Handler": "amplify-table-manager-handler.isComplete",
@@ -279,9 +313,11 @@
    "DependsOn": [
     "AmplifyManagedTableIsCompleteRoleF825222C"
    ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/TableManagerCustomProvider/framework-isComplete/Resource",
-    "aws:asset:path": "asset.50ec7798440abbb1c7b139ad95a42e4d80321841e63eab29ebbc7341104378d4",
+    "aws:asset:path": "asset.1f7e4e867309fea8e686c6b2efd8d07ad8f06818fb62f26bb5d6ff80ffcf4bbb",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -316,6 +352,8 @@
      }
     ]
    },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/AmplifyTableWaiterStateMachine/Role/Resource"
    }
@@ -361,6 +399,8 @@
      }
     ]
    },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/AmplifyTableWaiterStateMachine/Role/DefaultPolicy/Resource"
    }
@@ -394,6 +434,8 @@
     "AmplifyTableWaiterStateMachineRoleDefaultPolicy89F3836A",
     "AmplifyTableWaiterStateMachineRole470BE899"
    ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/AmplifyTableWaiterStateMachine/Resource"
    }
@@ -401,7 +443,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNSwqDQBBEz+J+7PghkG0UsgxBDyDtTCvtZwbsMRLEuwcVV6+KB1UJxPcIogAXCbXpw4FrWN8knkzpUfcKF6lWxhHWwg2k8sYe/LiB9W+vZ9rUgGNtENbXbLVnZ3d35U1JWqEIeYHnDiUpZLPuyWcotKmCxM2TJnXY0mPLtj3OLpE3NnfW8DlnnSHo5PZNIogfEAedMIfTbD2PBMXJP3sU+RfcAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNQQ6CMBBFz8K+jAIL2YqJS2PgAGRoR1IobcIUiWl6dwPo6r2ft/g5ZJcSsgRXTqUaU6M7CA9iT6rxKEeBK7dB4wShdobE7WV3Pp3R8rPNw6IwOHUKIdwXK712dmt/j4KLFpnJM1w3CC6gWuRIvkKmKGpit8ySxF4bj722/X72C1FYpwgGPr3zM2QlFMnAWqfzYr2eCOqDX00pCh7PAAAA"
    },
    "Metadata": {
     "aws:cdk:path": "amplify-moshimoji-root-sandbox-1c0e761023/data/amplifyData/AmplifyTableManager/CDKMetadata/Default"
@@ -451,7 +493,23 @@
         {
          "Ref": "AWS::Region"
         },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
         "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
        ]
       },
       {
@@ -475,7 +533,35 @@
         {
          "Ref": "AWS::Region"
         },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
         "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
        ]
       },
       {
@@ -493,17 +579,21 @@
         },
         "cn-northwest-1"
        ]
-      }
-     ]
-    },
-    {
-     "Fn::Or": [
+      },
       {
        "Fn::Equals": [
         {
          "Ref": "AWS::Region"
         },
         "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
        ]
       },
       {
@@ -522,6 +612,18 @@
         "eu-south-1"
        ]
       },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
       {
        "Fn::Equals": [
         {
@@ -577,11 +679,7 @@
         },
         "sa-east-1"
        ]
-      }
-     ]
-    },
-    {
-     "Fn::Or": [
+      },
       {
        "Fn::Equals": [
         {
@@ -605,15 +703,15 @@
         },
         "us-west-1"
        ]
-      },
-      {
-       "Fn::Equals": [
-        {
-         "Ref": "AWS::Region"
-        },
-        "us-west-2"
-       ]
       }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
      ]
     }
    ]
