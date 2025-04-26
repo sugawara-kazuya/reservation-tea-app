@@ -12,5 +12,12 @@ export const auth = defineAuth({
   },
   triggers: {
     postConfirmation
+  },
+  passwordPolicy: {
+    minimumLength: 4,          // 最小文字数
+    requireLowercase: true,    // 小文字必須
+    requireUppercase: false,   // 大文字不要
+    requireNumbers: false,     // 数字不要
+    requireSymbols: false      // 記号不要
   }
 });
